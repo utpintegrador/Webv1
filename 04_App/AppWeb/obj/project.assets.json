@@ -13924,11 +13924,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Proyecto Encuentralo\\WebEncuentralo\\04_App\\AppWeb\\AppWeb.csproj",
+      "projectUniqueName": "D:\\Integrador2\\Webv1\\04_App\\AppWeb\\AppWeb.csproj",
       "projectName": "AppWeb",
-      "projectPath": "D:\\Proyecto Encuentralo\\WebEncuentralo\\04_App\\AppWeb\\AppWeb.csproj",
+      "projectPath": "D:\\Integrador2\\Webv1\\04_App\\AppWeb\\AppWeb.csproj",
       "packagesPath": "C:\\Users\\Frank-PC\\.nuget\\packages\\",
-      "outputPath": "D:\\Proyecto Encuentralo\\WebEncuentralo\\04_App\\AppWeb\\obj\\",
+      "outputPath": "D:\\Integrador2\\Webv1\\04_App\\AppWeb\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -13947,11 +13947,11 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
-            "D:\\Proyecto Encuentralo\\WebEncuentralo\\01_Modelos\\Entidad\\Entidad.csproj": {
-              "projectPath": "D:\\Proyecto Encuentralo\\WebEncuentralo\\01_Modelos\\Entidad\\Entidad.csproj"
+            "D:\\Integrador2\\Webv1\\01_Modelos\\Entidad\\Entidad.csproj": {
+              "projectPath": "D:\\Integrador2\\Webv1\\01_Modelos\\Entidad\\Entidad.csproj"
             },
-            "D:\\Proyecto Encuentralo\\WebEncuentralo\\03_LogicaNegocio\\Negocio.Repositorio\\Negocio.Repositorio.csproj": {
-              "projectPath": "D:\\Proyecto Encuentralo\\WebEncuentralo\\03_LogicaNegocio\\Negocio.Repositorio\\Negocio.Repositorio.csproj"
+            "D:\\Integrador2\\Webv1\\03_LogicaNegocio\\Negocio.Repositorio\\Negocio.Repositorio.csproj": {
+              "projectPath": "D:\\Integrador2\\Webv1\\03_LogicaNegocio\\Negocio.Repositorio\\Negocio.Repositorio.csproj"
             }
           }
         }
