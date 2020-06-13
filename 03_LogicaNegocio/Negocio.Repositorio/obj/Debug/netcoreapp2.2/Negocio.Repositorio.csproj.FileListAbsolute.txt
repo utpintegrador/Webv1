@@ -1,0 +1,42 @@
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\bin\Debug\netcoreapp2.2\Negocio.Repositorio.deps.json
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\bin\Debug\netcoreapp2.2\Negocio.Repositorio.dll
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\bin\Debug\netcoreapp2.2\Negocio.Repositorio.pdb
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\bin\Debug\netcoreapp2.2\Entidad.dll
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\bin\Debug\netcoreapp2.2\Entidad.pdb
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.csprojAssemblyReference.cache
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.csproj.CoreCompileInputs.cache
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.AssemblyInfoInputs.cache
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.AssemblyInfo.cs
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.csproj.CopyComplete
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.dll
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.pdb
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\bin\Debug\netcoreapp2.2\Datos.Repositorio.dll
+D:\ProyectoVentas\SlnProyectoVentas\03_LogicaNegocio\Negocio\bin\Debug\netcoreapp2.2\Datos.Repositorio.pdb
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Negocio.Repositorio.deps.json
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Negocio.Repositorio.dll
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Negocio.Repositorio.pdb
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Datos.Repositorio.dll
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Entidad.dll
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Entidad.pdb
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Datos.Repositorio.pdb
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.csprojAssemblyReference.cache
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.csproj.CoreCompileInputs.cache
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.AssemblyInfoInputs.cache
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.AssemblyInfo.cs
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.csproj.CopyComplete
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.dll
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.pdb
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Negocio.Repositorio.deps.json
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Negocio.Repositorio.dll
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Negocio.Repositorio.pdb
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Datos.Repositorio.dll
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Entidad.dll
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Entidad.pdb
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Debug\netcoreapp2.2\Datos.Repositorio.pdb
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.csprojAssemblyReference.cache
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.csproj.CoreCompileInputs.cache
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.AssemblyInfoInputs.cache
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.AssemblyInfo.cs
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.csproj.CopyComplete
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.dll
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Debug\netcoreapp2.2\Negocio.Repositorio.pdb

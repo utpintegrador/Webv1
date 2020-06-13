@@ -1,0 +1,36 @@
+D:\ProyectoVentas\SlnProyectoVentas\02_LogicaAccesoDatos\Datos\bin\Debug\netcoreapp2.2\Datos.Repositorio.deps.json
+D:\ProyectoVentas\SlnProyectoVentas\02_LogicaAccesoDatos\Datos\bin\Debug\netcoreapp2.2\Datos.Repositorio.dll
+D:\ProyectoVentas\SlnProyectoVentas\02_LogicaAccesoDatos\Datos\bin\Debug\netcoreapp2.2\Datos.Repositorio.pdb
+D:\ProyectoVentas\SlnProyectoVentas\02_LogicaAccesoDatos\Datos\bin\Debug\netcoreapp2.2\Entidad.dll
+D:\ProyectoVentas\SlnProyectoVentas\02_LogicaAccesoDatos\Datos\bin\Debug\netcoreapp2.2\Entidad.pdb
+D:\ProyectoVentas\SlnProyectoVentas\02_LogicaAccesoDatos\Datos\obj\Debug\netcoreapp2.2\Datos.Repositorio.csprojAssemblyReference.cache
+D:\ProyectoVentas\SlnProyectoVentas\02_LogicaAccesoDatos\Datos\obj\Debug\netcoreapp2.2\Datos.Repositorio.csproj.CoreCompileInputs.cache
+D:\ProyectoVentas\SlnProyectoVentas\02_LogicaAccesoDatos\Datos\obj\Debug\netcoreapp2.2\Datos.Repositorio.AssemblyInfoInputs.cache
+D:\ProyectoVentas\SlnProyectoVentas\02_LogicaAccesoDatos\Datos\obj\Debug\netcoreapp2.2\Datos.Repositorio.AssemblyInfo.cs
+D:\ProyectoVentas\SlnProyectoVentas\02_LogicaAccesoDatos\Datos\obj\Debug\netcoreapp2.2\Datos.Repositorio.csproj.CopyComplete
+D:\ProyectoVentas\SlnProyectoVentas\02_LogicaAccesoDatos\Datos\obj\Debug\netcoreapp2.2\Datos.Repositorio.dll
+D:\ProyectoVentas\SlnProyectoVentas\02_LogicaAccesoDatos\Datos\obj\Debug\netcoreapp2.2\Datos.Repositorio.pdb
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\02_LogicaAccesoDatos\Datos.Repositorio\bin\Debug\netcoreapp2.2\Datos.Repositorio.deps.json
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\02_LogicaAccesoDatos\Datos.Repositorio\bin\Debug\netcoreapp2.2\Datos.Repositorio.dll
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\02_LogicaAccesoDatos\Datos.Repositorio\bin\Debug\netcoreapp2.2\Datos.Repositorio.pdb
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\02_LogicaAccesoDatos\Datos.Repositorio\bin\Debug\netcoreapp2.2\Entidad.dll
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\02_LogicaAccesoDatos\Datos.Repositorio\bin\Debug\netcoreapp2.2\Entidad.pdb
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.csprojAssemblyReference.cache
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.csproj.CoreCompileInputs.cache
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.AssemblyInfoInputs.cache
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.AssemblyInfo.cs
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.csproj.CopyComplete
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.dll
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.pdb
+E:\MyHelpDeskCore\MyHelpDesk\02_LogicaAccesoDatos\Datos.Repositorio\bin\Debug\netcoreapp2.2\Datos.Repositorio.deps.json
+E:\MyHelpDeskCore\MyHelpDesk\02_LogicaAccesoDatos\Datos.Repositorio\bin\Debug\netcoreapp2.2\Datos.Repositorio.dll
+E:\MyHelpDeskCore\MyHelpDesk\02_LogicaAccesoDatos\Datos.Repositorio\bin\Debug\netcoreapp2.2\Datos.Repositorio.pdb
+E:\MyHelpDeskCore\MyHelpDesk\02_LogicaAccesoDatos\Datos.Repositorio\bin\Debug\netcoreapp2.2\Entidad.dll
+E:\MyHelpDeskCore\MyHelpDesk\02_LogicaAccesoDatos\Datos.Repositorio\bin\Debug\netcoreapp2.2\Entidad.pdb
+E:\MyHelpDeskCore\MyHelpDesk\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.csprojAssemblyReference.cache
+E:\MyHelpDeskCore\MyHelpDesk\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.csproj.CoreCompileInputs.cache
+E:\MyHelpDeskCore\MyHelpDesk\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.AssemblyInfoInputs.cache
+E:\MyHelpDeskCore\MyHelpDesk\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.AssemblyInfo.cs
+E:\MyHelpDeskCore\MyHelpDesk\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.csproj.CopyComplete
+E:\MyHelpDeskCore\MyHelpDesk\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.dll
+E:\MyHelpDeskCore\MyHelpDesk\02_LogicaAccesoDatos\Datos.Repositorio\obj\Debug\netcoreapp2.2\Datos.Repositorio.pdb

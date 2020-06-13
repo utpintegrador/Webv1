@@ -1,0 +1,93 @@
+﻿@model Entidad.Entidad.Maestro.Cliente
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Eliminacion de Cliente</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Cliente")">Cliente</a></li>
+            <li class="breadcrumb-item active">Eliminar</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3>Esta seguro de eliminar el registro?</h3>
+                <div>
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.IdCliente)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.IdCliente)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.NumeroDocumento)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.NumeroDocumento)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.RazonSocial)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.RazonSocial)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Direccion)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Direccion)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.IdPais)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.IdPais)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.IdUbigeo)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.IdUbigeo)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.FechaRegistro)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.FechaRegistro)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.IdUsuario)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.IdUsuario)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.IdEstado)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.IdEstado)
+                        </dd>
+                    </dl>
+
+                    <form asp-action="Delete">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            Eliminar
+                        </button> |
+                        <a asp-action="Index">Retornar al listado</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

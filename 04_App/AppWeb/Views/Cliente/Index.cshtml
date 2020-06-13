@@ -1,0 +1,134 @@
+﻿@*@model List<Entidad.Dto.Maestro.ClienteObtenerDto>*@
+@using System.Web;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section estilos{
+
+
+    <link href="~/lib/datatables/media/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/lib/datatables/media/css/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/lib/datatables/media/css/select.bootstrap4.min.css" rel="stylesheet" />
+
+}
+    
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Listado de Clientes</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Cliente</a></li>
+            <li class="breadcrumb-item active">Index</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <p></p>
+
+                <button id="btnRecargar" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-refresh" aria-hidden="true"></i> Recargar
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="location.href='@Url.Action("Create", "Cliente")'">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Nuevo
+                </button>
+
+
+
+                <!--@**************** Inicio de filtros ****************@-->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="txtBuscar" class="col-form-label">Buscar</label>
+                            <div>
+                                <input type="text" class="form-control form-control-sm" id="txtBuscar" placeholder="Buscar" maxlength="250">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="col-form-label">Estado</label>
+                            <div>
+
+                                <select id="cboEstado" class="form-control form-control-sm">
+                                    <option selected>Todos</option>
+                                    <option>...</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr style="margin-top:-10px;" />
+                    </div>
+                </div>
+
+                <!--@**************** Fin de filtros ****************@-->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tb1" style="width:100%;" class="table table-sm table-hover row-border">
+                                <thead> <!--class="thead-primary"-->
+                                    <tr class="bg-primary text-white">
+                                        <th>
+                                            @HttpUtility.HtmlDecode("N°")
+                                        </th>
+                                        <th>
+                                            @HttpUtility.HtmlDecode("IdCliente")
+                                        </th>
+                                        <th style="width:150px;">
+                                            @HttpUtility.HtmlDecode("N° Documento")
+                                        </th>
+                                        <th>
+                                            @HttpUtility.HtmlDecode("Razon Social")
+                                        </th>
+                                        <th>
+                                            @HttpUtility.HtmlDecode("Estado")
+                                        </th>
+                                        <th style="text-align:center; width:130px;">
+                                            @HttpUtility.HtmlDecode("Acción")
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script src="~/lib/datatables/media/js/dataTables.bootstrap4.js"></script>
+    <script src="~/lib/datatables/media/js/dataTables.select.min.js"></script>
+    <script src="~/lib/datatables/media/js/select.bootstrap4.min.js"></script>
+    <script src="~/lib/sweetalert2/sweetalert8.js"></script>
+    <script src="~/js/Cliente.js"></script>
+}
+
+

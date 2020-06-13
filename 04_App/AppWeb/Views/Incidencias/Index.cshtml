@@ -1,0 +1,107 @@
+﻿@model List<Entidad.Dto.Gestion.IncidenciaObtenerDto>
+@using System.Web;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Listado de Incidencias</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Incidencia</a></li>
+            <li class="breadcrumb-item active">Index</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <p>
+                    <a asp-action="Create">Create New</a>
+                </p>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>
+                                    @HttpUtility.HtmlDecode("N°")
+                                </th>
+                                <th>
+                                    @HttpUtility.HtmlDecode("Id")
+                                </th>
+                                <th>
+                                    @HttpUtility.HtmlDecode("Asunto")
+                                </th>
+                                <th>
+                                    @HttpUtility.HtmlDecode("Tipo")
+                                </th>
+                                <th>
+                                    @HttpUtility.HtmlDecode("Prioridad")
+                                </th>
+                                <th>
+                                    @HttpUtility.HtmlDecode("Estado")
+                                </th>
+                                @*<th>
+                                        @HttpUtility.HtmlDecode("IdEstado")
+                                    </th>*@
+                                <th>
+                                    @HttpUtility.HtmlDecode("Fecha Registro")
+                                </th>
+                                <th>
+                                    @HttpUtility.HtmlDecode("Acción")
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Item)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IdIncidencia)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Asunto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TipoIncidencia)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Prioridad)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Estado)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.IdEstado)
+                                        </td>*@
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaRegistro)
+                                    </td>
+                                    <td align="center">
+                                        <a href="@Url.Action("Index", "FacturaDetalle", new { numeroFactura = item.IdIncidencia })" class="btn btn-warning btn-sm">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="@Url.Action("Index", "FacturaDetalle", new { numeroFactura = item.IdIncidencia })" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+﻿@model Entidad.Dto.Seguridad.UsuarioRegistrarDto
+
+@{
+    ViewData["Title"] = "Crear Negocio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section estilos {
+    <link href="~/lib/select2/css/select2.css" rel="stylesheet" />
+    <style>
+        #map {
+            height: 400px; /* The height is 400 pixels */
+            width: 100%; /* The width is the width of the web page */
+        }
+    </style>
+}
+
+@*Titulo*@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Registrar Negocio</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Negocio</a></li>
+            <li class="breadcrumb-item active">Create</li>
+        </ol>
+    </div>
+</div>
+
+@*Botones y filtro*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <button id="btnRecargar" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar
+                </button>
+
+                <a asp-action="Index" class="btn btn-danger btn-sm">
+                    <i class="fa fa-times" aria-hidden="true"></i> Cancelar
+                </a>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Tipo Documento</label>
+                            <select id="cboTipoDocumento" class="form-control form-control-line select2" style="width: 100%">
+                                <option>DNI</option>
+                                <option>RUC</option>
+                                <option>Carnet Extranjeria</option>
+                                <option>Otros</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Número Documento</label>
+                            <input type="text" id="txtNumeroDocumento" class="form-control form-control-sm form-control-line">
+                        </div>
+                        @*<form asp-action="Create"></form>*@
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nombre / Razón Social</label>
+                            <input type="text" id="txtNombre" class="form-control form-control-sm form-control-line">
+                        </div>
+                        @*<form asp-action="Create"></form>*@
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Reseña</label>
+                            <textarea id="txtResenia" class="form-control form-control-sm form-control-line" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="map"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/lib/select2/js/select2.min.js" type="text/javascript"></script>
+
+    <script src="~/js/Maestro/NegocioRegistrar.js"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAn-gjj5dDqro4bXwdF3EDfA_2fgR6rLvw&callback=initMap">
+    </script>
+
+}

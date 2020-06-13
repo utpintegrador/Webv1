@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>Negocio.Repositorio</RootNamespace>
+    <AssemblyName>Negocio.Repositorio</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\01_Modelos\Entidad\Entidad.csproj" />
+    <ProjectReference Include="..\..\02_LogicaAccesoDatos\Datos.Repositorio\Datos.Repositorio.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,105 @@
+﻿@model Entidad.Entidad.Maestro.Cliente
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Edicion de Cliente</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Cliente")">Cliente</a></li>
+            <li class="breadcrumb-item active">Edicion</li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="IdCliente" class="control-label"></label>
+                                <input asp-for="IdCliente" class="form-control" />
+                                <span asp-validation-for="IdCliente" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="NumeroDocumento" class="control-label"></label>
+                                <input asp-for="NumeroDocumento" class="form-control" />
+                                <span asp-validation-for="NumeroDocumento" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="RazonSocial" class="control-label"></label>
+                                <input asp-for="RazonSocial" class="form-control" />
+                                <span asp-validation-for="RazonSocial" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Direccion" class="control-label"></label>
+                                <input asp-for="Direccion" class="form-control" />
+                                <span asp-validation-for="Direccion" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="IdPais" class="control-label"></label>
+                                <input asp-for="IdPais" class="form-control" />
+                                <span asp-validation-for="IdPais" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="IdUbigeo" class="control-label"></label>
+                                <input asp-for="IdUbigeo" class="form-control" />
+                                <span asp-validation-for="IdUbigeo" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FechaRegistro" class="control-label"></label>
+                                <input asp-for="FechaRegistro" class="form-control" />
+                                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="IdUsuario" class="control-label"></label>
+                                <input asp-for="IdUsuario" class="form-control" />
+                                <span asp-validation-for="IdUsuario" class="text-danger"></span>
+                            </div>
+                            @*<div class="form-group">
+                                    <label asp-for="IdEstado" class="control-label"></label>
+                                    <input asp-for="IdEstado" class="form-control" />
+                                    <span asp-validation-for="IdEstado" class="text-danger"></span>
+                                </div>*@
+                            <div class="form-group">
+                                <label asp-for="IdEstado" class="control-label"></label>
+                                <!--label class="col-form-label">Estado</label-->
+                                <div>
+
+                                    <select asp-for="IdEstado" id="cboEstado" class="form-control form-control-sm">
+                                        <option selected>Todos</option>
+                                        <option>...</option>
+                                    </select>
+
+                                </div>
+                                <span asp-validation-for="IdEstado" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Grabar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div>
+                    <a asp-action="Index">Retornar al listado</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/ClienteEdit.js"></script>
+}

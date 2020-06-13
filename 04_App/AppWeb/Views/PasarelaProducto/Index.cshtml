@@ -1,0 +1,237 @@
+﻿@model List<Entidad.Dto.Maestro.ProductoObtenerPasarelaDto>
+@using System.Web;
+
+@{
+    //Layout = "~/Views/Shared/_LayoutWithoutAsideBar.cshtml";
+    ViewData["Title"] = "Productos";
+}
+
+@section estilos {
+    <link href="@Url.Content("~/template/main/css/pages/floating-label.css")" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <style>
+        .imagenproducto {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 0.4rem !important;
+        }
+
+        .tamanioimagenproductopopup {
+            width: 400px;
+            height: 270px;
+            max-height: 270px;
+            max-width: 400px;
+        }
+    </style>
+}
+
+@*Titulo*@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Productos</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Producto</a></li>
+            <li class="breadcrumb-item active">Index</li>
+        </ol>
+    </div>
+</div>
+
+@*Botones y filtro*@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card">
+            <div class="card-body" style="margin-bottom: -35px;">
+
+                <button id="btnRecargar" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-refresh" aria-hidden="true"></i> Recargar
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="location.href='@Url.Action("Create", "Cliente")'">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Nuevo
+                </button>
+
+                <!--@**************** Inicio de filtros ****************@-->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+
+
+                <div class="row" style="margin-top:-15px;">
+
+                    <div class="floating-labels m-t-40 col-12">
+                        <div class="row">
+                            <div class="form-group m-b-40 col-md-4">
+                                <input type="text" class="form-control input-sm" id="txtDescripcion">
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                                <label for="txtDescripcion">Buscar</label>
+                            </div>
+
+                            <div class="form-group m-b-40 col-md-2">
+                                <select class="form-control p-0 input-sm" id="cboOrdenar">
+                                    <option class="selected">Recomendados</option>
+                                    <option>Menor Precio</option>
+                                    <option>Mayor Precio</option>
+                                    <option>Descripcion</option>
+                                </select><span class="bar"></span>
+                                <label for="cboOrdenar">Ordenar</label>
+                            </div>
+
+                            <div class="form-group m-b-40 col-md-1">
+                                <select class="form-control p-0 input-sm" id="cboCantidad">
+                                    <option class="selected">10</option>
+                                    <option>25</option>
+                                    <option>50</option>
+                                    <option>100</option>
+                                </select><span class="bar"></span>
+                                <label for="cboCantidad">Cantidad</label>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <!--@**************** Fin de filtros ****************@-->
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*Cuerpo*@
+<div class="row">
+    <div class="col-12">
+
+        <div class="row">
+
+            @foreach (var item in Model)
+            {
+                item.Cantidad = 1;
+                <div class="col-lg-3 col-md-6">
+                    <div class="card">
+                        @*<img class="card-img-top img-responsive" style="max-height:200px;" src="@Html.DisplayFor(modelItem => item.UrlImagen)" alt="@Html.DisplayFor(modelItem => item.Descripcion)">*@
+                        <div class="card-body text-center">
+                            <a class="image-popup-vertical-fit" data-effect="mfp-zoom-in" href="@Html.DisplayFor(modelItem => item.UrlImagen)">
+                                <img class="img-responsive imagenproducto" style="height:180px; max-width:300px; max-height:180px;"
+                                     src="@Html.DisplayFor(modelItem => item.UrlImagen)" alt="@Html.DisplayFor(modelItem => item.Descripcion)">
+                            </a>
+
+                            <h4 class="card-title m-t-10">@Html.DisplayFor(modelItem => item.Descripcion)</h4>
+                            <div class="card-text">@Html.DisplayFor(modelItem => item.DescripcionExtendida)</div>
+                            <p>
+                                <div class="card-text">Precio <span style="color:red;"><b> @Html.DisplayFor(modelItem => item.SimboloMoneda) @Html.DisplayFor(modelItem => item.Precio)</b></span></div>
+                                <div class="card-text">
+                                    Vendido por
+                                    <a href="@Url.Action("ObtenerPorVendedor", "Producto", new { Id = item.IdProducto })" class="badge badge-pill badge-success"> @Html.DisplayFor(modelItem => item.NombreNegocio)</a>
+                                </div>
+                            </p>
+                            <button class="btn btn-primary waves-effect btn-rounded waves-light" type="button" id="btnAgregarAlCarro" onclick="AgregarAlCarro('@Newtonsoft.Json.JsonConvert.SerializeObject(@item)');">
+                                <i class="fa fa-shopping-cart"></i>
+                            </button>
+                            <button class="btn btn-success waves-effect btn-rounded waves-light" type="button" id="btnMostrarDetalle" onclick="MostrarDetalle('@Newtonsoft.Json.JsonConvert.SerializeObject(@item)');">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>
+
+@*Paginacion*@
+<div class="row">
+    <div class="col-md-12">
+
+        <nav aria-label="...">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+@*Modal*@
+<div class="row" margin-bottom:-65px;">
+    <div class="col-md-12">
+        <div class="card modal m-t-60" style="border-radius: 1.25rem!important; max-width:650px;" id="sticky">
+
+        </div>
+    </div>
+</div>
+
+<!--style="height:85%; margin-top:65px;"-->
+@*<div class="modal-content border-0">
+    <div class="card-header bg-white">
+        Descripcion
+    </div>
+    <div class="card-body">
+
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner imagenproducto">
+                <div class="carousel-item active">
+                    <img class="d-block w-100 tamanioimagenproductopopup"
+                            src="https://encuentralo.s3.us-east-2.amazonaws.com/Categoria/1.jpg" alt="First slide">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>My Caption Title (1st Image)</h5>
+                        <p>The whole caption will only show up if the screen is at least medium size.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100 tamanioimagenproductopopup"
+                            src="https://encuentralo.s3.us-east-2.amazonaws.com/Categoria/2.jpg" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100 tamanioimagenproductopopup"
+                            src="https://encuentralo.s3.us-east-2.amazonaws.com/Categoria/3.jpg" alt="Third slide">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Siguiente</span>
+            </a>
+        </div>
+
+        <p class="card-text m-t-10">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    </div>
+    <div class="card-footer bg-white">
+        <a href="#" rel="modal:close" class="btn btn-danger float-right"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</a>
+    </div>
+</div>*@
+
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <script src="~/js/Transaccion/PasarelaProducto.js"></script>
+}

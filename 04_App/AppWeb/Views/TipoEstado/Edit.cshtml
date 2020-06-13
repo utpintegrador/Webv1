@@ -1,0 +1,56 @@
+﻿@model Entidad.Entidad.Maestro.TipoEstado
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Edicion de Tipo Estado</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "TipoEstado")">Tipo Estado</a></li>
+            <li class="breadcrumb-item active">Edicion</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="IdTipoEstado" class="control-label"></label>
+                                <input asp-for="IdTipoEstado" class="form-control" />
+                                <span asp-validation-for="IdTipoEstado" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Nombre" class="control-label"></label>
+                                <input asp-for="Nombre" class="form-control" />
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Observacion" class="control-label"></label>
+                                <input asp-for="Observacion" class="form-control" />
+                                <span asp-validation-for="Observacion" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Grabar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div>
+                    <a asp-action="Index">Retornar al listado</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

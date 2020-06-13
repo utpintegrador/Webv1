@@ -1,0 +1,156 @@
+﻿@model List<Entidad.Dto.Maestro.CategoriaObtenerDto>
+@using System.Web;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section estilos {
+    @*<link href="@Url.Content("~/template/main/css/pages/floating-label.css")" rel="stylesheet" />*@
+    <link href="~/lib/select2/css/select2.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <style>
+        .imagenproducto {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 0.4rem !important;
+        }
+
+        .tamanioimagenproductopopup {
+            width: 400px;
+            height: 270px;
+            max-height: 270px;
+            max-width: 400px;
+        }
+
+        #drop-area {
+            border: 1px dashed #007bff;
+            border-radius: 20px;
+            padding: 20px;
+            min-height: 400px;
+            width: 100%;
+            position: relative;
+        }
+
+        #drop-area:before {
+            content: "Drop your image files here.";
+            position: absolute;
+            left: 50%;
+            width: 300px;
+            margin-left: -150px;
+            margin-top: -10px;
+            top: 50%;
+            height: 20px;
+        }
+    </style>
+}
+
+@*Titulo*@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Categoria</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Categoria</a></li>
+            <li class="breadcrumb-item active">Index</li>
+        </ol>
+    </div>
+</div>
+
+@*Botones y filtro*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body" style="margin-bottom: -25px;">
+
+
+                <button id="btnRecargar" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-refresh" aria-hidden="true"></i> Recargar
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="location.href='@Url.Action("Create", "Categoria")'">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Nuevo
+                </button>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                        <div class="form-group">
+                            <label>Buscar</label>
+                            <input type="text" id="txtDescripcion" class="form-control form-control-sm form-control-line">
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-3 col-md-2 col-lg-2">
+                        <div class="form-group">
+                            <label>Ordenar</label>
+                            <select id="cboColumna" class="form-control form-control-line select2" style="width: 100%">
+                                <option value="Descripcion">Descripcion</option>
+                                <option value="Estado">Estado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-sm-3 col-md-2 col-lg-2">
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <select id="cboEstado" class="form-control form-control-line select2" style="width: 100%">
+                                <option value="1">Activo</option>
+                                <option value="2">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-sm-3 col-md-2 col-lg-2">
+                        <div class="form-group">
+                            <label>Direccion</label>
+                            <select id="cboDireccion" class="form-control form-control-line select2" style="width: 100%">
+                                <option value="1">Asc</option>
+                                <option value="2">Desc</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-sm-3 col-md-2 col-lg-2">
+                        <div class="form-group">
+                            <label>Cantidad</label>
+                            <select id="cboCantidad" class="form-control form-control-line select2" style="width: 100%">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="cuerpoListado">
+</div>
+
+@*Modal*@
+<div class="row" margin-bottom:-65px;">
+    <div class="col-md-12">
+        <div class="card modal m-t-60" style="border-radius: 1.25rem!important; max-width:650px;" id="sticky">
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/lib/select2/js/select2.min.js" type="text/javascript"></script>
+    <script src="~/lib/sweetalert2/sweetalert2-9.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+    <script src="~/js/Maestro/Categoria.js"></script>
+}

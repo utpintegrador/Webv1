@@ -1,0 +1,78 @@
+﻿@model Entidad.Entidad.Seguridad.Usuario
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Detalle de Usuario</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Usuario")">Usuario</a></li>
+            <li class="breadcrumb-item active">Detalle</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div>
+
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.IdUsuario)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.IdUsuario)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.UserName)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.UserName)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Contrasenia)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Contrasenia)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Nombre)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.ApellidoPaterno)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.ApellidoPaterno)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.ApellidoMaterno)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.ApellidoMaterno)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.IdEstado)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.IdEstado)
+                        </dd>
+                    </dl>
+                </div>
+                <div>
+                    @Html.ActionLink("Modificar", "Edit", new { id = Model.IdUsuario }) |
+                    <a asp-action="Index">Retornar al listado</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

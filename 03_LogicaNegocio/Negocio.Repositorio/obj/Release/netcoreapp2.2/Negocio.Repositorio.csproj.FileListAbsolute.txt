@@ -1,0 +1,42 @@
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Negocio.Repositorio.deps.json
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Negocio.Repositorio.dll
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Negocio.Repositorio.pdb
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Datos.Repositorio.dll
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Entidad.dll
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Entidad.pdb
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Datos.Repositorio.pdb
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.csprojAssemblyReference.cache
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.csproj.CoreCompileInputs.cache
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.AssemblyInfoInputs.cache
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.AssemblyInfo.cs
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.csproj.CopyComplete
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.dll
+D:\ProyectoVentas\GitHub\RedSocial\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.pdb
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Negocio.Repositorio.deps.json
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Negocio.Repositorio.dll
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Negocio.Repositorio.pdb
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Datos.Repositorio.dll
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Entidad.dll
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Entidad.pdb
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Datos.Repositorio.pdb
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.csprojAssemblyReference.cache
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.csproj.CoreCompileInputs.cache
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.AssemblyInfoInputs.cache
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.AssemblyInfo.cs
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.csproj.CopyComplete
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.dll
+E:\MyHelpDeskCore\MyHelpDesk\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.pdb
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Negocio.Repositorio.deps.json
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Negocio.Repositorio.dll
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Negocio.Repositorio.pdb
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Datos.Repositorio.dll
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Entidad.dll
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Entidad.pdb
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\bin\Release\netcoreapp2.2\Datos.Repositorio.pdb
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.csprojAssemblyReference.cache
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.csproj.CoreCompileInputs.cache
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.AssemblyInfoInputs.cache
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.AssemblyInfo.cs
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.csproj.CopyComplete
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.dll
+D:\Proyecto Encuentralo\WebEncuentralo\03_LogicaNegocio\Negocio.Repositorio\obj\Release\netcoreapp2.2\Negocio.Repositorio.pdb

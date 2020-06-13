@@ -1,0 +1,24 @@
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\01_Modelos\Entidad\bin\Debug\netcoreapp2.2\Entidad.deps.json
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\01_Modelos\Entidad\bin\Debug\netcoreapp2.2\Entidad.dll
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\01_Modelos\Entidad\bin\Debug\netcoreapp2.2\Entidad.pdb
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\01_Modelos\Entidad\bin\Debug\netcoreapp2.2\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\01_Modelos\Entidad\bin\Debug\netcoreapp2.2\Microsoft.Extensions.Configuration.Abstractions.xml
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.csprojAssemblyReference.cache
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.csproj.CoreCompileInputs.cache
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.AssemblyInfoInputs.cache
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.AssemblyInfo.cs
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.csproj.CopyComplete
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.dll
+C:\Users\Frank\Desktop\Carpeta\RedSocial 20191009\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.pdb
+E:\MyHelpDeskCore\MyHelpDesk\01_Modelos\Entidad\bin\Debug\netcoreapp2.2\Entidad.deps.json
+E:\MyHelpDeskCore\MyHelpDesk\01_Modelos\Entidad\bin\Debug\netcoreapp2.2\Entidad.dll
+E:\MyHelpDeskCore\MyHelpDesk\01_Modelos\Entidad\bin\Debug\netcoreapp2.2\Entidad.pdb
+E:\MyHelpDeskCore\MyHelpDesk\01_Modelos\Entidad\bin\Debug\netcoreapp2.2\Microsoft.Extensions.Configuration.Abstractions.dll
+E:\MyHelpDeskCore\MyHelpDesk\01_Modelos\Entidad\bin\Debug\netcoreapp2.2\Microsoft.Extensions.Configuration.Abstractions.xml
+E:\MyHelpDeskCore\MyHelpDesk\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.csprojAssemblyReference.cache
+E:\MyHelpDeskCore\MyHelpDesk\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.csproj.CoreCompileInputs.cache
+E:\MyHelpDeskCore\MyHelpDesk\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.AssemblyInfoInputs.cache
+E:\MyHelpDeskCore\MyHelpDesk\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.AssemblyInfo.cs
+E:\MyHelpDeskCore\MyHelpDesk\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.csproj.CopyComplete
+E:\MyHelpDeskCore\MyHelpDesk\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.dll
+E:\MyHelpDeskCore\MyHelpDesk\01_Modelos\Entidad\obj\Debug\netcoreapp2.2\Entidad.pdb

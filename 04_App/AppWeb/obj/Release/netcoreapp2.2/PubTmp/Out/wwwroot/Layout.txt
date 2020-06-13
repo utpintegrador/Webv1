@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="16x16" href="~/template/assets/images/favicon.png">
+    <title>@ViewData["Title"] - AppWeb</title>
+
+    <environment include="Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <!--link href="~/template/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"-->
+        <link href="~/template/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+        <link href="~/template/main/css/style.css" rel="stylesheet">
+        <link href="~/template/main/css/pages/dashboard1.css" rel="stylesheet">
+        <link href="~/template/main/css/colors/blue.css" id="theme" rel="stylesheet">
+        <link href="~/lib/fontawesome/font-awesome.css" rel="stylesheet" />
+        <!--Efecto de zoom-->
+        <link href="~/template/main/css/pages/user-card.css" rel="stylesheet">
+
+        <link href="../template/assets/plugins/Magnific-Popup-master/dist/magnific-popup.css" rel="stylesheet">
+        @RenderSection("estilos", false)
+    </environment>
+    <environment exclude="Production">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="fix-header fix-sidebar card-no-border">
+
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">My HelpDesk</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">
+                        <!-- Logo icon --><b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="~/template/assets/images/logo-icon.png" style="height:30px; width:36.58px;" alt="homepage" class="dark-logo" />
+                            <!-- Light Logo icon -->
+                            <img src="~/template/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" style="height:30px;width:36.58px;" />
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text --><span>
+                            <!-- dark Logo text -->
+                            <img src="~/template/assets/images/logo-text.png" style="height:30px; width:154.78px;" alt="homepage" class="dark-logo" />
+                            <!-- Light Logo text -->
+                            <img src="~/template/assets/images/logo-light-text.png" class="light-logo" style="height:30px;width:154.78px;" alt="homepage" />
+                        </span>
+                    </a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto">
+                        <!-- This is  -->
+                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                        <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">
+                        <!-- ============================================================== -->
+                        <!-- Profile -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="~/template/assets/images/users/1.png" alt="user" class="profile-pic" /></a>
+                            <div class="dropdown-menu dropdown-menu-right animated flipInY">
+                                <ul class="dropdown-user">
+                                    <li>
+                                        <div class="dw-user-box">
+                                            <div class="u-img"><img src="~/template/assets/images/users/1.png" alt="user"></div>
+                                            <div class="u-text">
+                                                <h4>Frank Cochachin</h4>
+                                                <p class="text-muted">gaaa@gmail.com</p>
+                                                <a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#"><i class="ti-user"></i> Mi Perfil</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#"><i class="ti-settings"></i> Configuracion de Cuenta</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#"><i class="fa fa-power-off"></i> Salir</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="user-profile">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                                <img src="~/template/assets/images/users/profile.png" alt="user" />
+                                <span class="hide-menu">Frank Cochachin </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="javascript:void()">Mi Perfil </a></li>
+                                <li><a href="javascript:void()">Configuracion de Cuenta</a></li>
+                                <li><a href="javascript:void()">Salir</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-devider"></li>
+                        <!--li class="nav-small-cap">GESTION</li-->
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                                <i class="mdi mdi-gauge"></i>
+                                <span class="hide-menu">
+                                    GESTION
+                                    <span class="label label-rouded label-themecolor pull-right">4</span>
+                                </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="@Url.Action("Index", "Incidencias")">Incidencias </a></li>
+                                <li><a href="index2.html">FAQ</a></li>
+                            </ul>
+                        </li>
+
+
+                        <!--li class="nav-small-cap">MAESTROS</li-->
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                                <i class="mdi mdi-book-open-variant"></i>
+                                <span class="hide-menu">
+                                    MAESTROS
+                                    <span class="label label-rouded label-success pull-right">25</span>
+                                </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <!--li>
+        <a href="#" class="has-arrow">Authentication <span class="label label-rounded label-success pull-right">6</span></a>
+        <ul aria-expanded="false" class="collapse">
+            <li><a href="pages-login.html">Login 1</a></li>
+            <li><a href="pages-login-2.html">Login 2</a></li>
+            <li><a href="pages-register.html">Register</a></li>
+        </ul>
+    </!li-->
+                                <li>
+                                    <a href="@Url.Action("Index", "Usuario")">Usuario</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Cliente")">Cliente</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "TipoEstado")">Tipo Estado</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid r-aside">
+
+                @RenderBody()
+                @*<div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h3 class="text-themecolor">Dashboard 1</h3>
+            </div>
+            <div class="col-md-7 align-self-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard 1</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer"> © 2020 Frank Cochachin </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+
+
+
+    <!--header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AppWeb</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2019 - AppWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer-->
+
+    <environment include="Production">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/popper.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <script src="~/template/main/js/perfect-scrollbar.jquery.min.js"></script>
+        <script src="~/template/main/js/waves.js"></script>
+        <script src="~/template/main/js/sidebarmenu.js"></script>
+        <script src="~/template/main/js/custom.min.js"></script>
+        <script src="~/template/main/js/dashboard1.js"></script>
+        <!-- Magnific popup JavaScript -->
+        <script src="../template/assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js"></script>
+        <script src="../template/assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup-init.js"></script>
+
+    </environment>
+    <environment exclude="Production">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha256-E/V4cWE4qvAeO5MOhjtGtqDzPndRO1LBk8lJ/PR7CA4=">
+        </script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,90 @@
+﻿@using System.Web;
+@model List<Entidad.Dto.Maestro.TipoEstadoObtenerDto>
+
+    @{
+        ViewData["Title"] = "Tipo Estado";
+    }
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h3 class="text-themecolor">Listado de Tipo Estado</h3>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Tipo Estado</a></li>
+                <li class="breadcrumb-item active">Index</li>
+            </ol>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <p>
+
+                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="location.href='@Url.Action("Index", "TipoEstado")'">
+                            <i class="fa fa-refresh" aria-hidden="true"></i> Recargar
+                        </button>
+                        <button type="button" class="btn btn-outline-success btn-sm" onclick="location.href='@Url.Action("Create", "TipoEstado")'">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Nuevo
+                        </button>
+
+
+
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th style="width:50px;">
+                                        @HttpUtility.HtmlDecode("N°")
+                                    </th>
+                                    <th>
+                                        @HttpUtility.HtmlDecode("Descripcion")
+                                    </th>
+                                    <th>
+                                        @HttpUtility.HtmlDecode("Observacion")
+                                    </th>
+                                    <th style="text-align:center; width:130px;">
+                                        @HttpUtility.HtmlDecode("Accion")
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Item)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Nombre)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Observacion)
+                                        </td>
+                                        <td align="center">
+                                            <a href="@Url.Action("Details", "TipoEstado", new { id = item.IdTipoEstado })" class="btn btn-outline-secondary btn-sm">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="@Url.Action("Edit", "TipoEstado", new { id = item.IdTipoEstado })" class="btn btn-outline-warning btn-sm">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="@Url.Action("Delete", "TipoEstado", new { id = item.IdTipoEstado })" class="btn btn-outline-danger btn-sm">
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
