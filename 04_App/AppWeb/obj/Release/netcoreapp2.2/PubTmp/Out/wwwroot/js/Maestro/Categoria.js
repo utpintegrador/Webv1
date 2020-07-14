@@ -1,26 +1,40 @@
-﻿$(document).ready(function () {
+﻿var tb1;
+
+$(document).ready(function () {
     //$('.selectpicker').selectpicker();
     $(".select2").select2();
-    ProcesarCargaDeProductos();
+
+    $('#frmWrapper').LoadingOverlay('show', {
+        background: 'rgba(25, 118, 210, 0.1)'
+    });
+
+    ProcesarCargaDeCategorias();
 });
 
 //#region Funciones Main
 
 
-function ProcesarCargaDeProductos() {
+function ProcesarCargaDeCategorias() {
 
-    $.when(obtenerCategorias())
-        .done(function (respuestaAjax) {
-            if (respuestaAjax != null) {
+    $.when(ObtenerEstados())
+        .done(function (respuestaEstadosAjax) {
 
-                if (respuestaAjax.length > 0) {
-                    var cuerpoListado = GenerarHtmlListado(respuestaAjax);
-                    $('#cuerpoListado').empty();
-                    $('#cuerpoListado').append(cuerpoListado);
+            var cboEstado = $('#cboEstado');
+            cboEstado.append($('<option/>', { value: 0, text: 'Todos' }));
 
-                    $('.slimControl').perfectScrollbar();
+            if (respuestaEstadosAjax.Cuerpo != null) {
+                if (respuestaEstadosAjax.Cuerpo.length > 0) {
+                    respuestaEstadosAjax.Cuerpo.forEach(function (item, indice, array) {
+                        cboEstado.append($('<option/>', { value: item.IdEstado, text: item.Descripcion }));
+                    });
                 }
             }
+
+            $('#frmWrapper').LoadingOverlay('hide', true);
+
+            //Cargar la grilla
+            CargarData();
+
         })
         .fail(function (jqXHR) {
             console.log(jqXHR);
@@ -29,164 +43,296 @@ function ProcesarCargaDeProductos() {
 
 }
 
-function Editar(id) {
-    var url = '/Categoria/Edit/' + id;
-    window.location.href = url;
+function ObtenerEstados() {
+    //'primerItem': 'Todos'
+    var select = $('#cboEstado');
+    return $.ajax({
+        url: '../../Estado/ObtenerCombo',
+        type: 'GET',
+        data: {
+            'idTipoEstado': 1
+        },
+        dataType: 'json',
+        headers: {
+            'Authorization': 'Valor del token debe ir aca'
+        },
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            select.empty();
+        }
+    });
 }
 
-function Eliminar(id) {
+function CargarData() {
 
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: 'btn btn-danger'//,
-            //cancelButton: 'btn btn-transparent'
+    $.fn.dataTable.ext.errMode = 'console';
+    tb1 = $('#tb1').DataTable({
+        "responsive": true,
+        "processing": true,
+        "serverSide": true,
+        "autoWidth": false,
+        "filter": true,
+        "orderMulti": false,
+        "select": true,
+        "pagingType": "full_numbers",
+        "dom": ObtenerDomGrilla(),
+        "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
+        //"scrollX": true,
+        //scrollCollapse: true,
+        //"fixedColumns": {
+        //    leftColumns:0,
+        //    rightColumns: 1
+        //},
+        "ajax": {
+            "url": "../../Categoria/ObtenerData",
+            "type": "POST",
+            "datatype": "json",
+            "data": function (d) {
+                d.Buscar = $('#txtBuscar').val();
+                d.IdEstado = $("#cboEstado").val();
+            },
+            "beforeSend": function (request) {
+                //console.log(request);
+                HabilitarControlesMenu(false);
+                //request.setRequestHeader("token", 'tokenPersonalizado');
+
+            },
+            "complete": function (json, type) {
+
+                if (json.responseJSON != null) {
+                    if (json.responseJSON.error != null) {
+                        //console.log(json.responseJSON.error);
+                        MensajeError('Error al cargar listado', json.responseJSON.error);
+                    }
+                }
+
+                //MensajeErrorDataTable(json);
+                HabilitarControlesMenu(true);
+
+
+            },
+            "error": function (xhr, error, thrown) {
+                console.log(xhr);
+                console.log(error);
+                console.log(thrown);
+                HabilitarControlesMenu(true);
+            }
         },
-        buttonsStyling: true
+        "columns": ObtenerConfiguracionColumnas(),
+        "columnDefs": ObtenerDefinicionBotonColumna(),
+        "order": [[2, "asc"]]//id es la columna 2 y esta oculto, por lo tanto, el indice empieza en cero
     });
+    tb1.columns.adjust();
 
-    swalWithBootstrapButtons.fire({
-        title: "Confirmación",
-        text: "¿ Está seguro de eliminar el registro?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: 'Ok!',
-        cancelButtonText: 'No!',
-        confirmButtonColor: '#d33',
-        reverseButtons: true
-    })
-        .then(function (respuesta) {
+    $('div.dataTables_length select').addClass('selectDt');
+    $(".selectDt").select2({
+        minimumResultsForSearch: Infinity
+    });
+};
+
+function ObtenerDomGrilla() {
+    //return
+    //"<'row' <'col-md-12'p>>" +
+
+    //"<'clear'>" +
+    return "<'row' <'col-md-12'rt> >" +
+        "<'clear'>" +
+
+        "<'row' <'col-md-6'l> <'col-md-6'p> >" +
+        "<'row' <'col-md-12'i>>" +
+        "<'clear'>" +
+        "<'clear'>";
+};
+
+function ObtenerConfiguracionColumnas() {
+    //"columns" empieza desde el indice cero
+    //Asocia el fieldname hacia una columna especifica 
+    return [
+        { "data": "Item", "name": "Item", "autoWidth": false, "width": "30px", "orderable": false },
+        { "data": "IdCategoria", "name": "IdCategoria", "visible": false },
+        { "data": "Descripcion", "name": "Descripcion" },
+        { "data": "DescripcionEstado", "name": "DescripcionEstado" },
+        { "data": "FechaRegistro", "name": "FechaRegistro" },
+        { "data": "FechaActualizacion", "name": "FechaActualizacion" },
+        { "data": null, "autoWidth": false, "orderable": false, "width": "125px" }
+    ];
+};
+
+function ObtenerDefinicionBotonColumna() {
+    //targets desde indice cero
+    return [
+        {
+            "targets": 6,
+            "width": "125px",
+            "data": null,
+            "className": "text-center",
+            "defaultContent": "<div class='btn-group' role='group' aria-label='Basic example'>" +
+                //"<button class='btn btn-primary btn-sm' id='btnVisualizar'><i class='fa fa-eye' aria-hidden='true'></i></button> " +
+                "<button class='btn btn-success btn-sm' id='btnEditar'><i class='fa fa-pencil' aria-hidden='true'></i></button> " +
+                "<button class='btn btn-danger btn-sm' id='btnEliminar'><i class='fa fa-trash-o' aria-hidden='true'></i></button>" +
+                "</div>"
+        }
+    ];
+};
+
+$(document).on('click', '#btnRecargar', function () {
+    //console.log($("#cboEstado[class^='chosen']").val());
+    if (!$('#btnRecargar').hasClass('disabled')) {
+        RecargarData();
+    }
+});
+
+function RecargarData() {
+
+    tb1.ajax.reload();
+    $("#txtBuscar").focus();
+
+};
+
+$(document).on('keypress', '#txtBuscar', function (e) {
+    if (e.which === 13) {
+
+        //Disable textbox to prevent multiple submit
+        $(this).attr("disabled", "disabled");
+
+        if (!$('#btnRecargar').hasClass('disabled')) {
+            RecargarData();
+        }
+
+        //Enable the textbox again if needed.
+        $(this).removeAttr("disabled");
+    }
+});
+
+$(document).on('click', '#tb1 tbody #btnEliminar', function () {
+    var fila = tb1.row($(this).parents('tr')).data();
+    if (fila !== null) {
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-lg btn-danger m-r-10',
+                cancelButton: 'btn btn-secondary'
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: "Confirmación",
+            text: "¿Está seguro de eliminar el registro " + fila.Descripcion + "?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: 'Si!',
+            cancelButtonText: 'No!',
+            //confirmButtonColor: '#d33',
+            reverseButtons: false
+        }).then(function (respuesta) {
             switch (respuesta.value) {
                 case true:
-                    console.log('se eliminara');
-                    //EliminarRegistro(entidad.IdCliente);
+                    //console.log('se eliminara');
+                    EliminarRegistro(fila.IdCategoria);
                     break;
                 default:
-                    console.log('no se eliminara');
+                    //console.log('no se eliminara');
                     break;
             }
 
         });
-}
-//#endregion
 
-//#region Funciones Ajac
-function obtenerCategorias() {
+    }
+});
 
-    return $.ajax({
-        url: '../../Categoria/Obtener',
-        type: 'GET',
-        data: {
-            'IdEstado': 1,
-            'Descripcion': 'HOLA',
-            'Pagina': 1,
-            'Tamanio': 10,
-            'ColumnaOrden': 'Descripcion',
-            'ColumnaDireccion': 'desc'
-        },
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8'
+function EliminarRegistro(id) {
+
+    var prm = {
+        'id': id
+    };
+
+    $.ajax({
+        'url': '../../Categoria/Eliminar',
+        'type': 'POST',
+        'data': prm,
+        'dataType': 'json',
+        beforeSend: function () {
+        }
+    }).done(function (result, textStatus, jqXhr) {
+
+        if (result.ProcesadoOk != null) {
+            switch (result.ProcesadoOk) {
+                case -1:
+                    MensajeError('Error', 'El registro no existe o ya ha sido eliminado');
+                    break;
+                case 0:
+                    MensajeError('Error', 'No se pudo eliminar el registro');
+                    break;
+                case 1:
+                    MensajeInfo('Confirmación', 'El registro fue eliminado satisfactoriamente!');
+                    RecargarData();
+                    break;
+            }
+        }
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+
     });
 
 };
-//#endregion
 
-//#region Generacion Html
+$(document).on('click', '#tb1 tbody #btnEditar', function () {
+    var fila = tb1.row($(this).parents('tr')).data();
+    if (fila !== null) {
+        window.location.href = '/Categoria/Edit/' + fila.IdCategoria;
+    }
+});
 
-function GenerarHtmlListado(listado) {
+$(document).on('click', '#tb1 tbody #btnVisualizar', function () {
+    var fila = tb1.row($(this).parents('tr')).data();
+    if (fila !== null) {
+        window.location.href = '/Categoria/Details/' + fila.IdCategoria;
+        //$.when(ObtenerPorId(fila.IdCategoria))
+        //    .done(function (respuestaAjax) {
+        //        if (respuestaAjax != null) {
+        //            if (respuestaAjax.ProcesadoOk == 1) {
+        //                var cuerpoModal = GenerarCuerpoModalDeDetalle(respuestaAjax.Cuerpo);
+        //                $('#sticky').empty();
+        //                $('#sticky').append(cuerpoModal);
 
-    var html = [];
-    listado.forEach(function (item, indice, array) {
-        html.push(
-            '<div class="row">',
-            '    <div class="col-md-12">',
-            '        <div class="card">',
-            '            <div class="card-body">',
-            '                <div class="row">',
-            '                    <div class="col-lg-8 col-md-8 slimControl" style="height: 250px;">',
-            '                        <div class="col-md-12">',
-            '                            <div class="card-header row bg-white" style="margin-top:-8px;">',
-            '                                <div class="col-md-12">',
-            '                                    <button type="submit" class="btn btn-sm btn-warning waves-effect waves-light m-t-10" onclick="Editar(' + item.IdCategoria + ');">',
-            '                                        <i class="fa fa-pencil" aria-hidden="true"></i> Editar',
-            '                                    </button>',
-            '                                    <button type="submit" class="btn btn-sm btn-danger waves-effect waves-light m-t-10" onclick="Eliminar(' + item.IdCategoria + ');">',
-            '                                        <i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar',
-            '                                    </button>',
-            '                                    <button type="submit" class="btn btn-sm btn-secondary waves-effect waves-light m-t-10" onclick="VerImagen(' + item.IdCategoria + ');">',
-            '                                        <i class="fa fa-eye" aria-hidden="true"></i> Ver Imagenes',
-            '                                    </button>',
-            '                                </div>',
-            '                            </div>',
-            '                            <div class="card card-body">',
-            '                                <div class="form-horizontal">',
-            '                                    <div class="form-group row" style="margin-bottom:0px;">',
-            '                                        <label class="col-sm-3 control-label col-form-label">Descripcion</label>',
-            '                                        <div class="col-sm-9">',
-            '                                            <input type="text" class="form-control form-control-sm bg-white" value="' + item.Descripcion + '" readonly>',
-            '                                        </div>',
-            '                                    </div>',
+        //                $('#sticky').modal({
+        //                    escapeClose: true,
+        //                    clickClose: false,
+        //                    showClose: false
+        //                });
+        //            }
+        //            else {
 
-            '                                    <div class="form-group row" style="margin-bottom:0px;">',
-            '                                        <label class="col-sm-3 control-label col-form-label">Estado</label>',
-            '                                        <div class="col-sm-9">',
-            '                                            <input type="text" class="form-control form-control-sm bg-white" value="' + item.Estado + '" readonly>',
-            '                                        </div>',
-            '                                    </div>',
-            '                                </div>',
-            '                            </div>',
-            '                        </div>',
-            '                    </div>',
-            '                    <div class="col-lg-4 col-md-4">',
-            '                            <div class="align-middle" style="margin-bottom:0px;">',
-            '                                <img src="' + item.UrlImagen + '" style="max-height:230px; width:100%; margin-top:20px" class="img-fluid" />',
-            '                            </div>',
-            '                    </div>',
-            '                </div>',
-            '            </div>',
-            '        </div>',
-            '    </div>',
-            '</div>'
-        );
-    });
+        //            }
+        //        }
+        //    })
+        //    .fail(function (jqXHR) {
+        //        console.log(jqXHR);
+        //        console.log('Error');
+        //    });
 
-    var cuerpoHtml = html.join('');
-    return cuerpoHtml;
-}
+    }
+});
 
-//#endregion
-
-
-function VerImagen(id) {
-    //var objetoDeserializado = JSON.parse(valorSeleccionado);
-    //if (objetoDeserializado != null) {
-    //    if (objetoDeserializado.IdProducto != null) {
-    //var a = "Test";
-    $.ajax({
-        url: "../../PasarelaProducto/Details/" + id,
-        type: "GET",
-        data: {},
-        success: function (response) {
-            if (response != null) {
-                var cuerpoModal = GenerarCuerpoModalDeCategoria(response);
-                $('#sticky').empty();
-                $('#sticky').append(cuerpoModal);
-
-                $('#sticky').modal({
-                    escapeClose: true,
-                    clickClose: false,
-                    showClose: false
-                });
-            }
+function ObtenerPorId(id) {
+    return $.ajax({
+        url: '../../Categoria/ObtenerPorId',
+        type: 'GET',
+        data: {
+            'id': id
         },
-        error: function (response) {
-            console.log(response);
+        dataType: 'json',
+        headers: {
+            'Authorization': 'Valor del token debe ir aca'
+        },
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
         }
     });
-    //    }
-    //}
-}
+};
 
-function GenerarCuerpoModalDeCategoria(objetoSeleccionado) {
+function GenerarCuerpoModalDeDetalle(objetoSeleccionado) {
 
     var html = [];
 
@@ -197,7 +343,7 @@ function GenerarCuerpoModalDeCategoria(objetoSeleccionado) {
     if (objetoSeleccionado.ListaImagen != null) {
         if (objetoSeleccionado.ListaImagen.length > 0) {
             objetoSeleccionado.ListaImagen.forEach(function (productoImagen, indice, array) {
-
+                console.log(productoImagen);
                 var imagenActiva = '';
                 /*INICIO IMAGEN SLIDE CONTROL*/
                 if (productoImagen.Predeterminado) {
@@ -220,8 +366,17 @@ function GenerarCuerpoModalDeCategoria(objetoSeleccionado) {
                 htmlImagenSrc.push(
                     '<div class="carousel-item' + imagenActiva + '">',
                     '    <img class="d-block w-100 tamanioimagenproductopopup"',
-                    '            src="' + productoImagen.UrlImagen + '" alt="' + productoImagen.Descripcion + '" style="margin-left: auto;margin-right: auto;">'
+                    '            src="' + productoImagen.UrlImagen + '" alt="' + objetoSeleccionado.Descripcion + '" style="margin-left: auto;margin-right: auto;">'
                 );
+
+                //if (objetoSeleccionado.Descripcion != '') {
+                //    htmlImagenSrc.push(
+                //        '    <div class="carousel-caption d-none d-md-block">',
+                //        //'        <h5>My Caption Title (1st Image)</h5>',
+                //        '        <h4><span class="badge badge-secondary">' + objetoSeleccionado.Descripcion + '</span></h4>',
+                //        '    </div>'
+                //    );
+                //}
 
                 htmlImagenSrc.push(
                     '</div>'
@@ -239,7 +394,8 @@ function GenerarCuerpoModalDeCategoria(objetoSeleccionado) {
         objetoSeleccionado.Descripcion,
         '    </div>',
         '    <div class="card-body">',
-        '        <div id="carouselExampleIndicators" class="carousel slide" style="background-color: #606060;" data-ride="carousel">',
+        //'        <div id="carouselExampleIndicators" class="carousel slide" style="background-color: #606060;" data-ride="carousel">',
+        '        <div id="carouselExampleIndicators" class="carousel slide" style="background-color: #FFF;" data-ride="carousel">',
         '            <ol class="carousel-indicators">'
     );
 
@@ -263,6 +419,7 @@ function GenerarCuerpoModalDeCategoria(objetoSeleccionado) {
         '                <span class="sr-only">Siguiente</span>',
         '            </a>',
         '        </div>',
+        '        <p class="card-text m-t-10">' + objetoSeleccionado.DescripcionExtendida + '</p>',
         '    </div>',
         '    <div class="card-footer bg-white">',
         '        <a href="#" rel="modal:close" class="btn btn-danger float-right"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</a>',
@@ -274,3 +431,155 @@ function GenerarCuerpoModalDeCategoria(objetoSeleccionado) {
     return cuerpoHtml;
 
 }
+
+$(document).on('click', '#btnEliminarSeleccionados', function () {
+    if (!$('#btnEliminarSeleccionados').hasClass('disabled')) {
+        var dataTableRows = tb1.rows({ selected: true }).data().toArray();
+        if (dataTableRows.length > 0) {
+
+            var listaIdsSeleccionados = [];
+            dataTableRows.forEach(function (entry) {
+                var singleObj = {};
+                singleObj['IdCategoria'] = entry.IdCategoria;
+                listaIdsSeleccionados.push(singleObj);
+            });
+
+            EliminarRegistrosMultiples(JSON.stringify({ 'ListaIdCategoria': listaIdsSeleccionados }));
+
+        } else {
+            //mensaje: seleccione un registro
+            MensajeError('Error', 'Seleccione un registro');
+        }
+    }
+});
+
+function EliminarRegistrosMultiples(listaId) {
+
+    var prm = {
+        'arrayObjeto': listaId
+    };
+
+    console.log(listaId);
+
+    $.ajax({
+        'url': '../../Categoria/EliminarSeleccionados',
+        'type': 'POST',
+        'data': prm,
+        'dataType': 'json',
+        beforeSend: function () {
+        }
+    }).done(function (result, textStatus, jqXhr) {
+
+        if (result.ProcesadoOk != null) {
+            switch (result.ProcesadoOk) {
+                case -1:
+                    MensajeError('Error', 'Algún registro no existe o ya ha sido eliminado');
+                    break;
+                case 0:
+                    MensajeError('Error', 'No se pudo eliminar los registros');
+                    break;
+                case 1:
+                    MensajeInfo('Confirmación', 'Los registros fueron eliminados satisfactoriamente!');
+                    RecargarData();
+                    break;
+            }
+        }
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+
+    });
+
+};
+
+//#endregion
+
+
+//$(document).on('change', '#cboEstado', function (e) {
+//    RecargarData();
+//});
+
+function MensajeError(titulo, mensaje) {
+
+    if (titulo == null) {
+        titulo = 'Error';
+    }
+
+    if (titulo == '') {
+        titulo = 'Error';
+    }
+
+    if (mensaje == null) {
+        mensaje = 'Error al procesar';
+    }
+
+    if (mensaje == '') {
+        mensaje = 'Error al procesar';
+    }
+
+    var icon = 'error';
+    var className = 'btn btn-danger';
+
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: className
+        },
+        buttonsStyling: false
+    });
+
+    swalWithBootstrapButtons.fire({
+        title: titulo,
+        text: mensaje,
+        icon: icon,
+        confirmButtonText: 'Ok!',
+        reverseButtons: true
+    });
+}
+
+function MensajeInfo(titulo, mensaje) {
+
+    if (titulo == null) {
+        titulo = 'Confirmación';
+    }
+
+    if (titulo == '') {
+        titulo = 'Confirmación';
+    }
+
+    if (mensaje == null) {
+        mensaje = 'Proceso satisfactorio';
+    }
+
+    if (mensaje == '') {
+        mensaje = 'Proceso satisfactorio';
+    }
+
+    var icon = 'success';
+    var className = 'btn btn-success';
+
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: className
+        },
+        buttonsStyling: false
+    });
+
+    swalWithBootstrapButtons.fire({
+        title: titulo,
+        text: mensaje,
+        icon: icon,
+        confirmButtonText: 'Ok!',
+        reverseButtons: true
+    });
+}
+
+function HabilitarControlesMenu(valor) {
+    if (valor === true) {
+        $('#btnRecargar').removeClass('disabled');
+        $('#btnNuevo').removeClass('disabled');
+        $('#btnEliminarSeleccionados').removeClass('disabled');
+    } else {
+        $('#btnRecargar').addClass('disabled');
+        $('#btnNuevo').addClass('disabled');
+        $('#btnEliminarSeleccionados').addClass('disabled');
+    }
+};

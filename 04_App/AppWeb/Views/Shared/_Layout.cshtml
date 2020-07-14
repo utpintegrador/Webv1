@@ -8,7 +8,10 @@
     <title>@ViewData["Title"] - Encuéntralo YA</title>
 
     <environment include="Production">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
         <!--link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/template/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"-->
         @*<link href="~/template/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">*@
@@ -57,7 +60,7 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="@Url.Action("Index", "Home")">
                         <!-- Logo icon --><b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
@@ -173,13 +176,11 @@
                                 </span>
                             </a>
                             <ul aria-expanded="false" class="collapse">
-                                @*<li><a href="@Url.Action("Index", "Incidencias")">Incidencias </a></li>
-                <li><a href="index2.html">FAQ</a></li>*@
                                 <li>
-                                    <a href="@Url.Action("Index", "Home")">Dashboard</a>
+                                    <a href="@Url.Action("Index", "Home")"><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Usuario")">Usuario</a>
+                                    <a href="@Url.Action("Index", "Usuario")"><i class="fa fa-user" aria-hidden="true"></i> Usuario</a>
                                 </li>
                             </ul>
                         </li>
@@ -191,28 +192,52 @@
                                 <i class="mdi mdi-book-open-variant"></i>
                                 <span class="hide-menu">
                                     MAESTROS
-                                    <span class="label label-rouded label-success pull-right">3</span>
+                                    <span class="label label-rouded label-success pull-right">10</span>
                                 </span>
                             </a>
                             <ul aria-expanded="false" class="collapse">
+                                @*<li>
+            <a href="@Url.Action("Index", "Negocio")">Negocio</a>
+        </li>*@
                                 <li>
-                                    <a href="@Url.Action("Index", "Negocio")">Negocio</a>
+                                    <a href="@Url.Action("Index", "Producto")"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Producto</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Producto")">Producto</a>
+                                    <a href="@Url.Action("Index", "Categoria")"><i class="fa fa-filter" aria-hidden="true"></i> Categoria</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Categoria")">Categoria</a>
+                                    <a href="@Url.Action("Index", "Negocio")"><i class="fa fa-university" aria-hidden="true"></i> Negocio</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Estado")"><i class="fa fa-check" aria-hidden="true"></i> Estado</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "TipoEstado")"><i class="fa fa-list-ul" aria-hidden="true"></i> Tipo Estado</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "TipoUsuario")"><i class="fa fa-users" aria-hidden="true"></i> Tipo Usuario</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "TipoBusqueda")"><i class="fa fa-filter" aria-hidden="true"></i> Tipo Busqueda</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "TipoDescuento")"><i class="fa fa-money" aria-hidden="true"></i> Tipo Descuento</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "TipoDocumentoIdentificacion")"><i class="fa fa-id-card-o" aria-hidden="true"></i> Tipo Doc. Identificacion</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Moneda")"><i class="fa fa-usd" aria-hidden="true"></i> Moneda</a>
                                 </li>
                             </ul>
                         </li>
 
-                        <li>
+                        @*<li>
                             <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                                 <i class="mdi mdi-book-open-variant"></i>
                                 <span class="hide-menu">
                                     ADMINISTRACION
-                                    <span class="label label-rouded label-success pull-right">1</span>
+                                    <span class="label label-rouded label-success pull-right">0</span>
                                 </span>
                             </a>
                             <ul aria-expanded="false" class="collapse">
@@ -220,9 +245,9 @@
                                     <a href="@Url.Action("Index", "Estado")">Estado</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>*@
 
-                        <li>
+                        @*<li>
                             <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                                 <i class="mdi mdi-book-open-variant"></i>
                                 <span class="hide-menu">
@@ -238,7 +263,7 @@
                                     <a href="@Url.Action("Index", "PasarelaProducto")">Producto</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>*@
 
                     </ul>
                 </nav>
@@ -270,7 +295,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer" style="height:40px; padding-top:2px;"> © 2020 Encuéntralo YA </footer>
+            <footer class="footer" style="height:40px; padding-top:2px; margin-bottom: 20px;"> © 2020 Encuéntralo YA </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
@@ -287,8 +312,14 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <!--script src="~/lib/bootstrap/popper.min.js"></!--script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>*@
+
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+
+
         <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
         @*<script src="~/template/main/js/perfect-scrollbar.jquery.min.js"></script>*@
@@ -302,6 +333,7 @@
         <script src="../template/assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup-init.js"></script>*@
         <script src="~/lib/magnific-popup-master/dist/jquery.magnific-popup.min.js"></script>
         <script src="~/lib/magnific-popup-master/dist/jquery.magnific-popup-init.js"></script>
+        <script src="~/lib/loading-overlay/loadingoverlay.min.js"></script>
 
     </environment>
     <environment exclude="Production">

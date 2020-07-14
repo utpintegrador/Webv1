@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Modificar Tipo Busqueda";
+}
+
+@section estilos {
+    <link href="~/lib/select2/css/select2.css" rel="stylesheet" />
+}
+
+@*Titulo*@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Modificar Tipo Busqueda</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">TipoBusqueda</a></li>
+            <li class="breadcrumb-item active">Edit</li>
+        </ol>
+    </div>
+</div>
+
+@*Botones y filtro*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card" id="frmWrapper">
+            <div class="card-body">
+
+                <button id="btnGuardar" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar
+                </button>
+
+                <a asp-action="Index" id="btnRetornar" class="btn btn-danger btn-sm">
+                    <i class="fa fa-reply" aria-hidden="true"></i> Retornar
+                </a>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label>Descripcion</label>
+                            <input type="text" id="txtDescripcion" class="form-control form-control-sm form-control-line">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/lib/select2/js/select2.min.js" type="text/javascript"></script>
+    <script src="~/lib/sweetalert2/sweetalert2-9.js" type="text/javascript"></script>
+    <script src="~/js/Maestro/TipoBusquedaModificar.js"></script>
+}

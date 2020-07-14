@@ -70,6 +70,19 @@ namespace Entidad.Utilitario
             return fecha;
         }
 
+        public static bool EsLong(object objeto)
+        {
+            try
+            {
+                long temp = Convert.ToInt64(objeto);
+                return true;
+            }
+            catch
+            {
+            }
+            return false;
+        }
+
         public static string Derecha(string texto, int cantidadCaracteres)
         {
             try

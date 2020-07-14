@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\01_Modelos\Entidad\Entidad.csproj" />
+    <ProjectReference Include="..\..\01_Modelos\ModelosApi\ModelosApi.csproj" />
     <ProjectReference Include="..\..\02_LogicaAccesoDatos\Datos.Repositorio\Datos.Repositorio.csproj" />
   </ItemGroup>
 

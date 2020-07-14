@@ -14,8 +14,9 @@ namespace AppWeb.Controllers
         // GET: Incidencia
         public ActionResult Index()
         {
-            var listaIncidencias = _lnIncidencia.Obtener();
-            return View(listaIncidencias);
+            //var listaIncidencias = _lnIncidencia.Obtener();
+            //return View(listaIncidencias);
+            return View();
         }
 
         // GET: Incidencia/Details/5

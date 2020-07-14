@@ -1,14 +1,38 @@
-﻿@model Entidad.Dto.Seguridad.UsuarioRegistrarDto
-
-@{
+﻿@{
     ViewData["Title"] = "Modificar Usuario";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section estilos {
+    <link href="~/lib/select2/css/select2.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/dropzonejs/dropzone.css" />
+    <style>
+
+        #drop-area {
+            border: 1px dashed #007bff;
+            border-radius: 20px;
+            padding: 20px;
+            min-height: 300px;
+            width: 100%;
+            position: relative;
+        }
+
+            #drop-area:before {
+                content: "Drop your image files here.";
+                position: absolute;
+                left: 50%;
+                width: 300px;
+                margin-left: -150px;
+                margin-top: -10px;
+                top: 50%;
+                height: 20px;
+            }
+    </style>
 }
 
 @*Titulo*@
 <div class="row page-titles">
     <div class="col-md-5 align-self-center">
-        <h3 class="text-themecolor">Editar Usuario</h3>
+        <h3 class="text-themecolor">Modificar Usuario</h3>
     </div>
     <div class="col-md-7 align-self-center">
         <ol class="breadcrumb">
@@ -21,11 +45,15 @@
 @*Botones y filtro*@
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
+        <div class="card" id="frmWrapper">
             <div class="card-body">
 
-                <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-sm">
-                    <i class="fa fa-times" aria-hidden="true"></i> Inicio
+                <button id="btnGuardar" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar
+                </button>
+
+                <a asp-action="Index" id="btnRetornar" class="btn btn-danger btn-sm">
+                    <i class="fa fa-reply" aria-hidden="true"></i> Retornar
                 </a>
 
                 <div class="row">
@@ -33,120 +61,114 @@
                         <hr />
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label>Correo Electrónico</label>
+                            <input type="email" id="txtCorreoElectronico" class="form-control form-control-sm form-control-line">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" id="txtNombre" class="form-control form-control-sm form-control-line">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label>Apellido</label>
+                            <input type="text" id="txtApellido" class="form-control form-control-sm form-control-line">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <select id="cboEstado" class="form-control form-control-line select2" style="width: 100%"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label>Tipo</label>
+                            <select id="cboTipoUsuario" class="form-control form-control-line select2" style="width: 100%"></select>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
-                    <!-- Column -->
-                    <div class="col-lg-4 col-xlg-3 col-md-5">
-                        <div class="card">
-                            <div class="card-body">
-                                <center class="m-t-30">
-                                    <img src="~/template/assets/images/users/1.png" class="img-circle" width="150" />
-                                    <h4 class="card-title m-t-10">El Sr. Pool</h4>
-                                    <h6 class="card-subtitle">Utepino que se respeta</h6>
-                                    <div class="row text-center justify-content-md-center">
-                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-people"></i> <font class="font-medium">254</font></a></div>
-                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <font class="font-medium">54</font></a></div>
-                                    </div>
-                                </center>
-                            </div>
-                            <div>
-                                <hr>
-                            </div>
-                            <div class="card-body">
-                                <small class="text-muted">Correo Electrónico </small>
-                                <h6>correo@correo.com</h6> <small class="text-muted p-t-30 db">Teléfono</small>
-                                <h6>+91 654 784 547</h6> <small class="text-muted p-t-30 db">Dirección</small>
-                                <h6>El último cerro</h6>
-                                <br />
-                                <button class="btn btn-circle btn-secondary"><i class="fa fa-facebook"></i></button>
-                                <button class="btn btn-circle btn-secondary"><i class="fa fa-twitter"></i></button>
-                                <button class="btn btn-circle btn-secondary"><i class="fa fa-youtube"></i></button>
-                            </div>
-                        </div>
+                    <div class="col-md-12">
+                        <hr />
                     </div>
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-8 col-xlg-9 col-md-7">
-                        <div class="card">
-                            <!-- Nav tabs -->
-                            <ul class="nav nav-tabs profile-tab" role="tablist">
-                                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">Perfil</a> </li>
-                                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Modificar</a> </li>
-                            </ul>
-                            <!-- Tab panes -->
-                            <div class="tab-content">
-
-                                <div class="tab-pane active" id="profile" role="tabpanel">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3 col-xs-6 b-r">
-                                                <strong>Nombre</strong>
-                                                <br>
-                                                <p class="text-muted">Nombre</p>
-                                            </div>
-                                            <div class="col-md-3 col-xs-6 b-r">
-                                                <strong>Apellido</strong>
-                                                <br>
-                                                <p class="text-muted">Apellido</p>
-                                            </div>
-                                            <div class="col-md-3 col-xs-6 b-r">
-                                                <strong>Correo electrónico</strong>
-                                                <br>
-                                                <p class="text-muted">correo@correo.com</p>
-                                            </div>
-                                            <div class="col-md-3 col-xs-6">
-                                                <strong>Ubicación</strong>
-                                                <br>
-                                                <p class="text-muted">Lima-Perú</p>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <p class="m-t-30">Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries </p>
-                                        <p>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="settings" role="tabpanel">
-                                    <div class="card-body">
-                                        <form class="form-horizontal form-material">
-                                            <div class="form-group">
-                                                <label class="col-md-12">Nombre</label>
-                                                <div class="col-md-12">
-                                                    <input type="text" placeholder="Nombre" class="form-control form-control-line">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-12">Apellido</label>
-                                                <div class="col-md-12">
-                                                    <input type="text" placeholder="Apellido" class="form-control form-control-line">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="example-email" class="col-md-12">Correo Electrónico</label>
-                                                <div class="col-md-12">
-                                                    <input type="email" placeholder="correo@correo.com" class="form-control form-control-line" name="example-email" id="example-email">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-12">Reseña</label>
-                                                <div class="col-md-12">
-                                                    <textarea rows="5" class="form-control form-control-line"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-12">
-                                                    <button class="btn btn-success">Actualizar</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
                 </div>
+
+                @*<div id="actions" class="row my-4">
+
+            <div class="col-lg-7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success btn-sm fileinput-button dz-clickable">
+                    <i class="icon-plus small-text"></i>
+                    <span>Agregar Imágenes</span>
+                </span>
+                <button type="submit" class="btn btn-primary btn-sm start">
+                    <i class="icon-arrow-circle-o-up icon-offset"></i>
+                    <span>Iniciar Subida</span>
+                </button>
+                <button type="reset" class="btn btn-danger btn-sm text-white cancel">
+                    <i class="icon-ban icon-offset"></i>
+                    <span>Cancelar Subida</span>
+                </button>
+            </div>
+
+            <div class="col-lg-5">
+                <!-- The global file processing state -->
+                <div id="total-progress" class="fileupload-process progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress=""></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="drop-area">
+            <div class="files" id="previews">
+                <div id="template" class="position-relative bg-white d-flex justify-content-between py-2 border border-top-0 border-right-0 border-left-0">
+                    <!-- This is used as the file preview template -->
+                    <div>
+                        <span class="preview"><img data-dz-thumbnail /></span>
+                    </div>
+                    <div>
+                        <p class="name" data-dz-name></p>
+                        <strong class="error text-danger" data-dz-errormessage></strong>
+                    </div>
+                    <div>
+                        <p class="size" data-dz-size></p>
+                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary start">
+                            <i class="icon-arrow-circle-o-up icon-offset"></i>
+                            <span>Iniciar</span>
+                        </button>
+                        <button data-dz-remove class="btn btn-warning text-white cancel">
+                            <i class="icon-ban icon-offset"></i>
+                            <span>Cancelar</span>
+                        </button>
+                        <button data-dz-remove class="btn btn-danger delete">
+                            <i class="icon-times-circle-o icon-offset"></i>
+                            <span>Eliminar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
 
             </div>
         </div>
@@ -154,4 +176,10 @@
 </div>
 
 
-
+@section Scripts{
+    <script src="~/lib/select2/js/select2.min.js" type="text/javascript"></script>
+    <script src="~/lib/sweetalert2/sweetalert2-9.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <script src="~/lib/dropzonejs/dropzone.js" type="text/javascript"></script>
+    <script src="~/js/Seguridad/UsuarioModificar.js"></script>
+}

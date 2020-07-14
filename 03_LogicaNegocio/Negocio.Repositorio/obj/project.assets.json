@@ -1625,6 +1625,16 @@
         "runtime": {
           "bin/placeholder/Entidad.dll": {}
         }
+      },
+      "ModelosApi/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.2",
+        "compile": {
+          "bin/placeholder/ModelosApi.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ModelosApi.dll": {}
+        }
       }
     }
   },
@@ -5746,13 +5756,19 @@
       "type": "project",
       "path": "../../01_Modelos/Entidad/Entidad.csproj",
       "msbuildProject": "../../01_Modelos/Entidad/Entidad.csproj"
+    },
+    "ModelosApi/1.0.0": {
+      "type": "project",
+      "path": "../../01_Modelos/ModelosApi/ModelosApi.csproj",
+      "msbuildProject": "../../01_Modelos/ModelosApi/ModelosApi.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
       "Datos.Repositorio >= 1.0.0",
       "Entidad >= 1.0.0",
-      "Microsoft.NETCore.App >= 2.2.0"
+      "Microsoft.NETCore.App >= 2.2.0",
+      "ModelosApi >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -5787,6 +5803,9 @@
           "projectReferences": {
             "D:\\Integrador2\\Webv1\\01_Modelos\\Entidad\\Entidad.csproj": {
               "projectPath": "D:\\Integrador2\\Webv1\\01_Modelos\\Entidad\\Entidad.csproj"
+            },
+            "D:\\Integrador2\\Webv1\\01_Modelos\\ModelosApi\\ModelosApi.csproj": {
+              "projectPath": "D:\\Integrador2\\Webv1\\01_Modelos\\ModelosApi\\ModelosApi.csproj"
             },
             "D:\\Integrador2\\Webv1\\02_LogicaAccesoDatos\\Datos.Repositorio\\Datos.Repositorio.csproj": {
               "projectPath": "D:\\Integrador2\\Webv1\\02_LogicaAccesoDatos\\Datos.Repositorio\\Datos.Repositorio.csproj"
