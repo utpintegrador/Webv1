@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Entidad.Configuracion.Proceso;
 using Entidad.Dto.Maestro;
-using Entidad.Entidad.Maestro;
-using Microsoft.AspNetCore.Http;
+using Entidad.Request.Maestro;
+using Entidad.Vo;
 using Microsoft.AspNetCore.Mvc;
 using Negocio.Repositorio.Maestro;
 
@@ -16,16 +16,44 @@ namespace AppWeb.Controllers
         // GET: TipoEstado
         public ActionResult Index()
         {
-            TipoEstadoObtenerFiltroDto filtro = new TipoEstadoObtenerFiltroDto();
-            var listado = _lnTipoEstado.Obtener(filtro);
-            return View(listado);
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("ObtenerData")]
+        public ActionResult ObtenerData(TipoEstadoObtenerFiltroDto prm)
+        {
+            if (ConstanteVo.ActivarLLamadasConToken)
+            {
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
+
+            var t = Task.Run(() => _lnTipoEstado.Obtener(prm));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // GET: TipoEstado/Details/5
         public ActionResult Details(int id)
         {
-            var resultado = _lnTipoEstado.ObtenerPorId(id);
-            return View(resultado);
+            return View();
+        }
+
+        // GET: TipoEstado/Details/5
+        public ActionResult ObtenerPorId(int id)
+        {
+            if (ConstanteVo.ActivarLLamadasConToken)
+            {
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
+
+            var t = Task.Run(() => _lnTipoEstado.ObtenerPorId(id));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // GET: TipoEstado/Create
@@ -36,98 +64,74 @@ namespace AppWeb.Controllers
 
         // POST: TipoEstado/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(TipoEstadoRegistrarDto modelo)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Registrar(RequestTipoEstadoRegistrarDtoApi prm)
         {
-            try
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                if (ModelState.IsValid)
-                {
-                    int idNuevo = 0;
-                    int resultado = _lnTipoEstado.Registrar(modelo, ref idNuevo);
-                    if (resultado > 0)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
             }
-            catch
-            {
 
-            }
-            return View();
+            var t = Task.Run(() => _lnTipoEstado.Registrar(prm));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // GET: TipoEstado/Edit/5
         public ActionResult Edit(int id)
         {
-            var entidad = _lnTipoEstado.ObtenerPorId(id);
-            return View(entidad);
+            return View();
         }
 
         // POST: TipoEstado/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, TipoEstado modelo)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Modificar(RequestTipoEstadoModificarDtoApi prm)//int id, IFormCollection collection)
         {
-            try
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                if (ModelState.IsValid)
-                {
-                    // TODO: Add update logic here
-                    TipoEstadoModificarDto prm = new TipoEstadoModificarDto
-                    {
-                        IdTipoEstado = modelo.IdTipoEstado,
-                        Nombre = modelo.Nombre,
-                        Observacion = modelo.Observacion
-                    };
-                    int resultado = _lnTipoEstado.Modificar(prm);
-                    if (resultado > 0)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-
-                }
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
             }
-            catch
-            {
 
-            }
-            return View();
-        }
+            var t = Task.Run(() => _lnTipoEstado.Modificar(prm));
+            t.Wait();
 
-        // GET: TipoEstado/Delete/5
-        public ActionResult Delete(int id)
-        {
-            var entidad = _lnTipoEstado.ObtenerPorId(id);
-            return View(entidad);
+            return Json(t.Result);
         }
 
         // POST: TipoEstado/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, TipoEstado modelo)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Eliminar(int id)//, IFormCollection collection)
         {
-            try
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                // TODO: Add delete logic here
-                if (id > 0)
-                {
-                    int resultado = _lnTipoEstado.Eliminar(id);
-                    if (resultado > 0)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-
-
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
             }
-            catch
+
+            var t = Task.Run(() => _lnTipoEstado.Eliminar(id));
+            t.Wait();
+
+            return Json(t.Result);
+        }
+
+        [HttpGet]
+        public ActionResult ObtenerCombo()
+        {
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
             }
-            return View();
+
+            var t = Task.Run(() => _lnTipoEstado.ObtenerCombo());
+            t.Wait();
+
+            return Json(t.Result);
         }
     }
 }

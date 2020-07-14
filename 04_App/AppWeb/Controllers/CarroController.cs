@@ -108,7 +108,7 @@ namespace AppWeb.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch
             {
 
             }
@@ -128,7 +128,7 @@ namespace AppWeb.Controllers
                     _carro.ListaCarroItem = new List<CarroItemObtenerDto>();
                 }
             }
-            catch (Exception ex)
+            catch
             {
 
             }

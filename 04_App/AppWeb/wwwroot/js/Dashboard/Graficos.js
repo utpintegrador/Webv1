@@ -5,6 +5,9 @@ var colorSecondary = '#6c757d';
 var colorDanger = '#dc3545';
 
 $(document).ready(function () {
+
+    SetItem('IdUsuario', 1);
+
     procesarResumenMesActual();
     procesarGraficoTotalVentas();
     procesarGraficoProductosTop();
@@ -309,7 +312,7 @@ function generarResumen(listaDatos) {
 
             listaDatos.forEach(function (item, indice, array) {
                 html.push(
-                    '<div class="col-lg-3">',
+                    '<div class="col-sm-6 col-lg-3">',
                     '    <div class="card ' + item.ColorFondo + '">',
                     '        <div class="card-body">',
                     '            <div class="d-flex no-block">',

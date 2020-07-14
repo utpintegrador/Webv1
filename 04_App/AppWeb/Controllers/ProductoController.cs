@@ -1,7 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Entidad.Configuracion.Proceso;
 using Entidad.Dto.Maestro;
-using Microsoft.AspNetCore.Http;
+using Entidad.Request.Maestro;
+using Entidad.Vo;
 using Microsoft.AspNetCore.Mvc;
+using ModelosApi.Request.Maestro;
 using Negocio.Repositorio.Maestro;
 
 namespace AppWeb.Controllers
@@ -10,29 +15,46 @@ namespace AppWeb.Controllers
     {
         private readonly LnProducto _lnProducto = new LnProducto();
         // GET: Producto
-        public ActionResult Index(ProductoObtenerFiltroDto filtro)
+        public ActionResult Index()
         {
-            //var listaProducto = _lnProducto.ObtenerListadoPorIdUsuario(filtro);
-            return View();// listaProducto);
+            return View();
         }
 
-        [HttpGet]
-        public List<ProductoObtenerDto> ObtenerListado(ProductoObtenerFiltroDto filtro)
+        [HttpPost]
+        [ActionName("ObtenerData")]
+        public ActionResult ObtenerData(ProductoObtenerFiltroDto prm)
         {
-            var listaProducto = _lnProducto.ObtenerListadoPorIdUsuario(filtro);
-            return listaProducto;
+            if (ConstanteVo.ActivarLLamadasConToken)
+            {
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
+
+            var t = Task.Run(() => _lnProducto.Obtener(prm));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // GET: Producto/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(long id)
         {
             return View();
         }
 
         // GET: Producto/Details/5
-        public ActionResult ObtenerPorVendedor(int id)
+        public ActionResult ObtenerPorId(long id)
         {
-            return View();
+            if (ConstanteVo.ActivarLLamadasConToken)
+            {
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
+
+            var t = Task.Run(() => _lnProducto.ObtenerPorId(id));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // GET: Producto/Create
@@ -43,65 +65,93 @@ namespace AppWeb.Controllers
 
         // POST: Producto/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Registrar(RequestProductoRegistrarDtoApi prm)
         {
-            try
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                // TODO: Add insert logic here
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var t = Task.Run(() => _lnProducto.Registrar(prm));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // GET: Producto/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(long id)
         {
             return View();
         }
 
         // POST: Producto/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Modificar(RequestProductoModificarDtoApi prm)//int id, IFormCollection collection)
         {
-            try
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: Producto/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+            var t = Task.Run(() => _lnProducto.Modificar(prm));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // POST: Producto/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Eliminar(long id)//, IFormCollection collection)
         {
-            try
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                // TODO: Add delete logic here
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var t = Task.Run(() => _lnProducto.Eliminar(id));
+            t.Wait();
+
+            return Json(t.Result);
         }
+
+        [HttpPost]
+        public ActionResult EliminarSeleccionados(string arrayObjeto)//RequestProductoEliminarMasivoDtoApi prm)
+        {
+            if(arrayObjeto != null)
+            {
+                var prm = Newtonsoft.Json.JsonConvert.DeserializeObject<RequestProductoEliminarMasivoDtoApi>(arrayObjeto);
+                if(prm != null)
+                {
+                    if (prm.ListaIdProducto != null)
+                    {
+                        if (prm.ListaIdProducto.Any())
+                        {
+                            if (ConstanteVo.ActivarLLamadasConToken)
+                            {
+                                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+                            }
+
+                            var t = Task.Run(() => _lnProducto.EliminarMasivo(prm));
+                            t.Wait();
+
+                            return Json(t.Result);
+                        }
+                    }
+                }
+            }
+            return BadRequest();
+        }
+    }
+
+    public class Producto
+    {
+        public long IdProducto { get; set; }
     }
 }

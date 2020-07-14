@@ -2,9 +2,14 @@
 
 namespace Entidad.Dto.Maestro
 {
-    public class CategoriaObtenerFiltroDto: Paginacion
+    public class CategoriaObtenerFiltroDto: DataTableNet
     {
-        public long IdEstado { get; set; }
-        public string Descripcion { get; set; }
+        public int IdEstado { get; set; }
+        public string Buscar { get; set; }
+        public CategoriaObtenerFiltroDto()
+        {
+            Buscar = string.Empty;
+            IdEstado = 0;
+        }
     }
 }

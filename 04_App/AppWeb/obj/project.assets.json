@@ -5073,12 +5073,23 @@
           "bin/placeholder/Entidad.dll": {}
         }
       },
+      "ModelosApi/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.2",
+        "compile": {
+          "bin/placeholder/ModelosApi.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ModelosApi.dll": {}
+        }
+      },
       "Negocio.Repositorio/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.2",
         "dependencies": {
           "Datos.Repositorio": "1.0.0",
-          "Entidad": "1.0.0"
+          "Entidad": "1.0.0",
+          "ModelosApi": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Negocio.Repositorio.dll": {}
@@ -13900,6 +13911,11 @@
       "type": "project",
       "path": "../../01_Modelos/Entidad/Entidad.csproj",
       "msbuildProject": "../../01_Modelos/Entidad/Entidad.csproj"
+    },
+    "ModelosApi/1.0.0": {
+      "type": "project",
+      "path": "../../01_Modelos/ModelosApi/ModelosApi.csproj",
+      "msbuildProject": "../../01_Modelos/ModelosApi/ModelosApi.csproj"
     },
     "Negocio.Repositorio/1.0.0": {
       "type": "project",

@@ -1,0 +1,9 @@
+D:\Integrador2\Webv1\01_Modelos\ModelosApi\bin\Release\netcoreapp2.2\ModelosApi.deps.json
+D:\Integrador2\Webv1\01_Modelos\ModelosApi\bin\Release\netcoreapp2.2\ModelosApi.dll
+D:\Integrador2\Webv1\01_Modelos\ModelosApi\bin\Release\netcoreapp2.2\ModelosApi.pdb
+D:\Integrador2\Webv1\01_Modelos\ModelosApi\obj\Release\netcoreapp2.2\ModelosApi.csprojAssemblyReference.cache
+D:\Integrador2\Webv1\01_Modelos\ModelosApi\obj\Release\netcoreapp2.2\ModelosApi.csproj.CoreCompileInputs.cache
+D:\Integrador2\Webv1\01_Modelos\ModelosApi\obj\Release\netcoreapp2.2\ModelosApi.AssemblyInfoInputs.cache
+D:\Integrador2\Webv1\01_Modelos\ModelosApi\obj\Release\netcoreapp2.2\ModelosApi.AssemblyInfo.cs
+D:\Integrador2\Webv1\01_Modelos\ModelosApi\obj\Release\netcoreapp2.2\ModelosApi.dll
+D:\Integrador2\Webv1\01_Modelos\ModelosApi\obj\Release\netcoreapp2.2\ModelosApi.pdb

@@ -12,7 +12,7 @@ namespace Entidad.Dto.Comun
         //public Search Search { get; set; }
 
         //Campos calculados
-        public int NumberPage { get; set; }
+        //public int NumberPage { get; set; }
         public string ColumnOrder { get; set; }
         public string OrderDirection { get; set; }
 

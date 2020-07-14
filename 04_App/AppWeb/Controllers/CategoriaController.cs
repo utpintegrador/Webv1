@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Entidad.Configuracion.Proceso;
 using Entidad.Dto.Maestro;
-using Microsoft.AspNetCore.Http;
+using Entidad.Request.Maestro;
+using Entidad.Vo;
 using Microsoft.AspNetCore.Mvc;
 using Negocio.Repositorio.Maestro;
 
@@ -15,17 +19,41 @@ namespace AppWeb.Controllers
             return View();
         }
 
-        [HttpGet]
-        public List<CategoriaObtenerDto> Obtener(CategoriaObtenerFiltroDto filtro)
+        [HttpPost]
+        [ActionName("ObtenerData")]
+        public ActionResult ObtenerData(CategoriaObtenerFiltroDto prm)
         {
-            var listaCategoria = _lnCategoria.Obtener(filtro);
-            return listaCategoria;
+            if (ConstanteVo.ActivarLLamadasConToken)
+            {
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
+
+            var t = Task.Run(() => _lnCategoria.Obtener(prm));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // GET: Categoria/Details/5
         public ActionResult Details(int id)
         {
             return View();
+        }
+
+        // GET: Categoria/Details/5
+        public ActionResult ObtenerPorId(int id)
+        {
+            if (ConstanteVo.ActivarLLamadasConToken)
+            {
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
+
+            var t = Task.Run(() => _lnCategoria.ObtenerPorId(id));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // GET: Categoria/Create
@@ -36,83 +64,74 @@ namespace AppWeb.Controllers
 
         // POST: Categoria/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Registrar(RequestCategoriaRegistrarDtoApi prm)
         {
-            try
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                // TODO: Add insert logic here
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var t = Task.Run(() => _lnCategoria.Registrar(prm));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // GET: Categoria/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(long id)
         {
             return View();
         }
 
         // POST: Categoria/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Modificar(RequestCategoriaModificarDtoApi prm)//int id, IFormCollection collection)
         {
-            try
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: Categoria/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+            var t = Task.Run(() => _lnCategoria.Modificar(prm));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // POST: Categoria/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Eliminar(int id)//, IFormCollection collection)
         {
-            try
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                // TODO: Add delete logic here
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var t = Task.Run(() => _lnCategoria.Eliminar(id));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         [HttpGet]
-        public List<CategoriaComboDto> ObtenerCombo(string primerValor)
+        public ActionResult ObtenerCombo(int idEstado)
         {
-            List<CategoriaComboDto> lista = new List<CategoriaComboDto>();
-            lista.Add(new CategoriaComboDto { IdCategoria = 1, Descripcion = "Categoria 1" });
-            lista.Add(new CategoriaComboDto { IdCategoria = 2, Descripcion = "Categoria 2" });
-            lista.Add(new CategoriaComboDto { IdCategoria = 2, Descripcion = "Categoria 3" });
-            lista.Add(new CategoriaComboDto { IdCategoria = 2, Descripcion = "Categoria 4" });
-            lista.Add(new CategoriaComboDto { IdCategoria = 2, Descripcion = "Categoria 5" });
-
-            if (!string.IsNullOrEmpty(primerValor))
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                lista.Insert(0, new CategoriaComboDto { IdCategoria = 0, Descripcion = primerValor });
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
             }
 
-            return lista;
+            var t = Task.Run(() => _lnCategoria.ObtenerCombo(idEstado));
+            t.Wait();
+
+            return Json(t.Result);
         }
     }
 }

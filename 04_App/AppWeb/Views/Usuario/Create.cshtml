@@ -1,74 +1,176 @@
-﻿@model Entidad.Dto.Seguridad.UsuarioRegistrarDto
-@using System.Web;
-
-@{
-    ViewData["Title"] = "Create";
+﻿@{
+    ViewData["Title"] = "Registrar Usuario";
 }
 
+@section estilos {
+    <link href="~/lib/select2/css/select2.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/dropzonejs/dropzone.css" />
+    <style>
+
+        #drop-area {
+            border: 1px dashed #007bff;
+            border-radius: 20px;
+            padding: 20px;
+            min-height: 300px;
+            width: 100%;
+            position: relative;
+        }
+
+            #drop-area:before {
+                content: "Drop your image files here.";
+                position: absolute;
+                left: 50%;
+                width: 300px;
+                margin-left: -150px;
+                margin-top: -10px;
+                top: 50%;
+                height: 20px;
+            }
+    </style>
+}
+
+@*Titulo*@
 <div class="row page-titles">
     <div class="col-md-5 align-self-center">
-        <h3 class="text-themecolor">Registro de Usuarios</h3>
+        <h3 class="text-themecolor">Registrar Usuario</h3>
     </div>
     <div class="col-md-7 align-self-center">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Usuario")">Cliente</a></li>
-            <li class="breadcrumb-item active">Nuevo</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Usuario</a></li>
+            <li class="breadcrumb-item active">Create</li>
         </ol>
     </div>
 </div>
 
-
+@*Botones y filtro*@
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
+        <div class="card" id="frmWrapper">
             <div class="card-body">
 
+                <button id="btnGuardar" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar
+                </button>
+
+                <a asp-action="Index" id="btnRetornar" class="btn btn-danger btn-sm">
+                    <i class="fa fa-reply" aria-hidden="true"></i> Retornar
+                </a>
+
                 <div class="row">
-                    <div class="col-md-4">
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="UserName" class="control-label"></label>
-                                <input asp-for="UserName" class="form-control" />
-                                <span asp-validation-for="UserName" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Contrasenia" class="control-label"></label>
-                                <input asp-for="Contrasenia" class="form-control" />
-                                <span asp-validation-for="Contrasenia" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Nombre" class="control-label"></label>
-                                <input asp-for="Nombre" class="form-control" />
-                                <span asp-validation-for="Nombre" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="ApellidoPaterno" class="control-label"></label>
-                                <input asp-for="ApellidoPaterno" class="form-control" />
-                                <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="ApellidoMaterno" class="control-label"></label>
-                                <input asp-for="ApellidoMaterno" class="form-control" />
-                                <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="IdEstado" class="control-label"></label>
-                                <input asp-for="IdEstado" class="form-control" />
-                                <span asp-validation-for="IdEstado" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Grabar</button>
-                            </div>
-                        </form>
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label>Correo Electrónico</label>
+                            <input type="email" id="txtCorreoElectronico" class="form-control form-control-sm form-control-line">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" id="txtContrasenia" class="form-control form-control-sm form-control-line">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" id="txtNombre" class="form-control form-control-sm form-control-line">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label>Apellido</label>
+                            <input type="text" id="txtApellido" class="form-control form-control-sm form-control-line">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
                     </div>
                 </div>
 
-                <div>
-                    <a asp-action="Index">Retornar al listado</a>
+                @*<div id="actions" class="row my-4">
+
+            <div class="col-lg-7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success btn-sm fileinput-button dz-clickable">
+                    <i class="icon-plus small-text"></i>
+                    <span>Agregar Imágenes</span>
+                </span>
+                <button type="submit" class="btn btn-primary btn-sm start">
+                    <i class="icon-arrow-circle-o-up icon-offset"></i>
+                    <span>Iniciar Subida</span>
+                </button>
+                <button type="reset" class="btn btn-danger btn-sm text-white cancel">
+                    <i class="icon-ban icon-offset"></i>
+                    <span>Cancelar Subida</span>
+                </button>
+            </div>
+
+            <div class="col-lg-5">
+                <!-- The global file processing state -->
+                <div id="total-progress" class="fileupload-process progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress=""></div>
                 </div>
+            </div>
+
+        </div>
+
+        <div id="drop-area">
+            <div class="files" id="previews">
+                <div id="template" class="position-relative bg-white d-flex justify-content-between py-2 border border-top-0 border-right-0 border-left-0">
+                    <!-- This is used as the file preview template -->
+                    <div>
+                        <span class="preview"><img data-dz-thumbnail /></span>
+                    </div>
+                    <div>
+                        <p class="name" data-dz-name></p>
+                        <strong class="error text-danger" data-dz-errormessage></strong>
+                    </div>
+                    <div>
+                        <p class="size" data-dz-size></p>
+                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary start">
+                            <i class="icon-arrow-circle-o-up icon-offset"></i>
+                            <span>Iniciar</span>
+                        </button>
+                        <button data-dz-remove class="btn btn-warning text-white cancel">
+                            <i class="icon-ban icon-offset"></i>
+                            <span>Cancelar</span>
+                        </button>
+                        <button data-dz-remove class="btn btn-danger delete">
+                            <i class="icon-times-circle-o icon-offset"></i>
+                            <span>Eliminar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
 
             </div>
         </div>
     </div>
 </div>
+
+
+@section Scripts{
+    <script src="~/lib/select2/js/select2.min.js" type="text/javascript"></script>
+    <script src="~/lib/sweetalert2/sweetalert2-9.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <script src="~/lib/dropzonejs/dropzone.js" type="text/javascript"></script>
+    <script src="~/js/Seguridad/UsuarioRegistrar.js"></script>
+}

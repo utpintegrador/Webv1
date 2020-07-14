@@ -6,5 +6,9 @@ namespace Entidad.Dto.Maestro
     public class TipoEstadoObtenerFiltroDto : DataTableNet
     {
         public String Buscar { get; set; }
+        public TipoEstadoObtenerFiltroDto()
+        {
+            Buscar = string.Empty;
+        }
     }
 }

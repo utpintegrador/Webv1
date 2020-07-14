@@ -1,25 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Entidad.Configuracion.Proceso;
 using Entidad.Dto.Maestro;
-using Microsoft.AspNetCore.Http;
+using Entidad.Request.Maestro;
+using Entidad.Vo;
 using Microsoft.AspNetCore.Mvc;
+using Negocio.Repositorio.Maestro;
 
 namespace AppWeb.Controllers
 {
     public class MonedaController : Controller
     {
+        private readonly LnMoneda _lnMoneda = new LnMoneda();
         // GET: Moneda
         public ActionResult Index()
         {
             return View();
         }
 
+        [HttpPost]
+        [ActionName("ObtenerData")]
+        public ActionResult ObtenerData(MonedaObtenerFiltroDto prm)
+        {
+            if (ConstanteVo.ActivarLLamadasConToken)
+            {
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
+
+            var t = Task.Run(() => _lnMoneda.Obtener(prm));
+            t.Wait();
+
+            return Json(t.Result);
+        }
+
         // GET: Moneda/Details/5
         public ActionResult Details(int id)
         {
             return View();
+        }
+
+        // GET: Moneda/Details/5
+        public ActionResult ObtenerPorId(int id)
+        {
+            if (ConstanteVo.ActivarLLamadasConToken)
+            {
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
+
+            var t = Task.Run(() => _lnMoneda.ObtenerPorId(id));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // GET: Moneda/Create
@@ -30,19 +64,19 @@ namespace AppWeb.Controllers
 
         // POST: Moneda/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Registrar(RequestMonedaRegistrarDtoApi prm)
         {
-            try
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                // TODO: Add insert logic here
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var t = Task.Run(() => _lnMoneda.Registrar(prm));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // GET: Moneda/Edit/5
@@ -53,57 +87,51 @@ namespace AppWeb.Controllers
 
         // POST: Moneda/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Modificar(RequestMonedaModificarDtoApi prm)//int id, IFormCollection collection)
         {
-            try
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: Moneda/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+            var t = Task.Run(() => _lnMoneda.Modificar(prm));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         // POST: Moneda/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Eliminar(int id)//, IFormCollection collection)
         {
-            try
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                // TODO: Add delete logic here
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var t = Task.Run(() => _lnMoneda.Eliminar(id));
+            t.Wait();
+
+            return Json(t.Result);
         }
 
         [HttpGet]
-        public List<MonedaComboDto> ObtenerCombo(string primerValor)
+        public ActionResult ObtenerCombo()
         {
-            List<MonedaComboDto> lista = new List<MonedaComboDto>();
-            lista.Add(new MonedaComboDto { IdMoneda = 1, Descripcion = "Sol" });
-            lista.Add(new MonedaComboDto { IdMoneda = 2, Descripcion = "Dólar" });
-
-            if (!string.IsNullOrEmpty(primerValor))
+            if (ConstanteVo.ActivarLLamadasConToken)
             {
-                lista.Insert(0, new MonedaComboDto { IdMoneda = 0, Descripcion = primerValor });
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
             }
 
-            return lista;
+            var t = Task.Run(() => _lnMoneda.ObtenerCombo());
+            t.Wait();
+
+            return Json(t.Result);
         }
 
     }

@@ -9,7 +9,8 @@
       "Negocio.Repositorio/1.0.0": {
         "dependencies": {
           "Datos.Repositorio": "1.0.0",
-          "Entidad": "1.0.0"
+          "Entidad": "1.0.0",
+          "ModelosApi": "1.0.0"
         },
         "runtime": {
           "Negocio.Repositorio.dll": {}
@@ -1065,6 +1066,11 @@
         "runtime": {
           "Entidad.dll": {}
         }
+      },
+      "ModelosApi/1.0.0": {
+        "runtime": {
+          "ModelosApi.dll": {}
+        }
       }
     }
   },
@@ -1633,6 +1639,11 @@
       "sha512": ""
     },
     "Entidad/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ModelosApi/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

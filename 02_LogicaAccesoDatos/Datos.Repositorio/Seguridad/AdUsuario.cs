@@ -1,205 +1,267 @@
-﻿using Dapper;
-using Datos.Helper;
+﻿using Datos.Repositorio.Helper;
 using Entidad.Configuracion.Proceso;
-using Entidad.Dto.Seguridad;
-using Entidad.Entidad.Seguridad;
+using Entidad.Dto.Maestro;
+using Entidad.Entidad.Maestro;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Datos.Repositorio.Seguridad
 {
-    public class AdUsuario: Logger
+    public class AdUsuario : Logger
     {
+        //public AdUsuario()
+        //{
+            
+        //}
+        //public async Task<EstadoObtenerRootDto> Obtener()
+        //{
+        //    ApiHelper.InitializeClient();
+        //    string url = "http://localhost:6935/api/Estado";
+        //    using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
+        //    {
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            EstadoObtenerRootDto estado = await response.Content.ReadAsAsync<EstadoObtenerRootDto>();
+        //            return estado;
+        //        }
+        //        else
+        //        {
+        //            throw new Exception(response.ReasonPhrase);
+        //        }
+        //    }
+        //}
 
-        public List<UsuarioObtenerDto> Obtener(UsuarioObtenerFiltroDto filtro)
-        {
-            List<UsuarioObtenerDto> resultado = new List<UsuarioObtenerDto>();
-            try
-            {
-                const string query = "Seguridad.usp_Usuario_Obtener";
+        //private readonly ApiHelper _apiHelper = new ApiHelper();
+        //public async Task<HttpResponseMessage> Obtener(string contenido)
+        //{
+        //    try
+        //    {
+        //        using (var httpClient = new HttpClient())
+        //        {
+        //            var response = await httpClient.PostAsync("http://localhost:6935/api/Usuario/Obtener", new StringContent(contenido, System.Text.Encoding.UTF8, "application/json"));
+        //            response.EnsureSuccessStatusCode();
+        //            return response;
+        //        }
 
-                using (var cn = HelperClass.ObtenerConeccion())
-                {
-                    if (cn.State == ConnectionState.Closed)
-                    {
-                        cn.Open();
-                    }
+        //var httpClient = new HttpClient();
+        //var response = await httpClient.PostAsync("http://localhost:6935/api/Usuario/Obtener", new StringContent(contenido, System.Text.Encoding.UTF8, "application/json"));
+        //return response;
 
-                    resultado = cn.Query<UsuarioObtenerDto>(query,new {
-                        filtro.Buscar,
-                        filtro.IdEstado,
-                        NumeroPagina = filtro.NumberPage,
-                        CantidadRegistros = filtro.Length,
-                        ColumnaOrden = filtro.ColumnOrder,
-                        DireccionOrden = filtro.OrderDirection
-                    }, commandType: CommandType.StoredProcedure).ToList();
+        //}
+        //catch (Exception ex)
+        //{
+        //    Log(Level.Error, ex.InnerException == null ? ex.Message : ex.InnerException.Message);
+        //}
+        //return null;
 
-                }
+        //var response = string.Empty;
+        //try
+        //{
+        //    HttpClient cliente = _apiHelper.Initial();
+        //    //HttpResponseMessage result = await cliente.PostAsync("Usuario/Obtener", content);
+        //    HttpResponseMessage result = await cliente.PostAsync("Usuario/Obtener", content);
+        //    if (result.IsSuccessStatusCode)
+        //    {
+        //        response = result.Content.ReadAsStringAsync().Result;
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    Log(Level.Error, ex.InnerException == null ? ex.Message : ex.InnerException.Message);
+        //}
 
-            }
-            catch (Exception ex)
-            {
-                Log(Level.Error, (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
-            }
-            return resultado;
-        }
+        //return response;
+        //}
 
-        public Usuario ObtenerPorId(long id)
-        {
-            Usuario resultado = new Usuario();
-            try
-            {
-                const string query = "Seguridad.usp_Usuario_ObtenerPorId";
+        //public List<UsuarioObtenerDto> Obtener(UsuarioObtenerFiltroDto filtro)
+        //{
+        //    List<UsuarioObtenerDto> resultado = new List<UsuarioObtenerDto>();
+        //    try
+        //    {
+        //        const string query = "Seguridad.usp_Usuario_Obtener";
 
-                using (var cn = HelperClass.ObtenerConeccion())
-                {
-                    if (cn.State == ConnectionState.Closed)
-                    {
-                        cn.Open();
-                    }
+        //        using (var cn = HelperClass.ObtenerConeccion())
+        //        {
+        //            if (cn.State == ConnectionState.Closed)
+        //            {
+        //                cn.Open();
+        //            }
 
-                    resultado = cn.QuerySingleOrDefault<Usuario>(query, new
-                    {
-                        IdUsuario = id
-                    }, commandType: CommandType.StoredProcedure);
+        //            resultado = cn.Query<UsuarioObtenerDto>(query,new {
+        //                filtro.Buscar,
+        //                filtro.IdEstado,
+        //                NumeroPagina = filtro.NumberPage,
+        //                CantidadRegistros = filtro.Length,
+        //                ColumnaOrden = filtro.ColumnOrder,
+        //                DireccionOrden = filtro.OrderDirection
+        //            }, commandType: CommandType.StoredProcedure).ToList();
 
-                }
+        //        }
 
-            }
-            catch (Exception ex)
-            {
-                Log(Level.Error, (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
-            }
-            return resultado;
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log(Level.Error, (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
+        //    }
+        //    return resultado;
+        //}
 
-        public int Registrar(UsuarioRegistrarDto modelo)
-        {
-            int resultado = 0;
-            try
-            {
-                const string query = "Seguridad.usp_Usuario_Registrar";
+        //public Usuario ObtenerPorId(long id)
+        //{
+        //    Usuario resultado = new Usuario();
+        //    try
+        //    {
+        //        const string query = "Seguridad.usp_Usuario_ObtenerPorId";
 
-                var p = new DynamicParameters();
-                //p.Add("IdUsuario", 0, DbType.Int32, ParameterDirection.Output);
-                p.Add("UserName", modelo.UserName);
-                p.Add("Contrasenia", modelo.Contrasenia);
-                p.Add("Nombre", modelo.Nombre);
-                p.Add("ApellidoPaterno", modelo.ApellidoPaterno);
-                p.Add("ApellidoMaterno", modelo.ApellidoMaterno);
-                p.Add("IdEstado", modelo.IdEstado);
+        //        using (var cn = HelperClass.ObtenerConeccion())
+        //        {
+        //            if (cn.State == ConnectionState.Closed)
+        //            {
+        //                cn.Open();
+        //            }
 
-                using (var cn = HelperClass.ObtenerConeccion())
-                {
-                    if (cn.State == ConnectionState.Closed)
-                    {
-                        cn.Open();
-                    }
+        //            resultado = cn.QuerySingleOrDefault<Usuario>(query, new
+        //            {
+        //                IdUsuario = id
+        //            }, commandType: CommandType.StoredProcedure);
 
-                    resultado = cn.Execute(query, commandType: CommandType.StoredProcedure, param: p);
+        //        }
 
-                    //idNuevo = p.Get<int>("IdUsuario");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log(Level.Error, (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
+        //    }
+        //    return resultado;
+        //}
 
-                }
-            }
-            catch (Exception ex)
-            {
-                Log(Level.Error, (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
-            }
-            return resultado;
-        }
+        //public int Registrar(UsuarioRegistrarDto modelo)
+        //{
+        //    int resultado = 0;
+        //    try
+        //    {
+        //        const string query = "Seguridad.usp_Usuario_Registrar";
 
-        public int Modificar(UsuarioModificarDto modelo)
-        {
-            int resultado = 0;
-            try
-            {
-                const string query = "Seguridad.usp_Usuario_Modificar";
+        //        var p = new DynamicParameters();
+        //        //p.Add("IdUsuario", 0, DbType.Int32, ParameterDirection.Output);
+        //        p.Add("UserName", modelo.UserName);
+        //        p.Add("Contrasenia", modelo.Contrasenia);
+        //        p.Add("Nombre", modelo.Nombre);
+        //        p.Add("ApellidoPaterno", modelo.ApellidoPaterno);
+        //        p.Add("ApellidoMaterno", modelo.ApellidoMaterno);
+        //        p.Add("IdEstado", modelo.IdEstado);
 
-                using (var cn = HelperClass.ObtenerConeccion())
-                {
-                    if (cn.State == ConnectionState.Closed)
-                    {
-                        cn.Open();
-                    }
+        //        using (var cn = HelperClass.ObtenerConeccion())
+        //        {
+        //            if (cn.State == ConnectionState.Closed)
+        //            {
+        //                cn.Open();
+        //            }
 
-                    resultado = cn.Execute(query, new
-                    {
-                        modelo.IdUsuario,
-                        modelo.UserName,
-                        modelo.Contrasenia,
-                        modelo.Nombre,
-                        modelo.ApellidoPaterno,
-                        modelo.ApellidoMaterno,
-                        modelo.IdEstado//desconectarse o inactivarse
-                    }, commandType: CommandType.StoredProcedure);
+        //            resultado = cn.Execute(query, commandType: CommandType.StoredProcedure, param: p);
 
-                }
-            }
-            catch (Exception ex)
-            {
-                Log(Level.Error, (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
-            }
-            return resultado;
-        }
+        //            //idNuevo = p.Get<int>("IdUsuario");
 
-        public int Eliminar(int id)
-        {
-            int resultado = 0;
-            try
-            {
-                const string query = "Seguridad.usp_Usuario_Eliminar";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log(Level.Error, (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
+        //    }
+        //    return resultado;
+        //}
 
-                using (var cn = HelperClass.ObtenerConeccion())
-                {
-                    if (cn.State == ConnectionState.Closed)
-                    {
-                        cn.Open();
-                    }
+        //public int Modificar(UsuarioModificarDto modelo)
+        //{
+        //    int resultado = 0;
+        //    try
+        //    {
+        //        const string query = "Seguridad.usp_Usuario_Modificar";
 
-                    resultado = cn.Execute(query, new
-                    {
-                        IdUsuario = id,
-                    }, commandType: CommandType.StoredProcedure);
+        //        using (var cn = HelperClass.ObtenerConeccion())
+        //        {
+        //            if (cn.State == ConnectionState.Closed)
+        //            {
+        //                cn.Open();
+        //            }
 
-                }
-            }
-            catch (Exception ex)
-            {
-                Log(Level.Error, (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
-            }
-            return resultado;
-        }
+        //            resultado = cn.Execute(query, new
+        //            {
+        //                modelo.IdUsuario,
+        //                modelo.UserName,
+        //                modelo.Contrasenia,
+        //                modelo.Nombre,
+        //                modelo.ApellidoPaterno,
+        //                modelo.ApellidoMaterno,
+        //                modelo.IdEstado//desconectarse o inactivarse
+        //            }, commandType: CommandType.StoredProcedure);
 
-        public List<UsuarioObtenerComboDto> ObtenerCombo(int idEstado)
-        {
-            List<UsuarioObtenerComboDto> resultado = new List<UsuarioObtenerComboDto>();
-            try
-            {
-                const string query = "Seguridad.usp_Usuario_Combo";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log(Level.Error, (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
+        //    }
+        //    return resultado;
+        //}
 
-                using (var cn = HelperClass.ObtenerConeccion())
-                {
-                    if (cn.State == ConnectionState.Closed)
-                    {
-                        cn.Open();
-                    }
+        //public int Eliminar(int id)
+        //{
+        //    int resultado = 0;
+        //    try
+        //    {
+        //        const string query = "Seguridad.usp_Usuario_Eliminar";
 
-                    resultado = cn.Query<UsuarioObtenerComboDto>(query,new {
-                        IdEstado = idEstado
-                    }, commandType: CommandType.StoredProcedure).ToList();
+        //        using (var cn = HelperClass.ObtenerConeccion())
+        //        {
+        //            if (cn.State == ConnectionState.Closed)
+        //            {
+        //                cn.Open();
+        //            }
 
-                }
+        //            resultado = cn.Execute(query, new
+        //            {
+        //                IdUsuario = id,
+        //            }, commandType: CommandType.StoredProcedure);
 
-            }
-            catch (Exception ex)
-            {
-                Log(Level.Error, (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
-            }
-            return resultado;
-        }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log(Level.Error, (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
+        //    }
+        //    return resultado;
+        //}
+
+        //public List<UsuarioObtenerComboDto> ObtenerCombo(int idEstado)
+        //{
+        //    List<UsuarioObtenerComboDto> resultado = new List<UsuarioObtenerComboDto>();
+        //    try
+        //    {
+        //        const string query = "Seguridad.usp_Usuario_Combo";
+
+        //        using (var cn = HelperClass.ObtenerConeccion())
+        //        {
+        //            if (cn.State == ConnectionState.Closed)
+        //            {
+        //                cn.Open();
+        //            }
+
+        //            resultado = cn.Query<UsuarioObtenerComboDto>(query,new {
+        //                IdEstado = idEstado
+        //            }, commandType: CommandType.StoredProcedure).ToList();
+
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log(Level.Error, (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
+        //    }
+        //    return resultado;
+        //}
 
         //public UsuarioLoginDto ObtenerPorLogin(UsuarioCredencialesDto modelo)
         //{

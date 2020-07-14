@@ -23,25 +23,28 @@ namespace AppWeb.Controllers
         [ActionName("ObtenerData")]
         public ActionResult ObtenerData(ClienteObtenerFiltroDto prm)
         {
-            var listado = _lnCliente.Obtener(prm);
-            return Json(listado);
+            //var listado = _lnCliente.Obtener(prm);
+            //return Json(listado);
+            return View();
         }
 
         [HttpGet("ObtenerPendientesPorUsuario")]
         public ActionResult ObtenerPendientesPorUsuario()
         {
-            ClienteObtenerFiltroDto filtro = new ClienteObtenerFiltroDto();
+            //ClienteObtenerFiltroDto filtro = new ClienteObtenerFiltroDto();
 
-            var listado = _lnCliente.ObtenerPendientesPorUsuario(filtro);
-            return View(listado);
+            //var listado = _lnCliente.ObtenerPendientesPorUsuario(filtro);
+            //return View(listado);
+            return View();
         }
 
         // GET: Cliente/Details/5
         //[HttpGet("Cliente/{id}")]
         public ActionResult Details(int id)
         {
-            var resultado = _lnCliente.ObtenerPorId(id);
-            return View(resultado);
+            //var resultado = _lnCliente.ObtenerPorId(id);
+            //return View(resultado);
+            return View();
         }
 
         // GET: Cliente/Create
@@ -55,30 +58,31 @@ namespace AppWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ClienteRegistrarDto modelo)
         {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    int resultado = _lnCliente.Registrar(modelo);
-                    if (resultado > 0)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
+            //try
+            //{
+            //    if (ModelState.IsValid)
+            //    {
+            //        int resultado = _lnCliente.Registrar(modelo);
+            //        if (resultado > 0)
+            //        {
+            //            return RedirectToAction(nameof(Index));
+            //        }
+            //    }
                 
-            }
-            catch
-            {
+            //}
+            //catch
+            //{
                 
-            }
+            //}
             return View();
         }
 
         // GET: Cliente/Edit/5
         public ActionResult Edit(int id)
         {
-            var entidad = _lnCliente.ObtenerPorId(id);
-            return View(entidad);
+            //var entidad = _lnCliente.ObtenerPorId(id);
+            //return View(entidad);
+            return View();
         }
 
         // POST: Cliente/Edit/5
@@ -86,43 +90,44 @@ namespace AppWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Cliente modelo)
         {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    // TODO: Add update logic here
-                    ClienteModificarDto prm = new ClienteModificarDto
-                    {
-                        IdCliente = modelo.IdCliente,
-                        NumeroDocumento = modelo.NumeroDocumento,
-                        RazonSocial = modelo.RazonSocial,
-                        Direccion = modelo.Direccion,
-                        IdEstado = modelo.IdEstado,
-                        IdPais = modelo.IdPais,
-                        IdUbigeo = modelo.IdUbigeo,
-                        IdUsuario = modelo.IdUsuario
-                    };
-                    int resultado = _lnCliente.Modificar(prm);
-                    if (resultado > 0)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
+            //try
+            //{
+            //    if (ModelState.IsValid)
+            //    {
+            //        // TODO: Add update logic here
+            //        ClienteModificarDto prm = new ClienteModificarDto
+            //        {
+            //            IdCliente = modelo.IdCliente,
+            //            NumeroDocumento = modelo.NumeroDocumento,
+            //            RazonSocial = modelo.RazonSocial,
+            //            Direccion = modelo.Direccion,
+            //            IdEstado = modelo.IdEstado,
+            //            IdPais = modelo.IdPais,
+            //            IdUbigeo = modelo.IdUbigeo,
+            //            IdUsuario = modelo.IdUsuario
+            //        };
+            //        int resultado = _lnCliente.Modificar(prm);
+            //        if (resultado > 0)
+            //        {
+            //            return RedirectToAction(nameof(Index));
+            //        }
 
-                }
+            //    }
                 
-            }
-            catch
-            {
+            //}
+            //catch
+            //{
                 
-            }
+            //}
             return View();
         }
 
         // GET: Cliente/Delete/5
         public ActionResult Delete(int id)
         {
-            var entidad = _lnCliente.ObtenerPorId(id);
-            return View(entidad);
+            //var entidad = _lnCliente.ObtenerPorId(id);
+            //return View(entidad);
+            return View();
         }
 
         // POST: Cliente/Delete/5
@@ -130,24 +135,24 @@ namespace AppWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Cliente modelo)
         {
-            try
-            {
-                // TODO: Add delete logic here
-                if (id > 0)
-                {
-                    int resultado = _lnCliente.Eliminar(id);
-                    if (resultado > 0)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
+            //try
+            //{
+            //    // TODO: Add delete logic here
+            //    if (id > 0)
+            //    {
+            //        int resultado = _lnCliente.Eliminar(id);
+            //        if (resultado > 0)
+            //        {
+            //            return RedirectToAction(nameof(Index));
+            //        }
+            //    }
 
                 
-            }
-            catch
-            {
+            //}
+            //catch
+            //{
                 
-            }
+            //}
             return View();
         }
     }
