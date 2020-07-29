@@ -9,6 +9,7 @@ namespace ModelosApi.Response.Maestro
         public int ProcesadoOk { get; set; }
         public List<ErrorDtoApi> ListaError { get; set; }
         public ProductoObtenerPorIdDtoApi Cuerpo { get; set; }
+        public int StatusCode { get; set; } = 200;
         public ResponseProductoObtenerPorIdDtoApi()
         {
             ProcesadoOk = 0;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Entidad.Request.Transaccion
+namespace ModelosApi.Request.Transaccion
 {
     public class RequestPedidoDetalleRootRegistrarDtoApi
     {

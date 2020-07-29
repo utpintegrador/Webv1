@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entidad.Request.Correo
+namespace ModelosApi.Request.Correo
 {
     public class RequestRecuperacionContraseniaModificarContraseniaDtoApi
     {

@@ -1,9 +1,8 @@
 ﻿using Entidad.Configuracion.Proceso;
 using Entidad.Dto.Comun;
-using Entidad.Dto.Maestro;
-using Entidad.Request.Maestro;
-using Entidad.Vo;
 using ModelosApi.Dto.Maestro;
+using ModelosApi.Request.Maestro;
+using Entidad.Vo;
 using ModelosApi.Response.Comun;
 using ModelosApi.Response.Maestro;
 using Newtonsoft.Json;
@@ -14,6 +13,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Entidad.Dto.Maestro;
 
 namespace Negocio.Repositorio.Maestro
 {
@@ -22,10 +22,10 @@ namespace Negocio.Repositorio.Maestro
         private readonly string _nombreControlador = "TipoDescuento";
         public async Task<ResultDataTable> Obtener(TipoDescuentoObtenerFiltroDto prm)
         {
-            ResultDataTable respuesta = new ResultDataTable();
+            ResultDataTable resultado = new ResultDataTable();
             long totalRegistros = 0;
             List<TipoDescuentoObtenerDtoApi> lista = new List<TipoDescuentoObtenerDtoApi>();
-
+            int statusCode = 0;
             try
             {
                 //Dentro de AJAX => datatype: 'json', headers: {'Authorization': 'Basic ' + valor token }, ....
@@ -55,9 +55,10 @@ namespace Negocio.Repositorio.Maestro
 
                     var content = new StringContent(JsonConvert.SerializeObject(filtroApi), Encoding.UTF8, "application/json");
                     HttpResponseMessage result = await client.PostAsync(new Uri(url), content);
-                    if (result.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         response = await result.Content.ReadAsStringAsync();
+                        statusCode = (int)result.StatusCode;
                     }
                 }
 
@@ -81,23 +82,28 @@ namespace Negocio.Repositorio.Maestro
             {
                 string exMessage = (ex.InnerException == null ? ex.Message : ex.InnerException.Message).Replace(Environment.NewLine, " ");
                 Log(Level.Error, exMessage);
-                respuesta.error = exMessage;
+                resultado.error = exMessage;
             }
             finally
             {
-                respuesta.data = lista;
-                respuesta.draw = prm.Draw;
-                respuesta.recordsTotal = (int)totalRegistros;
-                respuesta.recordsFiltered = (int)totalRegistros;
+                resultado.data = lista;
+                resultado.draw = prm.Draw;
+                resultado.recordsTotal = (int)totalRegistros;
+                resultado.recordsFiltered = (int)totalRegistros;
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
             }
-
-            return respuesta;
+            
+            return resultado;
 
         }
 
         public async Task<ResponseTipoDescuentoObtenerPorIdDtoApi> ObtenerPorId(int id)
         {
             ResponseTipoDescuentoObtenerPorIdDtoApi resultado = new ResponseTipoDescuentoObtenerPorIdDtoApi();
+            int statusCode = 0;
             try
             {
                 var response = string.Empty;
@@ -111,9 +117,10 @@ namespace Negocio.Repositorio.Maestro
                     }
 
                     HttpResponseMessage result = await client.GetAsync(new Uri(url));
-                    if (result.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         response = await result.Content.ReadAsStringAsync();
+                        statusCode = (int)result.StatusCode;
                     }
                 }
 
@@ -135,6 +142,13 @@ namespace Negocio.Repositorio.Maestro
                     Mensaje = exMessage
                 });
             }
+            finally
+            {
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
+            }
 
             return resultado;
         }
@@ -142,7 +156,7 @@ namespace Negocio.Repositorio.Maestro
         public async Task<ResponseTipoDescuentoModificarDtoApi> Modificar(RequestTipoDescuentoModificarDtoApi prm)
         {
             ResponseTipoDescuentoModificarDtoApi resultado = new ResponseTipoDescuentoModificarDtoApi();
-
+            int statusCode = 0;
             try
             {
                 //Dentro de AJAX => datatype: 'json', headers: {'Authorization': 'Basic ' + valor token }, ....
@@ -158,9 +172,10 @@ namespace Negocio.Repositorio.Maestro
 
                     var content = new StringContent(JsonConvert.SerializeObject(prm), Encoding.UTF8, "application/json");
                     HttpResponseMessage result = await client.PutAsync(new Uri(url), content);
-                    if (result.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         response = await result.Content.ReadAsStringAsync();
+                        statusCode = (int)result.StatusCode;
                     }
                 }
 
@@ -182,6 +197,13 @@ namespace Negocio.Repositorio.Maestro
                     Mensaje = exMessage
                 });
             }
+            finally
+            {
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
+            }
 
             return resultado;
 
@@ -190,7 +212,7 @@ namespace Negocio.Repositorio.Maestro
         public async Task<ResponseTipoDescuentoRegistrarDtoApi> Registrar(RequestTipoDescuentoRegistrarDtoApi prm)
         {
             ResponseTipoDescuentoRegistrarDtoApi resultado = new ResponseTipoDescuentoRegistrarDtoApi();
-
+            int statusCode = 0;
             try
             {
                 //Dentro de AJAX => datatype: 'json', headers: {'Authorization': 'Basic ' + valor token }, ....
@@ -206,9 +228,10 @@ namespace Negocio.Repositorio.Maestro
 
                     var content = new StringContent(JsonConvert.SerializeObject(prm), Encoding.UTF8, "application/json");
                     HttpResponseMessage result = await client.PostAsync(new Uri(url), content);
-                    if (result.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         response = await result.Content.ReadAsStringAsync();
+                        statusCode = (int)result.StatusCode;
                     }
                 }
 
@@ -230,6 +253,13 @@ namespace Negocio.Repositorio.Maestro
                     Mensaje = exMessage
                 });
             }
+            finally
+            {
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
+            }
 
             return resultado;
 
@@ -238,6 +268,7 @@ namespace Negocio.Repositorio.Maestro
         public async Task<ResponseTipoDescuentoEliminarDtoApi> Eliminar(int id)
         {
             ResponseTipoDescuentoEliminarDtoApi resultado = new ResponseTipoDescuentoEliminarDtoApi();
+            int statusCode = 0;
             try
             {
                 var response = string.Empty;
@@ -251,9 +282,10 @@ namespace Negocio.Repositorio.Maestro
                     }
 
                     HttpResponseMessage result = await client.DeleteAsync(new Uri(url));
-                    if (result.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         response = await result.Content.ReadAsStringAsync();
+                        statusCode = (int)result.StatusCode;
                     }
                 }
 
@@ -275,13 +307,21 @@ namespace Negocio.Repositorio.Maestro
                     Mensaje = exMessage
                 });
             }
+            finally
+            {
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
+            }
 
             return resultado;
         }
 
         public async Task<ResponseTipoDescuentoObtenerComboDtoApi> ObtenerCombo()
         {
-            ResponseTipoDescuentoObtenerComboDtoApi respuesta = new ResponseTipoDescuentoObtenerComboDtoApi();
+            ResponseTipoDescuentoObtenerComboDtoApi resultado = new ResponseTipoDescuentoObtenerComboDtoApi();
+            int statusCode = 0;
             try
             {
                 //Dentro de AJAX => datatype: 'json', headers: {'Authorization': 'Basic ' + valor token }, ....
@@ -297,29 +337,37 @@ namespace Negocio.Repositorio.Maestro
                     }
 
                     HttpResponseMessage result = await client.GetAsync(new Uri(url));
-                    if (result.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         response = await result.Content.ReadAsStringAsync();
+                        statusCode = (int)result.StatusCode;
                     }
                 }
 
                 if (!string.IsNullOrEmpty(response))
                 {
-                    respuesta = JsonConvert.DeserializeObject<ResponseTipoDescuentoObtenerComboDtoApi>(response);
+                    resultado = JsonConvert.DeserializeObject<ResponseTipoDescuentoObtenerComboDtoApi>(response);
                 }
             }
             catch (Exception ex)
             {
                 string exMessage = (ex.InnerException == null ? ex.Message : ex.InnerException.Message).Replace(Environment.NewLine, " ");
                 Log(Level.Error, exMessage);
-                if (respuesta.ListaError == null) respuesta.ListaError = new List<ErrorDtoApi>();
-                respuesta.ListaError.Add(new ErrorDtoApi
+                if (resultado.ListaError == null) resultado.ListaError = new List<ErrorDtoApi>();
+                resultado.ListaError.Add(new ErrorDtoApi
                 {
                     Mensaje = exMessage
                 });
             }
+            finally
+            {
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
+            }
 
-            return respuesta;
+            return resultado;
 
         }
     }

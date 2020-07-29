@@ -2,13 +2,14 @@
 using ModelosApi.Response.Comun;
 using System.Collections.Generic;
 
-namespace Entidad.Response.Seguridad
+namespace ModelosApi.Response.Seguridad
 {
     public class ResponseRolObtenerComboDtoApi
     {
         public int ProcesadoOk { get; set; }
         public List<ErrorDtoApi> ListaError { get; set; }
         public List<RolObtenerComboDtoApi> Cuerpo { get; set; }
+        public int StatusCode { get; set; } = 200;
         public ResponseRolObtenerComboDtoApi()
         {
             ProcesadoOk = 0;

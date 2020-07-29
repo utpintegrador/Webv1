@@ -1,6 +1,8 @@
 ﻿var tb1;
 
 $(document).ready(function () {
+    ValidacionInicial();
+    ProcesarMenuLateral();
     $(".select2").select2();
 
     $('#frmWrapper').LoadingOverlay('show', {
@@ -42,11 +44,13 @@ function CargarData() {
             "beforeSend": function (request) {
                 //console.log(request);
                 HabilitarControlesMenu(false);
+                request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
                 //request.setRequestHeader("token", 'tokenPersonalizado');
 
             },
             "complete": function (json, type) {
 
+                EvaluarRespuesta_401_403(json);
                 if (json.responseJSON != null) {
                     if (json.responseJSON.error != null) {
                         //console.log(json.responseJSON.error);
@@ -109,7 +113,7 @@ function ObtenerDefinicionBotonColumna() {
             "className": "text-center",
             "defaultContent": "<div class='btn-group' role='group' aria-label='Basic example'>" +
                 //"<button class='btn btn-primary btn-sm' id='btnVisualizar'><i class='fa fa-eye' aria-hidden='true'></i></button> " +
-                "<button class='btn btn-success btn-sm' id='btnEditar'><i class='fa fa-pencil' aria-hidden='true'></i></button> " +
+                "<button class='btn btn-success btn-sm m-r-5' id='btnEditar'><i class='fa fa-pencil' aria-hidden='true'></i></button> " +
                 "<button class='btn btn-danger btn-sm' id='btnEliminar'><i class='fa fa-trash-o' aria-hidden='true'></i></button>" +
                 "</div>"
         }
@@ -182,7 +186,9 @@ $(document).on('click', '#tb1 tbody #btnEliminar', function () {
 });
 
 function EliminarRegistro(id) {
-
+    $('body').LoadingOverlay('show', {
+        background: 'rgba(25, 118, 210, 0.1)'
+    });
     var prm = {
         'id': id
     };
@@ -192,10 +198,12 @@ function EliminarRegistro(id) {
         'type': 'POST',
         'data': prm,
         'dataType': 'json',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
         }
     }).done(function (result, textStatus, jqXhr) {
-
+        $('body').LoadingOverlay('hide', true);
+        EvaluarRespuesta_401_403(result);
         if (result.ProcesadoOk != null) {
             switch (result.ProcesadoOk) {
                 case -1:
@@ -205,14 +213,14 @@ function EliminarRegistro(id) {
                     MensajeError('Error', 'No se pudo eliminar el registro');
                     break;
                 case 1:
-                    MensajeInfo('Confirmación', 'El registro fue eliminado satisfactoriamente!');
+                    MensajeSuccess('Confirmación', 'El registro fue eliminado satisfactoriamente!');
                     RecargarData();
                     break;
             }
         }
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
-
+        $('body').LoadingOverlay('hide', true);
     });
 
 };
@@ -234,10 +242,14 @@ function ObtenerPorId(id) {
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 };
@@ -245,80 +257,6 @@ function ObtenerPorId(id) {
 //$(document).on('change', '#cboTipoUsuario', function (e) {
 //    RecargarData();
 //});
-
-function MensajeError(titulo, mensaje) {
-
-    if (titulo == null) {
-        titulo = 'Error';
-    }
-
-    if (titulo == '') {
-        titulo = 'Error';
-    }
-
-    if (mensaje == null) {
-        mensaje = 'Error al procesar';
-    }
-
-    if (mensaje == '') {
-        mensaje = 'Error al procesar';
-    }
-
-    var icon = 'error';
-    var className = 'btn btn-danger';
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: className
-        },
-        buttonsStyling: false
-    });
-
-    swalWithBootstrapButtons.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icon,
-        confirmButtonText: 'Ok!',
-        reverseButtons: true
-    });
-}
-
-function MensajeInfo(titulo, mensaje) {
-
-    if (titulo == null) {
-        titulo = 'Confirmación';
-    }
-
-    if (titulo == '') {
-        titulo = 'Confirmación';
-    }
-
-    if (mensaje == null) {
-        mensaje = 'Proceso satisfactorio';
-    }
-
-    if (mensaje == '') {
-        mensaje = 'Proceso satisfactorio';
-    }
-
-    var icon = 'success';
-    var className = 'btn btn-success';
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: className
-        },
-        buttonsStyling: false
-    });
-
-    swalWithBootstrapButtons.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icon,
-        confirmButtonText: 'Ok!',
-        reverseButtons: true
-    });
-}
 
 function HabilitarControlesMenu(valor) {
     if (valor === true) {

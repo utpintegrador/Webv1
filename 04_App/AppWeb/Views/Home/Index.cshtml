@@ -1,9 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
 
 @section estilos{
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />*@
+    <link rel="stylesheet" href="~/lib/chartjs/Chart.min.css"/>
 }
 
 @*Titulo*@
@@ -22,10 +23,91 @@
 @*Seccion de resumenes*@
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
+        <div class="card" id="frmWrapper">
             <h5 class="card-header bg-white card-title"><b>Mes actual</b></h5>
             <div class="card-body" style="margin-bottom:-25px;">
                 <div id="resumenMesActual" class="row">
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card bg-success">
+                            <div class="card-body">
+                                <div class="d-flex no-block">
+                                    <div class="m-r-20 align-self-center">
+                                        <span style="font-size:35px; color:white;"><i class="fa fa-truck" aria-hidden="true"></i></span>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <h6 class="text-white m-t-10 m-b-0">Cantidad de ventas realizadas</h6>
+                                        <h2 class="m-t-0 text-white"><span id="resumenCantidadVentasRealizadas"></span></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card bg-info">
+                            <div class="card-body">
+                                <div class="d-flex no-block">
+                                    <div class="m-r-20 align-self-center">
+                                        <span style="font-size:35px; color:white;"><i class="fa fa-shopping-bag" aria-hidden="true"></i></span>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <h6 class="text-white m-t-10 m-b-0">Cantidad de compras realizadas</h6>
+                                        <h2 class="m-t-0 text-white"><span id="resumenCantidadComprasRealizadas"></span></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card bg-primary">
+                            <div class="card-body">
+                                <div class="d-flex no-block">
+                                    <div class="m-r-20 align-self-center">
+                                        <span style="font-size:35px; color:white;"><i class="fa fa-television" aria-hidden="true"></i></span>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <h6 class="text-white m-t-10 m-b-0">Cantidad productos ofrecidos</h6>
+                                        <h2 class="m-t-0 text-white"><span id="resumenCantidadProductosOfrecidos"></span></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card bg-warning">
+                            <div class="card-body">
+                                <div class="d-flex no-block">
+                                    <div class="m-r-20 align-self-center">
+                                        <span style="font-size:35px; color:white;"><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <h6 class="text-white m-t-10 m-b-0">--</h6>
+                                        <h2 class="m-t-0 text-white"><span id="resumenValoracionComoComprador">--</span></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="col-sm-6 col-lg-3">
+            <div class="card bg-danger">
+                <div class="card-body">
+                    <div class="d-flex no-block">
+                        <div class="m-r-20 align-self-center">
+                            <span style="font-size:35px; color:white;"><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="align-self-center">
+                            <h6 class="text-white m-t-10 m-b-0">Valoracion obtenida como vendedor</h6>
+                            <h2 class="m-t-0 text-white"><span id="resumenValoracionComoVendedor"></span></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
                 </div>
             </div>
         </div>
@@ -43,7 +125,7 @@
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Cantidad de ventas</h4>
+                                <h4 class="card-title">Monto de ventas</h4>
                                 <div>
                                     <canvas id="grafico1" height="150"></canvas>
                                 </div>
@@ -51,6 +133,16 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Monto de compras</h4>
+                                <div>
+                                    <canvas id="grafico2" height="150"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Productos mas solicitados - TOP 3</h4>
@@ -79,7 +171,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>
@@ -89,7 +181,10 @@
 
 
 @section Scripts{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>*@
+
+    <script src="~/lib/chartjs/Chart.min.js"></script>
+
     <script src="~/js/Dashboard/Graficos.js"></script>
 }

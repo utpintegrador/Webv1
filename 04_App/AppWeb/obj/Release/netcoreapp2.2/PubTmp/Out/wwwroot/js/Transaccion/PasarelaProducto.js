@@ -1,6 +1,6 @@
 ﻿
 $(document).ready(function () {
-
+    ValidacionInicial();
 });
 
 $(document).on('click', '#btnAgregarAlCarro', function () {

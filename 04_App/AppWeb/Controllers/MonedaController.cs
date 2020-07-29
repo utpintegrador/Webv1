@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AppWeb.CustomHandler;
 using Entidad.Configuracion.Proceso;
-using Entidad.Dto.Maestro;
-using Entidad.Request.Maestro;
+using ModelosApi.Request.Maestro;
 using Entidad.Vo;
 using Microsoft.AspNetCore.Mvc;
 using Negocio.Repositorio.Maestro;
+using Entidad.Dto.Maestro;
 
 namespace AppWeb.Controllers
 {
@@ -27,6 +28,11 @@ namespace AppWeb.Controllers
             {
                 IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
                 ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
             }
 
             var t = Task.Run(() => _lnMoneda.Obtener(prm));
@@ -48,6 +54,11 @@ namespace AppWeb.Controllers
             {
                 IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
                 ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
             }
 
             var t = Task.Run(() => _lnMoneda.ObtenerPorId(id));
@@ -65,12 +76,18 @@ namespace AppWeb.Controllers
         // POST: Moneda/Create
         [HttpPost]
         //[ValidateAntiForgeryToken]
+        [ValidationActionFilter]
         public ActionResult Registrar(RequestMonedaRegistrarDtoApi prm)
         {
             if (ConstanteVo.ActivarLLamadasConToken)
             {
                 IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
                 ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
             }
 
             var t = Task.Run(() => _lnMoneda.Registrar(prm));
@@ -88,12 +105,18 @@ namespace AppWeb.Controllers
         // POST: Moneda/Edit/5
         [HttpPost]
         //[ValidateAntiForgeryToken]
+        [ValidationActionFilter]
         public ActionResult Modificar(RequestMonedaModificarDtoApi prm)//int id, IFormCollection collection)
         {
             if (ConstanteVo.ActivarLLamadasConToken)
             {
                 IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
                 ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
             }
 
             var t = Task.Run(() => _lnMoneda.Modificar(prm));
@@ -111,6 +134,11 @@ namespace AppWeb.Controllers
             {
                 IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
                 ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
             }
 
             var t = Task.Run(() => _lnMoneda.Eliminar(id));
@@ -126,6 +154,11 @@ namespace AppWeb.Controllers
             {
                 IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
                 ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
             }
 
             var t = Task.Run(() => _lnMoneda.ObtenerCombo());

@@ -206,3 +206,16 @@ D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\TipoDoc
 D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\TipoUsuario\Create.g.cshtml.cs
 D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\TipoUsuario\Edit.g.cshtml.cs
 D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\TipoUsuario\Index.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\Perfil\Contrasenia.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\Perfil\Index.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\Categoria\Imagenes.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\Compra\Index.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\Negocio\Ubicaciones.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\Producto\Imagenes.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\Venta\Index.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\NegocioUbicacion\Create.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\NegocioUbicacion\Edit.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\NegocioUbicacion\Index.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\Compra\Details.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\Venta\Details.g.cshtml.cs
+D:\Integrador2\Webv1\04_App\AppWeb\obj\Release\netcoreapp2.2\Razor\Views\Negocio\Producto.g.cshtml.cs

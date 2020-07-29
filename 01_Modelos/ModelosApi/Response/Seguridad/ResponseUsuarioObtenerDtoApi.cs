@@ -10,6 +10,7 @@ namespace ModelosApi.Response.Seguridad
         public List<ErrorDtoApi> ListaError { get; set; }
         public List<UsuarioObtenerDtoApi> Cuerpo { get; set; }
         public long CantidadTotalRegistros { get; set; }
+        public int StatusCode { get; set; } = 200;
         public ResponseUsuarioObtenerDtoApi()
         {
             ProcesadoOk = 0;

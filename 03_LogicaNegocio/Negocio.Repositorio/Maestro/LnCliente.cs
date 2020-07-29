@@ -1,6 +1,6 @@
 ﻿using Datos.Repositorio.Maestro;
 using Entidad.Dto.Comun;
-using Entidad.Dto.Maestro;
+using ModelosApi.Dto.Maestro;
 using Entidad.Entidad.Maestro;
 using System;
 using System.Collections.Generic;

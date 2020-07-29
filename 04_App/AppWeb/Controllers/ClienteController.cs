@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Entidad.Dto.Maestro;
-using Entidad.Entidad.Maestro;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Negocio.Repositorio.Maestro;
+using Entidad.Entidad.Maestro;
+using Entidad.Dto.Maestro;
 
 namespace AppWeb.Controllers
 {

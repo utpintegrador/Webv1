@@ -10,6 +10,8 @@
     <link href="~/lib/datatables/media/css/dataTables.bootstrap4.css" rel="stylesheet" />
     <link href="~/lib/datatables/media/css/select.dataTables.min.css" rel="stylesheet" />
     <link href="~/lib/datatables/media/css/select.bootstrap4.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />*@
+    <link rel="stylesheet" href="~/lib/jquery-modal/jquery.modal.min.css" />
 
     <style>
         .dataTables_wrapper .dataTables_processing {
@@ -19,6 +21,24 @@
         .dt-body-right {
             padding-right: 5px;
             text-align: right;
+        }
+
+        div.dataTables_info {
+            margin-bottom: 20px;
+        }
+
+        .dt-center {
+            text-align: center;
+        }
+
+        #map {
+            height: 400px; /* The height is 400 pixels */
+            width: 100%; /* The width is the width of the web page */
+        }
+
+        .modal a.close-modal {
+            top: 4.5px;
+            right: 2.5px;
         }
     </style>
 }
@@ -42,12 +62,18 @@
         <div class="card" id="frmWrapper">
             <div class="card-body" style="margin-bottom: -25px;">
 
-                <button id="btnRecargar" type="button" class="btn btn-primary btn-sm">
+                <button id="btnRecargar" type="button" class="btn btn-primary btn-sm m-b-5">
                     <i class="fa fa-refresh" aria-hidden="true"></i> Recargar
                 </button>
-                <button id="btnNuevo" type="button" class="btn btn-success btn-sm" onclick="location.href='@Url.Action("Create", "Negocio")'">
+                <button id="btnNuevo" type="button" class="btn btn-success btn-sm m-b-5" onclick="location.href='@Url.Action("Create", "Negocio")'">
                     <i class="fa fa-plus" aria-hidden="true"></i> Nuevo
                 </button>
+                <button id="btnMostrarUbicaciones" type="button" class="btn btn-dark btn-sm m-b-5">
+                    <i class="fa fa-street-view" aria-hidden="true"></i> Ubicaciones del Negocio Seleccionado
+                </button>
+                @*<button id="btnNuevaUbicacion" type="button" class="btn btn-dark btn-sm m-b-5">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i> Nueva Ubicación
+                    </button>*@
 
                 <div class="row">
                     <div class="col-md-12">
@@ -55,7 +81,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-4">
                         <div class="form-group">
                             <label>Buscar</label>
                             <input type="text" id="txtBuscar" class="form-control form-control-sm form-control-line">
@@ -88,22 +114,28 @@
                                     IdNegocio
                                 </th>
                                 <th>
-                                    Tipo Documento
+                                    T.Doc.
                                 </th>
                                 <th>
-                                    Número Documento
+                                    N°Doc.
                                 </th>
                                 <th>
                                     Nombre
                                 </th>
                                 <th>
+                                    Teléfono
+                                </th>
+                                <th>
                                     Estado
                                 </th>
-                                <th>
-                                    Correo Electrónico
+                                <th style="text-align:center;">
+                                    Ubicaciones
                                 </th>
-                                <th>
-                                    Fecha Registro
+                                <th style="text-align:center;">
+                                    Correo
+                                </th>
+                                <th style="text-align:center;">
+                                    Registro
                                 </th>
                                 <th style="text-align:center; width:125px !important; border-radius: 0px 5px 0px 0px;">
                                     @HttpUtility.HtmlDecode("Acción")
@@ -117,6 +149,61 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Ubicaciones Por Negocio</h5>
+                <div class="table-responsive">
+                    <table id="tb2" class="table table-hover">
+                        <thead style="background-color: #1976d2; color:#fff;">
+                            <tr>
+                                <th style="width:30px !important; border-radius: 5px 0px 0px 0px;">
+                                    N°
+                                </th>
+                                <th style="display: none;">
+                                    IdNegocioUbicacion
+                                </th>
+                                <th>
+                                    Titulo
+                                </th>
+                                <th style="display: none;">
+                                    Latitud
+                                </th>
+                                <th style="display: none;">
+                                    Longitud
+                                </th>
+                                <th>
+                                    Descripcion
+                                </th>
+                                <th style="text-align:center; width:125px !important;">
+                                    Predeterminado
+                                </th>
+                                <th style="text-align:center; width:125px !important; border-radius: 0px 5px 0px 0px;">
+                                    @HttpUtility.HtmlDecode("Acción")
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal*@
+<div class="row" margin-bottom:-65px;">
+    <div class="col-md-12">
+        <div class="card modal m-t-60" style="border-radius: 0.25rem!important; max-width:650px; max-height: 460px; padding-top: 30px;" id="sticky">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
     <script src="~/lib/select2/js/select2.min.js" type="text/javascript"></script>
     <script src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
@@ -124,6 +211,14 @@
     <script src="~/lib/datatables/media/js/dataTables.select.min.js"></script>
     <script src="~/lib/datatables/media/js/select.bootstrap4.min.js"></script>
     <script src="~/lib/sweetalert2/sweetalert2-9.js" type="text/javascript"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>*@
+    <script src="~/lib/jquery-modal/jquery.modal.min.js"></script>
 
     <script src="~/js/Maestro/Negocio.js"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=">
+    </script>
+    @*<script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap">
+        </script>*@
 }

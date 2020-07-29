@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entidad.Request.Maestro
+namespace ModelosApi.Request.Maestro
 {
     public class RequestCategoriaModificarDtoApi
     {

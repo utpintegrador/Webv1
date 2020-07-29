@@ -3,6 +3,8 @@ window._mensajeValidacion = '';
 var map;
 
 $(document).ready(function () {
+    ValidacionInicial();
+    ProcesarMenuLateral();
     $(".select2").select2();
 
     $('#frmWrapper').LoadingOverlay('show', {
@@ -16,6 +18,9 @@ $(document).ready(function () {
 
             var cboTipoDocumentoIdentificacion = $('#cboTipoDocumentoIdentificacion');
             cboTipoDocumentoIdentificacion.append($('<option/>', { value: 0, text: 'Seleccione' }));
+            cboTipoDocumentoIdentificacion.select2({
+                minimumResultsForSearch: Infinity
+            });
 
             if (respuestaTipoDocumentoIdentificacionAjax.Cuerpo != null) {
                 if (respuestaTipoDocumentoIdentificacionAjax.Cuerpo.length > 0) {
@@ -25,6 +30,7 @@ $(document).ready(function () {
                 }
             }
 
+            $('#txtTelefono').val('');
             $('#txtDocumentoIdentificacion').val('');
             $('#txtRazonSocial').val('');
             $('#txtResenia').val('');
@@ -48,11 +54,15 @@ function ObtenerTipoDocumentoIdentificacion() {
         data: {},
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -76,6 +86,7 @@ function Registrar() {
         'DocumentoIdentificacion': $("#txtDocumentoIdentificacion").val(),
         'Nombre': $("#txtRazonSocial").val(),
         'Resenia': $("#txtResenia").val(),
+        'Telefono': $("#txtTelefono").val(),
         'IdTipoDocumentoIdentificacion': $("#cboTipoDocumentoIdentificacion").val(),
         'IdUsuario': window._idUsuario
     };
@@ -86,35 +97,36 @@ function Registrar() {
         'data': prm,
         'dataType': 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
         }
     }).done(function (result, textStatus, jqXhr) {
 
         $('#frmWrapper').LoadingOverlay('hide', true);
-
-        if (result.ProcesadoOk != null) {
-            switch (result.ProcesadoOk) {
-                case -1:
-                    MensajeError('Error', 'Error al registrar!');
-                    break;
-                case 0:
-                    MensajeError('Error', 'Error al registrar!');
-                    break;
-                case 1:
-                    MensajeInfo('Confirmación', 'El registro se efectuó satisfactoriamente!');
-                    break;
+        EvaluarRespuesta_401_403(result);
+        if (!ResponseTieneErrores(result)) {
+            if (result.ProcesadoOk != null) {
+                switch (result.ProcesadoOk) {
+                    case -1:
+                        MensajeError('Error', 'Error al registrar!');
+                        break;
+                    case 0:
+                        MensajeError('Error', 'Error al registrar!');
+                        break;
+                    case 1:
+                        MensajeSuccessConEspera('Confirmación', 'El registro se efectuó satisfactoriamente!', '/Negocio/Index');
+                        break;
+                }
             }
-        }
 
-        if (result.ProcesadoOk == 1) {
-            sleep(3000);
-            window.location.href = '/Negocio/Index';
+
         }
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
-
+        $('#frmWrapper').LoadingOverlay('hide', true);
+        ValidacionModelo(jqXHR);
     });
 
 };
@@ -123,19 +135,19 @@ function Validar() {
     window._mensajeValidacion = '';
 
     if ($("#txtDocumentoIdentificacion").val() == '' || $("#txtDocumentoIdentificacion").val() == null) {
-        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [DocumentoIdentificacion] es requerido ';
+        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [DocumentoIdentificacion] es requerido <br/>';
     }
 
     if ($("#txtRazonSocial").val() == '' || $("#txtRazonSocial").val() == null) {
-        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [RazonSocial] es requerido ';
+        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [RazonSocial] es requerido <br/>';
     }
 
-    if ($("#cboEstado").val() == 0) {
-        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [Estado] es requerido ';
+    if ($("#txtTelefono").val() == '' || $("#txtTelefono").val() == null) {
+        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [Telefono] es requerido <br/>';
     }
 
     if ($("#cboTipoDocumentoIdentificacion").val() == 0) {
-        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [TipoDocumentoIdentificacion] es requerido ';
+        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [TipoDocumentoIdentificacion] es requerido <br/>';
     }
 
     if (window._mensajeValidacion == '') {
@@ -150,80 +162,6 @@ function sleep(miliseconds) {
     var currentTime = new Date().getTime();
     while (currentTime + miliseconds >= new Date().getTime()) {
     }
-}
-
-function MensajeError(titulo, mensaje) {
-
-    if (titulo == null) {
-        titulo = 'Error';
-    }
-
-    if (titulo == '') {
-        titulo = 'Error';
-    }
-
-    if (mensaje == null) {
-        mensaje = 'Error al procesar';
-    }
-
-    if (mensaje == '') {
-        mensaje = 'Error al procesar';
-    }
-
-    var icon = 'error';
-    var className = 'btn btn-danger';
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: className
-        },
-        buttonsStyling: false
-    });
-
-    swalWithBootstrapButtons.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icon,
-        confirmButtonText: 'Ok!',
-        reverseButtons: true
-    });
-}
-
-function MensajeInfo(titulo, mensaje) {
-
-    if (titulo == null) {
-        titulo = 'Confirmación';
-    }
-
-    if (titulo == '') {
-        titulo = 'Confirmación';
-    }
-
-    if (mensaje == null) {
-        mensaje = 'Proceso satisfactorio';
-    }
-
-    if (mensaje == '') {
-        mensaje = 'Proceso satisfactorio';
-    }
-
-    var icon = 'success';
-    var className = 'btn btn-success';
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: className
-        },
-        buttonsStyling: false
-    });
-
-    swalWithBootstrapButtons.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icon,
-        confirmButtonText: 'Ok!',
-        reverseButtons: true
-    });
 }
 
 function HabilitarControlesMenu(valor) {

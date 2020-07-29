@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewData["Title"] = "Venta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section estilos {
+    <style>
+        .invoice-title h2, .invoice-title h3 {
+            display: inline-block;
+        }
+
+        .table > tbody > tr > .no-line {
+            border-top: none;
+        }
+
+        .table > thead > tr > .no-line {
+            border-bottom: none;
+        }
+
+        .table > tbody > tr > .thick-line {
+            border-top: 2px solid;
+        }
+    </style>
+}
+
+@*Titulo*@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Ventas del Usuario</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Venta</a></li>
+            <li class="breadcrumb-item active">Index</li>
+        </ol>
+    </div>
+</div>
+
+@*Botones y filtro*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                @*<button id="btnRecargar" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-refresh" aria-hidden="true"></i> Recargar
+                </button>*@
+                <a asp-action="Index" id="btnRetornar" class="btn btn-danger btn-sm">
+                    <i class="fa fa-reply" aria-hidden="true"></i> Retornar
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card" id="frmWrapper">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="invoice-title" style="margin-bottom:-10px;">
+                            <h2>Nota de Pedido</h2>
+                            <h3 class="pull-right"><span id="txtEstado"></span></h3>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <address>
+                                    <strong>Vendido por:</strong><br>
+                                    <span id="txtNombreVendedor"></span><br>
+                                    <span id="txtTelefonoVendedor"></span><br>
+                                    <span id="txtDocumentoVendedor"></span><br>
+                                    @*<span id="txtDireccionVendedor"></span>*@
+                                </address>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <address>
+                                    <strong>Comprado por:</strong><br>
+                                    <span id="txtNombreCliente"></span><br>
+                                    <span id="txtTelefonoCliente"></span><br>
+                                    <span id="txtDocumentoCliente"></span><br>
+                                </address>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: -15px;">
+                            <div class="col-md-12">
+                                <address>
+                                    <strong>Moneda: </strong>
+                                    <span id="txtMoneda"></span>
+                                </address>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: -15px;">
+                            <div class="col-md-12">
+                                <address>
+                                    <strong>Fecha de pedido: </strong>
+                                    <span id="txtFechaRegistro"></span>
+                                </address>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <address>
+                                    <strong>Dirección de entrega: </strong>
+                                    <span id="txtDireccionCliente"></span>
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="margin-bottom: -25px;">
+                        <div class="card border">
+                            <div class="card-header">
+                                <h3 class="card-title" style="margin-bottom:-3px;"><strong>Resumen de pedido</strong></h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <td class="text-center"><strong>#</strong></td>
+                                                <td class="text-left"><strong>Descripción</strong></td>
+                                                <td class="text-center"><strong>Cantidad</strong></td>
+                                                <td class="text-center"><strong>Precio</strong></td>
+                                                <td class="text-right"><strong>Total</strong></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListadoDetalles">
+                                        </tbody>
+                                        <tfoot>
+                                            <tr style="border-top: 3px solid #dee2e6!important;">
+                                                <td class="border-top"></td>
+                                                <td class="border-top"></td>
+                                                <td class="border-top"></td>
+                                                <td class="border-top text-center"><strong>Total</strong></td>
+                                                <td class="border-top text-right" id="txtTotal"></td>
+                                            </tr>
+                                            @*<tr>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line text-center"><strong>Shipping</strong></td>
+                                                <td class="no-line text-right">$15</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line text-center"><strong>Total</strong></td>
+                                                <td class="no-line text-right">$685.99</td>
+                                            </tr>*@
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/Transaccion/VentaDetalle.js"></script>
+}

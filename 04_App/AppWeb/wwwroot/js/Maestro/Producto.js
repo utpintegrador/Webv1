@@ -1,6 +1,10 @@
-﻿var tb1;
+﻿window._idProductoSeleccionado = 0;
+var tb1;
+var tb2;
 
 $(document).ready(function () {
+    ValidacionInicial();
+    ProcesarMenuLateral();
     //$('.selectpicker').selectpicker();
     $(".select2").select2();
 
@@ -23,15 +27,21 @@ function ProcesarCargaDeProductos() {
             cboNegocio.append($('<option/>', { value: 0, text: 'Todos' }));
             var cboEstado = $('#cboEstado');
             cboEstado.append($('<option/>', { value: 0, text: 'Todos' }));
+            cboEstado.select2({
+                minimumResultsForSearch: Infinity
+            });
             var cboMoneda = $('#cboMoneda');
             cboMoneda.append($('<option/>', { value: 0, text: 'Todos' }));
+            cboMoneda.select2({
+                minimumResultsForSearch: Infinity
+            });
             var cboCategoria = $('#cboCategoria');
             cboCategoria.append($('<option/>', { value: 0, text: 'Todos' }));
 
             if (respuestaNegociosAjax[0].Cuerpo != null) {
                 if (respuestaNegociosAjax[0].Cuerpo.length > 0) {
                     respuestaNegociosAjax[0].Cuerpo.forEach(function (item, indice, array) {
-                        cboNegocio.append($('<option/>', { value: item.IdNegocio, text: item.DocumentoIdentificacion + '-' + item.Nombre }));
+                        cboNegocio.append($('<option/>', { value: item.IdNegocio, text: item.Nombre }));
                     });
                 }
             }
@@ -64,6 +74,7 @@ function ProcesarCargaDeProductos() {
 
             //Cargar la grilla
             CargarData();
+            CargarDataDetalle();
 
         })
         .fail(function (jqXHR) {
@@ -80,15 +91,19 @@ function ObtenerNegocios() {
         url: '../../Negocio/ObtenerCombo',
         type: 'GET',
         data: {
-            'idUsuario': 1
+            'idUsuario': GetItem('IdUsuario')
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -104,11 +119,15 @@ function ObtenerEstados() {
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -122,11 +141,15 @@ function ObtenerMonedas() {
         data: {},
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -142,11 +165,15 @@ function ObtenerCategorias() {
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -186,11 +213,13 @@ function CargarData() {
             "beforeSend": function (request) {
                 //console.log(request);
                 HabilitarControlesMenu(false);
+                request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
                 //request.setRequestHeader("token", 'tokenPersonalizado');
 
             },
             "complete": function (json, type) {
 
+                EvaluarRespuesta_401_403(json);
                 if (json.responseJSON != null) {
                     if (json.responseJSON.error != null) {
                         //console.log(json.responseJSON.error);
@@ -250,6 +279,8 @@ function ObtenerConfiguracionColumnas() {
         },
         { "data": "DescripcionMoneda", "name": "DescripcionMoneda" },
         { "data": "DescripcionCategoria", "name": "DescripcionCategoria" },
+        { "data": "CantidadImagenes", "name": "CantidadImagenes", "orderable": false },
+        { "data": "CantidadDescuentos", "name": "CantidadDescuentos", "orderable": false },
         { "data": "Negocio", "name": "Negocio" },
         { "data": "DescripcionEstado", "name": "DescripcionEstado" },
         { "data": null, "autoWidth": false, "orderable": false, "width": "125px" }
@@ -264,13 +295,18 @@ function ObtenerDefinicionBotonColumna() {
             className: 'dt-body-right'
         },
         {
-            "targets": 8,
+            "targets": [6,7],
+            className: 'dt-center'
+        },
+        {
+            "targets": 10,
             "width": "125px",
             "data": null,
             "className": "text-center",
             "defaultContent": "<div class='btn-group' role='group' aria-label='Basic example'>" +
-                //"<button class='btn btn-primary btn-sm' id='btnVisualizar'><i class='fa fa-eye' aria-hidden='true'></i></button> " +
-                "<button class='btn btn-success btn-sm' id='btnEditar'><i class='fa fa-pencil' aria-hidden='true'></i></button> " +
+                "<button class='btn btn-dark btn-sm m-r-5' id='btnGestionarImagenes'><i class='fa fa-picture-o' aria-hidden='true'></i></button> " +
+                //"<button class='btn btn-primary btn-sm m-r-5' id='btnVisualizar'><i class='fa fa-eye' aria-hidden='true'></i></button> " +
+                "<button class='btn btn-success btn-sm m-r-5' id='btnEditar'><i class='fa fa-pencil' aria-hidden='true'></i></button> " +
                 "<button class='btn btn-danger btn-sm' id='btnEliminar'><i class='fa fa-trash-o' aria-hidden='true'></i></button>" +
                 "</div>"
         }
@@ -344,7 +380,9 @@ $(document).on('click', '#tb1 tbody #btnEliminar', function () {
 });
 
 function EliminarRegistro(id) {
-
+    $('body').LoadingOverlay('show', {
+        background: 'rgba(25, 118, 210, 0.1)'
+    });
     var prm = {
         'id': id
     };
@@ -354,10 +392,12 @@ function EliminarRegistro(id) {
         'type': 'POST',
         'data': prm,
         'dataType': 'json',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
         }
     }).done(function (result, textStatus, jqXhr) {
-
+        $('body').LoadingOverlay('hide', true);
+        EvaluarRespuesta_401_403(result);
         if (result.ProcesadoOk != null) {
             switch (result.ProcesadoOk) {
                 case -1:
@@ -367,14 +407,14 @@ function EliminarRegistro(id) {
                     MensajeError('Error', 'No se pudo eliminar el registro');
                     break;
                 case 1:
-                    MensajeInfo('Confirmación', 'El registro fue eliminado satisfactoriamente!');
+                    MensajeSuccess('Confirmación', 'El registro fue eliminado satisfactoriamente!');
                     RecargarData();
                     break;
             }
         }
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
-
+        $('body').LoadingOverlay('hide', true);
     });
 
 };
@@ -389,33 +429,58 @@ $(document).on('click', '#tb1 tbody #btnEditar', function () {
 $(document).on('click', '#tb1 tbody #btnVisualizar', function () {
     var fila = tb1.row($(this).parents('tr')).data();
     if (fila !== null) {
-        window.location.href = '/Producto/Details/' + fila.IdProducto;
-        //$.when(ObtenerPorId(fila.IdProducto))
-        //    .done(function (respuestaAjax) {
-        //        if (respuestaAjax != null) {
-        //            if (respuestaAjax.ProcesadoOk == 1) {
-        //                var cuerpoModal = GenerarCuerpoModalDeDetalle(respuestaAjax.Cuerpo);
-        //                $('#sticky').empty();
-        //                $('#sticky').append(cuerpoModal);
+        //window.location.href = '/Producto/Details/' + fila.IdProducto;
+        $.when(ObtenerPorIdConAtributos(fila.IdProducto))
+            .done(function (respuestaAjax) {
+                if (respuestaAjax != null) {
+                    if (respuestaAjax.ProcesadoOk == 1) {
+                        if (respuestaAjax.Cuerpo.ListaImagen.length > 0) {
+                            var cuerpoModal = GenerarCuerpoModalDeDetalle(respuestaAjax.Cuerpo);
+                            $('#sticky').empty();
+                            $('#sticky').append(cuerpoModal);
 
-        //                $('#sticky').modal({
-        //                    escapeClose: true,
-        //                    clickClose: false,
-        //                    showClose: false
-        //                });
-        //            }
-        //            else {
+                            $('#sticky').modal({
+                                escapeClose: true,
+                                clickClose: false,
+                                showClose: false
+                            });
+                        } else {
+                            MensajeInfo('Información', 'No se ha encontrado imagenes para este registro');
+                        }
+                    }
+                    else {
 
-        //            }
-        //        }
-        //    })
-        //    .fail(function (jqXHR) {
-        //        console.log(jqXHR);
-        //        console.log('Error');
-        //    });
+                    }
+                }
+            })
+            .fail(function (jqXHR) {
+                console.log(jqXHR);
+                console.log('Error');
+            });
 
     }
 });
+
+function ObtenerPorIdConAtributos(id) {
+    return $.ajax({
+        url: '../../Producto/ObtenerPorId',
+        type: 'GET',
+        data: {
+            'id': id
+        },
+        dataType: 'json',
+        headers: {
+            //'Authorization': 'Valor del token debe ir aca'
+        },
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
+        }
+    });
+};
 
 function ObtenerPorId(id) {
     return $.ajax({
@@ -426,10 +491,14 @@ function ObtenerPorId(id) {
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 };
@@ -445,7 +514,7 @@ function GenerarCuerpoModalDeDetalle(objetoSeleccionado) {
     if (objetoSeleccionado.ListaImagen != null) {
         if (objetoSeleccionado.ListaImagen.length > 0) {
             objetoSeleccionado.ListaImagen.forEach(function (productoImagen, indice, array) {
-                console.log(productoImagen);
+
                 var imagenActiva = '';
                 /*INICIO IMAGEN SLIDE CONTROL*/
                 if (productoImagen.Predeterminado) {
@@ -520,9 +589,11 @@ function GenerarCuerpoModalDeDetalle(objetoSeleccionado) {
         '                <span class="carousel-control-next-icon" aria-hidden="true"></span>',
         '                <span class="sr-only">Siguiente</span>',
         '            </a>',
-        '        </div>',
-        '        <p class="card-text m-t-10">' + objetoSeleccionado.DescripcionExtendida + '</p>',
-        '    </div>',
+        '        </div>');
+        if (objetoSeleccionado.DescripcionExtendida != null) {
+            html.push('        <p class="card-text m-t-10">' + objetoSeleccionado.DescripcionExtendida + '</p>');
+        }
+    html.push('    </div>',
         '    <div class="card-footer bg-white">',
         '        <a href="#" rel="modal:close" class="btn btn-danger float-right"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</a>',
         '    </div>',
@@ -533,6 +604,15 @@ function GenerarCuerpoModalDeDetalle(objetoSeleccionado) {
     return cuerpoHtml;
 
 }
+
+$(document).on('click', '#tb1 tbody #btnGestionarImagenes', function () {
+    var fila = tb1.row($(this).parents('tr')).data();
+    if (fila !== null) {
+        window.location.href = '/Producto/' + fila.IdProducto + '/Imagenes';
+        //MensajeInfo('Información', 'Método de gestión de imágenes aún no se encuentra implementado');
+        //window.location.href = '/Producto/Edit/' + fila.IdProducto;
+    }
+});
 
 $(document).on('click', '#btnEliminarSeleccionados', function () {
     if (!$('#btnEliminarSeleccionados').hasClass('disabled')) {
@@ -556,22 +636,24 @@ $(document).on('click', '#btnEliminarSeleccionados', function () {
 });
 
 function EliminarRegistrosMultiples(listaId) {
-
+    $('body').LoadingOverlay('show', {
+        background: 'rgba(25, 118, 210, 0.1)'
+    });
     var prm = {
         'arrayObjeto': listaId
     };
-
-    console.log(listaId);
 
     $.ajax({
         'url': '../../Producto/EliminarSeleccionados',
         'type': 'POST',
         'data': prm,
         'dataType': 'json',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
         }
     }).done(function (result, textStatus, jqXhr) {
-
+        $('body').LoadingOverlay('hide', true);
+        EvaluarRespuesta_401_403(result);
         if (result.ProcesadoOk != null) {
             switch (result.ProcesadoOk) {
                 case -1:
@@ -581,14 +663,14 @@ function EliminarRegistrosMultiples(listaId) {
                     MensajeError('Error', 'No se pudo eliminar los registros');
                     break;
                 case 1:
-                    MensajeInfo('Confirmación', 'Los registros fueron eliminados satisfactoriamente!');
+                    MensajeSuccess('Confirmación', 'Los registros fueron eliminados satisfactoriamente!');
                     RecargarData();
                     break;
             }
         }
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
-
+        $('body').LoadingOverlay('hide', true);
     });
 
 };
@@ -600,79 +682,162 @@ function EliminarRegistrosMultiples(listaId) {
 //    RecargarData();
 //});
 
-function MensajeError(titulo, mensaje) {
+function CargarDataDetalle() {
 
-    if (titulo == null) {
-        titulo = 'Error';
-    }
+    $.fn.dataTable.ext.errMode = 'console';
+    tb2 = $('#tb2').DataTable({
+        "responsive": true,
+        "processing": true,
+        "serverSide": true,
+        "autoWidth": false,
+        "filter": true,
+        "orderMulti": false,
+        "select": true,
+        "pagingType": "full_numbers",
+        "dom": ObtenerDomGrillaDetalle(),
+        "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
+        "ajax": {
+            "url": "../../ProductoDescuento/ObtenerPorIdProducto",
+            "type": "POST",
+            "datatype": "json",
+            "data": function (d) {
+                d.IdProducto = window._idProductoSeleccionado;
+            },
+            "beforeSend": function (request) {
+                //console.log(request);
+                HabilitarControlesMenu(false);
+                request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
+                //request.setRequestHeader("token", 'tokenPersonalizado');
 
-    if (titulo == '') {
-        titulo = 'Error';
-    }
+            },
+            "error": function (xhr, error, thrown) {
+                console.log(xhr);
+                console.log(error);
+                console.log(thrown);
+                HabilitarControlesMenu(true);
+            },
+            "complete": function (json, type) {
 
-    if (mensaje == null) {
-        mensaje = 'Error al procesar';
-    }
+                EvaluarRespuesta_401_403(json);
+                if (json.responseJSON != null) {
+                    if (json.responseJSON.error != null) {
+                        //console.log(json.responseJSON.error);
+                        MensajeError('Error al cargar listado', json.responseJSON.error);
+                    }
+                }
 
-    if (mensaje == '') {
-        mensaje = 'Error al procesar';
-    }
-
-    var icon = 'error';
-    var className = 'btn btn-danger';
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: className
+                //MensajeErrorDataTable(json);
+                HabilitarControlesMenu(true);
+            }
         },
-        buttonsStyling: false
+        "columns": ObtenerConfiguracionColumnaDetalle(),
+        "columnDefs": ObtenerDefinicionBotonColumnaDetalle(),
+        //"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+        //    EstablecerFormatoCeldaSegunValor(nRow, aData, iDisplayIndex, iDisplayIndexFull);
+        //},
+        "order": [[2, "asc"]]//id es la columna 2 y esta oculto, por lo tanto, el indice empieza en cero
     });
-
-    swalWithBootstrapButtons.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icon,
-        confirmButtonText: 'Ok!',
-        reverseButtons: true
+    tb2.columns.adjust();
+    $('div.dataTables_length select').addClass('selectDt');
+    $(".selectDt").select2({
+        minimumResultsForSearch: Infinity
     });
-}
+};
 
-function MensajeInfo(titulo, mensaje) {
+function EstablecerFormatoCeldaSegunValor(nRow, aData) {
+    //nRow: obtiene toda la etiqueta <TR>
+    //aData: obtiene el datasource de cada fila
+    //iDisplayIndex: obtiene el indice de cada fila empezando desde cero
+    //iDisplayIndexFull: obtiene el indice de cada fila empezando desde cero
 
-    if (titulo == null) {
-        titulo = 'Confirmación';
+    //console.log(aData);
+    //A partir del indice 0 y sin contar los ocultos
+    if (aData.Predeterminado) {
+        $('td:eq(3)', nRow).html('<i class="fa fa-check-square-o" aria-hidden="true"></i>');
+        //    $(nRow).addClass('fondoFinalizado');
+        //$('td:eq(2)', nRow).addClass('fondoFinalizado');
+        //$('td:eq(2)', nRow).removeClass('fondoFinalizado');
+        //} else if (aData.IdEstado === 5) {
+        //    $(nRow).addClass('fondoRechazado');
+        //$('td:eq(2)', nRow).addClass('fondoFinalizado');
+        //$('td:eq(2)', nRow).removeClass('fondoFinalizado');
     }
+    else {
+        $('td:eq(3)', nRow).html('');
+    };
+};
 
-    if (titulo == '') {
-        titulo = 'Confirmación';
-    }
+function ObtenerDomGrillaDetalle() {
+    return "<'row' <'col-md-12'rt> >" +
+        "<'clear'>" +
 
-    if (mensaje == null) {
-        mensaje = 'Proceso satisfactorio';
-    }
+        "<'row' <'col-md-6'l> <'col-md-6'p> >" +
+        "<'row' <'col-md-12'i>>" +
+        "<'clear'>" +
+        "<'clear'>";
+};
 
-    if (mensaje == '') {
-        mensaje = 'Proceso satisfactorio';
-    }
-
-    var icon = 'success';
-    var className = 'btn btn-success';
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: className
+function ObtenerConfiguracionColumnaDetalle() {
+    //"columns" empieza desde el indice cero
+    //Asocia el fieldname hacia una columna especifica 
+    return [
+        { "data": "Item", "name": "Item", "autoWidth": false, "width": "30px", "orderable": false },
+        { "data": "IdProductoDescuento", "name": "IdProductoDescuento", "visible": false },
+        { "data": "FechaInicio", "name": "FechaInicio" },
+        { "data": "FechaFin", "name": "FechaFin" },
+        { "data": "DescripcionTipoDescuento", "name": "DescripcionTipoDescuento" },
+        {
+            "data": "Valor",
+            "name": "Valor",
+            render: $.fn.dataTable.render.number(',', '.', 2, '')
         },
-        buttonsStyling: false
-    });
+        { "data": "DescripcionEstado", "name": "DescripcionEstado" },
+        { "data": null, "autoWidth": false, "orderable": false, "width": "125px" }
+    ];
+};
 
-    swalWithBootstrapButtons.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icon,
-        confirmButtonText: 'Ok!',
-        reverseButtons: true
-    });
-}
+function ObtenerDefinicionBotonColumnaDetalle() {
+    //targets desde indice cero
+    return [
+        {
+            "targets": [2,3],
+            className: 'dt-center'
+        },
+        {
+            "targets": 7,
+            "width": "125px",
+            "data": null,
+            "className": "text-center",
+            "defaultContent": "<div class='btn-group' role='group' aria-label='Basic example'>" +
+                //"<button class='btn btn-success btn-sm m-r-5' id='btnEditarDetalle'><i class='fa fa-pencil' aria-hidden='true'></i></button> " +
+                "<button class='btn btn-danger btn-sm' id='btnEliminarDetalle'><i class='fa fa-trash-o' aria-hidden='true'></i></button>" +
+                "</div>"
+        }
+    ];
+};
+
+$(document).on('click', '#tb1 tbody tr td', function () {
+    var fila = tb1.row($(this).parents('tr')).data();
+
+    var index = tb1.column(this).index();
+    if (index == 10) {
+        return;
+    }
+
+    var filasSeleccionadas = tb1.rows({ selected: true }).data().toArray();
+    if (filasSeleccionadas.length > 0) {
+        if (fila.IdProducto === null) {
+            window._idProductoSeleccionado = 0;
+        }
+        else {
+            window._idProductoSeleccionado = fila.IdProducto;
+        }
+    } else {
+        window._idProductoSeleccionado = 0;
+    }
+
+    tb2.ajax.reload();
+});
 
 function HabilitarControlesMenu(valor) {
     if (valor === true) {
@@ -685,3 +850,87 @@ function HabilitarControlesMenu(valor) {
         $('#btnEliminarSeleccionados').addClass('disabled');
     }
 };
+
+$(document).on('click', '#tb2 tbody #btnEliminarDetalle', function () {
+    var fila = tb2.row($(this).parents('tr')).data();
+    if (fila !== null) {
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-lg btn-danger m-r-10',
+                cancelButton: 'btn btn-secondary'
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: "Confirmación",
+            text: "¿Está seguro de eliminar el registro?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: 'Si!',
+            cancelButtonText: 'No!',
+            //confirmButtonColor: '#d33',
+            reverseButtons: false
+        }).then(function (respuesta) {
+            switch (respuesta.value) {
+                case true:
+                    //console.log('se eliminara');
+                    EliminarRegistroDetalle(fila.IdProductoDescuento);
+                    break;
+                default:
+                    //console.log('no se eliminara');
+                    break;
+            }
+
+        });
+
+    }
+});
+
+function EliminarRegistroDetalle(id) {
+    $('body').LoadingOverlay('show', {
+        background: 'rgba(25, 118, 210, 0.1)'
+    });
+    var prm = {
+        'id': id
+    };
+
+    $.ajax({
+        'url': '../../ProductoDescuento/Eliminar',
+        'type': 'POST',
+        'data': prm,
+        'dataType': 'json',
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
+        }
+    }).done(function (result, textStatus, jqXhr) {
+        $('body').LoadingOverlay('hide', true);
+        EvaluarRespuesta_401_403(result);
+        if (result.ProcesadoOk != null) {
+            switch (result.ProcesadoOk) {
+                case -1:
+                    MensajeError('Error', 'El registro no existe o ya ha sido eliminado');
+                    break;
+                case 0:
+                    MensajeError('Error', 'No se pudo eliminar el registro');
+                    break;
+                case 1:
+                    MensajeSuccess('Confirmación', 'El registro fue eliminado satisfactoriamente!');
+                    RecargarDataDetalle();
+                    break;
+            }
+        }
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        $('body').LoadingOverlay('hide', true);
+    });
+
+};
+
+function RecargarDataDetalle() {
+
+    tb2.ajax.reload();
+
+};
+

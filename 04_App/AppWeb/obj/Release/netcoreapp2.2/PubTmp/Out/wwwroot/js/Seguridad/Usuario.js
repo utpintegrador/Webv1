@@ -1,6 +1,8 @@
 ﻿var tb1;
 
 $(document).ready(function () {
+    ValidacionInicial();
+    ProcesarMenuLateral();
     //$('.selectpicker').selectpicker();
     $(".select2").select2();
 
@@ -21,8 +23,14 @@ function ProcesarCargaDeUsuarios() {
 
             var cboTipoUsuario = $('#cboTipoUsuario');
             cboTipoUsuario.append($('<option/>', { value: 0, text: 'Todos' }));
+            cboTipoUsuario.select2({
+                minimumResultsForSearch: Infinity
+            });
             var cboEstado = $('#cboEstado');
             cboEstado.append($('<option/>', { value: 0, text: 'Todos' }));
+            cboEstado.select2({
+                minimumResultsForSearch: Infinity
+            });
 
             if (respuestaTiposUsuarioAjax[0].Cuerpo != null) {
                 if (respuestaTiposUsuarioAjax[0].Cuerpo.length > 0) {
@@ -62,11 +70,15 @@ function ObtenerTiposUsuario() {
         data: {},
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -82,11 +94,15 @@ function ObtenerEstados() {
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -123,6 +139,7 @@ function CargarData() {
             "beforeSend": function (request) {
                 //console.log(request);
                 HabilitarControlesMenu(false);
+                request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
                 //request.setRequestHeader("token", 'tokenPersonalizado');
 
             },
@@ -199,8 +216,8 @@ function ObtenerDefinicionBotonColumna() {
             "data": null,
             "className": "text-center",
             "defaultContent": "<div class='btn-group' role='group' aria-label='Basic example'>" +
-                //"<button class='btn btn-primary btn-sm' id='btnVisualizar'><i class='fa fa-eye' aria-hidden='true'></i></button> " +
-                "<button class='btn btn-success btn-sm' id='btnEditar'><i class='fa fa-pencil' aria-hidden='true'></i></button> " +
+                "<button class='btn btn-primary btn-sm m-r-5' id='btnVisualizar'><i class='fa fa-eye' aria-hidden='true'></i></button> " +
+                "<button class='btn btn-success btn-sm m-r-5' id='btnEditar'><i class='fa fa-pencil' aria-hidden='true'></i></button> " +
                 "<button class='btn btn-danger btn-sm' id='btnEliminar'><i class='fa fa-trash-o' aria-hidden='true'></i></button>" +
                 "</div>"
         }
@@ -274,7 +291,9 @@ $(document).on('click', '#tb1 tbody #btnEliminar', function () {
 });
 
 function EliminarRegistro(id) {
-
+    $('body').LoadingOverlay('show', {
+        background: 'rgba(25, 118, 210, 0.1)'
+    });
     var prm = {
         'id': id
     };
@@ -284,10 +303,12 @@ function EliminarRegistro(id) {
         'type': 'POST',
         'data': prm,
         'dataType': 'json',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
         }
     }).done(function (result, textStatus, jqXhr) {
-
+        $('body').LoadingOverlay('hide', true);
+        EvaluarRespuesta_401_403(result);
         if (result.ProcesadoOk != null) {
             switch (result.ProcesadoOk) {
                 case -1:
@@ -297,14 +318,14 @@ function EliminarRegistro(id) {
                     MensajeError('Error', 'No se pudo eliminar el registro');
                     break;
                 case 1:
-                    MensajeInfo('Confirmación', 'El registro fue eliminado satisfactoriamente!');
+                    MensajeSuccess('Confirmación', 'El registro fue eliminado satisfactoriamente!');
                     RecargarData();
                     break;
             }
         }
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
-
+        $('body').LoadingOverlay('hide', true);
     });
 
 };
@@ -319,30 +340,31 @@ $(document).on('click', '#tb1 tbody #btnEditar', function () {
 $(document).on('click', '#tb1 tbody #btnVisualizar', function () {
     var fila = tb1.row($(this).parents('tr')).data();
     if (fila !== null) {
-        window.location.href = '/Usuario/Details/' + fila.IdUsuario;
-        //$.when(ObtenerPorId(fila.IdUsuario))
-        //    .done(function (respuestaAjax) {
-        //        if (respuestaAjax != null) {
-        //            if (respuestaAjax.ProcesadoOk == 1) {
-        //                var cuerpoModal = GenerarCuerpoModalDeDetalle(respuestaAjax.Cuerpo);
-        //                $('#sticky').empty();
-        //                $('#sticky').append(cuerpoModal);
+        //window.location.href = '/Usuario/Details/' + fila.IdUsuario;
+        $.when(ObtenerPorId(fila.IdUsuario))
+            .done(function (respuestaAjax) {
 
-        //                $('#sticky').modal({
-        //                    escapeClose: true,
-        //                    clickClose: false,
-        //                    showClose: false
-        //                });
-        //            }
-        //            else {
+                if (respuestaAjax != null) {
+                    if (respuestaAjax.ProcesadoOk == 1) {
+                        var cuerpoModal = GenerarCuerpoModalDeDetalle(respuestaAjax.Cuerpo);
+                        $('#sticky').empty();
+                        $('#sticky').append(cuerpoModal);
 
-        //            }
-        //        }
-        //    })
-        //    .fail(function (jqXHR) {
-        //        console.log(jqXHR);
-        //        console.log('Error');
-        //    });
+                        $('#sticky').modal({
+                            escapeClose: true,
+                            clickClose: false,
+                            showClose: false
+                        });
+                    }
+                    else {
+
+                    }
+                }
+            })
+            .fail(function (jqXHR) {
+                console.log(jqXHR);
+                console.log('Error');
+            });
 
     }
 });
@@ -356,15 +378,94 @@ function ObtenerPorId(id) {
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 };
 
 function GenerarCuerpoModalDeDetalle(objetoSeleccionado) {
+    //Estamos en el cuerpo de la respuesta
+    var html = [];
+
+    var htmlImagenSlides = [];
+    var htmlImagenSrc = [];
+
+    //Imagenes del carrousel
+    if (objetoSeleccionado.UrlImagen != null) {
+        if (objetoSeleccionado.UrlImagen != '') {
+
+            var imagenActiva = '';
+            /*INICIO IMAGEN SLIDE CONTROL*/
+            imagenActiva = ' class="active"';
+            htmlImagenSlides.push('<li data-target="#carouselExampleIndicators" data-slide-to="' + 1 + '"' + imagenActiva + '></li>');
+            /*FIN IMAGEN SLIDE*/
+
+            /*INICIO IMAGEN SRC*/
+            imagenActiva = ' active';
+            htmlImagenSrc.push(
+                '<div class="carousel-item' + imagenActiva + '">',
+                '    <img class="d-block w-100 tamanioimagenproductopopup"',
+                '            src="' + objetoSeleccionado.UrlImagen + '" alt="' + objetoSeleccionado.CorreoElectronico + '" style="margin-left: auto;margin-right: auto;">'
+            );
+
+            htmlImagenSrc.push(
+                '</div>'
+            );
+            /*FIN IMAGEN SRC*/
+        }
+    }
+
+    //Resultado
+    html.push(
+        '<div class="modal-content border-0">',
+        '    <div class="card-header bg-white">',
+        objetoSeleccionado.CorreoElectronico,
+        '    </div>',
+        '    <div class="card-body">',
+        '        <div id="carouselExampleIndicators" class="carousel slide" style="background-color: #FFF;" data-ride="carousel">',
+        '            <ol class="carousel-indicators">'
+    );
+
+    html = html.concat(htmlImagenSlides);
+
+    html.push(
+        '            </ol>',
+        '            <div class="carousel-inner imagenproducto">'
+    );
+
+    html = html.concat(htmlImagenSrc);
+
+    html.push(
+        '            </div>',
+        '            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">',
+        '                <span class="carousel-control-prev-icon" aria-hidden="true"></span>',
+        '                <span class="sr-only">Anterior</span>',
+        '            </a>',
+        '            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">',
+        '                <span class="carousel-control-next-icon" aria-hidden="true"></span>',
+        '                <span class="sr-only">Siguiente</span>',
+        '            </a>',
+        '        </div>',
+        '    </div>',
+        '    <div class="card-footer bg-white">',
+        '        <a href="#" rel="modal:close" class="btn btn-danger float-right"><i class="fa fa-times" aria-hidden="true"></i> Cerrar</a>',
+        '    </div>',
+        '</div>'
+    );
+
+    var cuerpoHtml = html.join('');
+    return cuerpoHtml;
+
+}
+
+function GenerarCuerpoModalDeDetalleTemp(objetoSeleccionado) {
 
     var html = [];
 
@@ -486,22 +587,24 @@ $(document).on('click', '#btnEliminarSeleccionados', function () {
 });
 
 function EliminarRegistrosMultiples(listaId) {
-
+    $('body').LoadingOverlay('show', {
+        background: 'rgba(25, 118, 210, 0.1)'
+    });
     var prm = {
         'arrayObjeto': listaId
     };
-
-    console.log(listaId);
 
     $.ajax({
         'url': '../../Usuario/EliminarSeleccionados',
         'type': 'POST',
         'data': prm,
         'dataType': 'json',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
         }
     }).done(function (result, textStatus, jqXhr) {
-
+        $('body').LoadingOverlay('hide', true);
+        EvaluarRespuesta_401_403(result);
         if (result.ProcesadoOk != null) {
             switch (result.ProcesadoOk) {
                 case -1:
@@ -511,14 +614,14 @@ function EliminarRegistrosMultiples(listaId) {
                     MensajeError('Error', 'No se pudo eliminar los registros');
                     break;
                 case 1:
-                    MensajeInfo('Confirmación', 'Los registros fueron eliminados satisfactoriamente!');
+                    MensajeSuccess('Confirmación', 'Los registros fueron eliminados satisfactoriamente!');
                     RecargarData();
                     break;
             }
         }
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
-
+        $('body').LoadingOverlay('hide', true);
     });
 
 };
@@ -529,80 +632,6 @@ function EliminarRegistrosMultiples(listaId) {
 //$(document).on('change', '#cboEstado', function (e) {
 //    RecargarData();
 //});
-
-function MensajeError(titulo, mensaje) {
-
-    if (titulo == null) {
-        titulo = 'Error';
-    }
-
-    if (titulo == '') {
-        titulo = 'Error';
-    }
-
-    if (mensaje == null) {
-        mensaje = 'Error al procesar';
-    }
-
-    if (mensaje == '') {
-        mensaje = 'Error al procesar';
-    }
-
-    var icon = 'error';
-    var className = 'btn btn-danger';
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: className
-        },
-        buttonsStyling: false
-    });
-
-    swalWithBootstrapButtons.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icon,
-        confirmButtonText: 'Ok!',
-        reverseButtons: true
-    });
-}
-
-function MensajeInfo(titulo, mensaje) {
-
-    if (titulo == null) {
-        titulo = 'Confirmación';
-    }
-
-    if (titulo == '') {
-        titulo = 'Confirmación';
-    }
-
-    if (mensaje == null) {
-        mensaje = 'Proceso satisfactorio';
-    }
-
-    if (mensaje == '') {
-        mensaje = 'Proceso satisfactorio';
-    }
-
-    var icon = 'success';
-    var className = 'btn btn-success';
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: className
-        },
-        buttonsStyling: false
-    });
-
-    swalWithBootstrapButtons.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icon,
-        confirmButtonText: 'Ok!',
-        reverseButtons: true
-    });
-}
 
 function HabilitarControlesMenu(valor) {
     if (valor === true) {

@@ -3,6 +3,8 @@ window._idProducto = 0;
 window._mensajeValidacion = '';
 
 $(document).ready(function () {
+    ValidacionInicial();
+    ProcesarMenuLateral();
     //$('.selectpicker').selectpicker();
     $(".select2").select2();
     //DropZone();
@@ -142,11 +144,15 @@ function ObtenerNegocios() {
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -162,11 +168,15 @@ function ObtenerEstados() {
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -180,11 +190,15 @@ function ObtenerMonedas() {
         data: {},
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -200,11 +214,15 @@ function ObtenerCategorias() {
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -218,10 +236,14 @@ function ObtenerPorId(id) {
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 };

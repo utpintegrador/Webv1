@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using AppWeb.Models;
 using Entidad.Dto.Dashboard;
 using Negocio.Repositorio.Dashboard;
+using Entidad.Vo;
+using Entidad.Configuracion.Proceso;
+using System.Linq;
 
 namespace AppWeb.Controllers
 {

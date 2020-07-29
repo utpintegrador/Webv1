@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entidad.Request.Maestro
+namespace ModelosApi.Request.Maestro
 {
     public class RequestProductoModificarDtoApi
     {
@@ -15,6 +15,7 @@ namespace Entidad.Request.Maestro
         public string DescripcionExtendida { get; set; }
 
         [Required(ErrorMessage = "{0}: parametro es requerido")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "{0}: debe tener un valor mayor o igual a {1}")]
         public decimal Precio { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "{0}: debe tener un valor mayor o igual a {1}")]

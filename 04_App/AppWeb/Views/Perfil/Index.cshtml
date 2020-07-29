@@ -1,0 +1,203 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section estilos {
+    <link href="~/lib/select2/css/select2.css" rel="stylesheet" />
+    <link href="~/lib/dropify/css/dropify.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />*@
+    <link rel="stylesheet" href="~/lib/jquery-modal/jquery.modal.min.css" />
+    <style>
+        .modal a.close-modal {
+            top: 4.5px;
+            right: 2.5px;
+        }
+
+        .imagenConBorde {
+            border-radius: 10px;
+        }
+    </style>
+}
+
+@*Titulo*@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Perfil</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Perfil</a></li>
+            <li class="breadcrumb-item active">Index</li>
+        </ol>
+    </div>
+</div>
+
+@*Botones y filtro*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card" id="frmWrapper">
+            <div class="card-body">
+
+                <a asp-controller="Home" asp-action="Index" id="btnInicio" class="btn btn-primary btn-sm">
+                    <i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard
+                </a>
+
+                <button id="btnGuardar" type="button" class="btn btn-success btn-sm">
+                    <i class="fa fa-save" aria-hidden="true"></i> Guardar
+                </button>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-lg-4 col-xlg-3 col-md-5">
+
+                        <div class="card" style="margin-bottom:-20px;">
+                            <div class="card-body">
+                                <center class="m-t-3">
+                                    @*<img id="imgUsuario" src="~/template/assets/images/sin_foto_perfil.jpg" class="imagenConBorde" max-height="200px" />*@
+                                    <img id="imgUsuario" src="" class="imagenConBorde" style="max-width:200px;" />
+                                    @*max-height="200px"*@
+                                    <div class="m-t-10">
+
+                                    </div>
+                                    <button id="btnCambiarImagen" type="button" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-search" aria-hidden="true"></i> Cambiar
+                                    </button>
+                                    <button id="btnEliminarImagen" type="button" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-picture-o" aria-hidden="true"></i> Eliminar
+                                    </button>
+                                    <div>
+                                        <hr>
+                                    </div>
+                                </center>
+                            </div>
+                        </div>
+
+                        @*<h4 class="card-title">File Upload5</h4>
+                            <label for="inputImagen">You can add a max file size</label>
+                            <input type="file"
+                                   id="inputImagen"
+                                   class="dropify"
+                                   data-max-file-size="300KB"
+                                   data-default-file="~/template/assets/images/sin_foto_perfil.jpg" />*@
+
+                        @*@using (Html.BeginForm("ModificarImagen",
+                               "Usuario",
+                               new { id = Model.IdUsuario },
+                               FormMethod.Post,
+                               false,
+                               new { enctype = "multipart/form-data" })
+                               )
+                            {
+                                <div class="card">
+                                    <div class="card-body">
+                                        <center class="m-t-30">
+                                            <img id="imgUsuario" src="~/template/assets/images/users/1.png" class="img-circle" width="150" height="120" />
+                                            <div class="form-group">
+                                                <input type="file" name="Archivo" class="btn btn-info btn-sm" />
+                                            </div>
+                                        </center>
+                                    </div>
+                                    <div>
+                                        <hr>
+                                    </div>
+
+                                    <button id="btnSubirImagen" type="submit" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-save" aria-hidden="true"></i> Subir
+                                    </button>
+                                </div>
+                            }*@
+
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-8 col-xlg-9 col-md-7">
+                        <div class="card" style="margin-bottom:-20px; margin-top: 0px;">
+                            <!-- Nav tabs -->
+                            @*<ul class="nav nav-tabs profile-tab" role="tablist">
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Datos</a> </li>
+                                </ul>*@
+                            <!-- Tab panes -->
+                            <div class="card-body">
+                                <div class="form-horizontal form-material">
+                                    <div class="form-group">
+                                        <label class="col-md-12">Nombre</label>
+                                        <div class="col-md-12">
+                                            <input type="text" placeholder="Nombre" class="form-control form-control-line" id="txtNombre" name="txtNombre">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">Apellido</label>
+                                        <div class="col-md-12">
+                                            <input type="text" placeholder="Apellido" class="form-control form-control-line" id="txtApellido" name="txtApellido">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="example-email" class="col-md-12">Correo Electrónico</label>
+                                        <div class="col-md-12">
+                                            <input type="email" placeholder="correo@correo.com" class="form-control form-control-line" id="txtCorreoElectronico" name="txtCorreoElectronico">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="tab-content">
+                                    <div class="tab-pane active" id="settings" role="tabpanel">
+
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="row">
+        <div class="col-md-12">
+            <form id="uploader">
+                <input id="fileInput" type="file" multiple>
+                <input type="submit" value="Upload file" />
+            </form>
+        </div>
+    </div>*@
+
+@*Modal*@
+<div class="row" margin-bottom:-65px;">
+    <div class="col-md-12">
+        <div class="card modal m-t-60" style="border-radius: 0.25rem!important; max-width:650px; max-height: 400px;" id="sticky">
+            <div class="row">
+                <div class="col-md-12">
+                    <form id="uploader" onsubmit="return false">
+                        <center class="m-t-10">
+                            <button id="btnSubir" type="submit" class="btn btn-primary btn-sm m-b-10"><i class="fa fa-upload" aria-hidden="true"></i> Subir</button>
+                        </center>
+                        <label for="fileInput">Seleccione imagen</label>
+                        <input id="fileInput" type="file" class="dropify" data-max-file-size="300KB">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/lib/select2/js/select2.min.js" type="text/javascript"></script>
+    <script src="~/lib/sweetalert2/sweetalert2-9.js" type="text/javascript"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>*@
+    <script src="~/lib/jquery-modal/jquery.modal.min.js"></script>
+    <script src="~/lib/dropify/js/dropify.min.js" type="text/javascript"></script>
+    <script src="~/js/Seguridad/Perfil.js"></script>
+}
+

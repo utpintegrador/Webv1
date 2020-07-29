@@ -2,7 +2,7 @@
 using ModelosApi.Response.Comun;
 using System.Collections.Generic;
 
-namespace Entidad.Response.Seguridad
+namespace ModelosApi.Response.Seguridad
 {
     public class ResponseRolObtenerDtoApi
     {
@@ -10,6 +10,7 @@ namespace Entidad.Response.Seguridad
         public List<ErrorDtoApi> ListaError { get; set; }
         public List<RolObtenerDtoApi> Cuerpo { get; set; }
         public int CantidadTotalRegistros { get; set; }
+        public int StatusCode { get; set; } = 200;
         public ResponseRolObtenerDtoApi()
         {
             ProcesadoOk = 0;

@@ -1,8 +1,10 @@
 ﻿window._idUsuario = 0;
-window._idUsuario = 0;
+//window._idUsuario = 0;
 window._mensajeValidacion = '';
 
 $(document).ready(function () {
+    ValidacionInicial();
+    ProcesarMenuLateral();
     //$('.selectpicker').selectpicker();
     $(".select2").select2();
     //DropZone();
@@ -11,7 +13,7 @@ $(document).ready(function () {
         background: 'rgba(25, 118, 210, 0.1)'
     });
 
-    window._idUsuario = GetItem('IdUsuario');
+    //window._idUsuario = GetItem('IdUsuario');
     window._idUsuario = ObtenerParametroUrl();
 
     $.when(ObtenerTiposUsuario(), ObtenerEstados(), ObtenerPorId(window._idUsuario))
@@ -19,8 +21,14 @@ $(document).ready(function () {
 
             var cboTipoUsuario = $('#cboTipoUsuario');
             cboTipoUsuario.append($('<option/>', { value: 0, text: 'Seleccione' }));
+            cboTipoUsuario.select2({
+                minimumResultsForSearch: Infinity
+            });
             var cboEstado = $('#cboEstado');
             cboEstado.append($('<option/>', { value: 0, text: 'Seleccione' }));
+            cboEstado.select2({
+                minimumResultsForSearch: Infinity
+            });
 
             if (respuestaEstadosAjax[0].Cuerpo != null) {
                 if (respuestaEstadosAjax[0].Cuerpo.length > 0) {
@@ -64,11 +72,15 @@ function ObtenerTiposUsuario() {
         data: {},
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -84,11 +96,15 @@ function ObtenerEstados() {
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -102,10 +118,14 @@ function ObtenerPorId(id) {
         },
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 };
@@ -153,30 +173,34 @@ function Actualizar() {
         'data': prm,
         'dataType': 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
         }
     }).done(function (result, textStatus, jqXhr) {
 
         $('#frmWrapper').LoadingOverlay('hide', true);
-
-        if (result.ProcesadoOk != null) {
-            switch (result.ProcesadoOk) {
-                case -1:
-                    MensajeError('Error', 'El registro no existe');
-                    break;
-                case 0:
-                    MensajeError('Error', 'No se pudo modificar el registro');
-                    break;
-                case 1:
-                    MensajeInfo('Confirmación', 'El registro fue modificado satisfactoriamente!');
-                    break;
+        EvaluarRespuesta_401_403(result);
+        if (!ResponseTieneErrores(result)) {
+            if (result.ProcesadoOk != null) {
+                switch (result.ProcesadoOk) {
+                    case -1:
+                        MensajeError('Error', 'El registro no existe');
+                        break;
+                    case 0:
+                        MensajeError('Error', 'No se pudo modificar el registro');
+                        break;
+                    case 1:
+                        MensajeSuccess('Confirmación', 'El registro fue modificado satisfactoriamente!');
+                        break;
+                }
             }
         }
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
-
+        $('#frmWrapper').LoadingOverlay('hide', true);
+        ValidacionModelo(jqXHR);
     });
 
 };
@@ -185,19 +209,19 @@ function Validar() {
     window._mensajeValidacion = '';
 
     if ($("#txtCorreoElectronico").val() == '' || $("#txtCorreoElectronico").val() == null) {
-        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [CorreoElectronico] es requerido ';
+        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [CorreoElectronico] es requerido <br/>';
     }
 
     if ($("#txtNombre").val() == '' || $("#txtNombre").val() == null) {
-        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [Nombre] es requerido ';
+        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [Nombre] es requerido <br/>';
     }
 
     if ($("#txtApellido").val() == '' || $("#txtApellido").val() == null) {
-        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [Apellido] es requerido ';
+        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [Apellido] es requerido <br/>';
     }
 
     if ($("#cboEstado").val() == 0) {
-        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [Estado] es requerido ';
+        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [Estado] es requerido <br/>';
     }
 
     if (window._mensajeValidacion == '') {
@@ -206,80 +230,6 @@ function Validar() {
     else {
         return false;
     }
-}
-
-function MensajeError(titulo, mensaje) {
-
-    if (titulo == null) {
-        titulo = 'Error';
-    }
-
-    if (titulo == '') {
-        titulo = 'Error';
-    }
-
-    if (mensaje == null) {
-        mensaje = 'Error al procesar';
-    }
-
-    if (mensaje == '') {
-        mensaje = 'Error al procesar';
-    }
-
-    var icon = 'error';
-    var className = 'btn btn-danger';
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: className
-        },
-        buttonsStyling: false
-    });
-
-    swalWithBootstrapButtons.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icon,
-        confirmButtonText: 'Ok!',
-        reverseButtons: true
-    });
-}
-
-function MensajeInfo(titulo, mensaje) {
-
-    if (titulo == null) {
-        titulo = 'Confirmación';
-    }
-
-    if (titulo == '') {
-        titulo = 'Confirmación';
-    }
-
-    if (mensaje == null) {
-        mensaje = 'Proceso satisfactorio';
-    }
-
-    if (mensaje == '') {
-        mensaje = 'Proceso satisfactorio';
-    }
-
-    var icon = 'success';
-    var className = 'btn btn-success';
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: className
-        },
-        buttonsStyling: false
-    });
-
-    swalWithBootstrapButtons.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icon,
-        confirmButtonText: 'Ok!',
-        reverseButtons: true
-    });
 }
 
 function HabilitarControlesMenu(valor) {
@@ -386,6 +336,11 @@ function GenerarCuerpoModalDeVisualizar() {
 
 $(document).on('click', '#btnEliminarImagen', function () {
     if (!$('#btnEliminarImagen').hasClass('disabled')) {
+
+        $('body').LoadingOverlay('show', {
+            background: 'rgba(25, 118, 210, 0.1)'
+        });
+
         var prm = {
             'id': window._idUsuario
         };
@@ -396,51 +351,30 @@ $(document).on('click', '#btnEliminarImagen', function () {
             'data': prm,
             'dataType': 'json',
             headers: {
-                'Authorization': 'Valor del token debe ir aca'
+                //'Authorization': 'Valor del token debe ir aca'
             },
-            beforeSend: function () {
+            beforeSend: function (request) {
+                request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             }
         }).done(function (result, textStatus, jqXhr) {
-
-            var mensaje = 'Error al intentar eliminar el registro';
-            var icon = 'success';
-            var className = 'btn btn-success';
-
+            $('body').LoadingOverlay('hide', true);
+            EvaluarRespuesta_401_403(result);
             if (result != null) {
                 switch (result.ProcesadoOk) {
                     case -1:
-                        mensaje = 'El registro no existe';
-                        icon = 'error';
-                        className = 'btn btn-danger';
+                        MensajeError('Error', 'El registro no existe');
                         break;
                     case 0:
-                        mensaje = 'No se pudo modificar el registro';
-                        icon = 'error';
-                        className = 'btn btn-danger';
+                        MensajeError('Error', 'No se pudo eliminar el registro');
                         break;
                     case 1:
-                        mensaje = 'El registro fue modificado satisfactoriamente!';
+                        MensajeSuccess('Información', 'El registro fue eliminado satisfactoriamente!')
                         break;
                 }
             }
 
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: className
-                },
-                buttonsStyling: false
-            });
-
-            swalWithBootstrapButtons.fire({
-                title: "Confirmación",
-                text: mensaje,
-                icon: icon,
-                confirmButtonText: 'Ok!',
-                reverseButtons: true
-            });
-
         }).fail(function (jqXHR, textStatus, errorThrown) {
-
+            $('body').LoadingOverlay('hide', true);
         });
     }
 });

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AppWeb.CustomHandler;
 using Entidad.Configuracion.Proceso;
 using Entidad.Dto.Response.Seguridad;
 using Entidad.Dto.Seguridad;
@@ -31,6 +32,11 @@ namespace AppWeb.Controllers
             {
                 IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
                 ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
             }
 
             var t = Task.Run(() => _lnUsuario.Obtener(prm));
@@ -52,6 +58,11 @@ namespace AppWeb.Controllers
             {
                 IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
                 ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
             }
 
             var t = Task.Run(() => _lnUsuario.ObtenerPorId(id));
@@ -69,13 +80,15 @@ namespace AppWeb.Controllers
         // POST: Usuario/Create
         [HttpPost]
         //[ValidateAntiForgeryToken]
+        [ValidationActionFilter]
         public ActionResult Registrar(RequestUsuarioRegistrarDtoApi prm)
         {
-            if (ConstanteVo.ActivarLLamadasConToken)
-            {
-                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
-                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
-            }
+            if (!ModelState.IsValid) return Json(BadRequest());
+            //if (ConstanteVo.ActivarLLamadasConToken)
+            //{
+            //    IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+            //    ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+            //}
 
             var t = Task.Run(() => _lnUsuario.Registrar(prm));
             t.Wait();
@@ -92,12 +105,18 @@ namespace AppWeb.Controllers
         // POST: Usuario/Edit/5
         [HttpPost]
         //[ValidateAntiForgeryToken]
+        [ValidationActionFilter]
         public ActionResult Modificar(RequestUsuarioModificarDtoApi prm)//int id, IFormCollection collection)
         {
             if (ConstanteVo.ActivarLLamadasConToken)
             {
                 IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
                 ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
             }
 
             var t = Task.Run(() => _lnUsuario.Modificar(prm));
@@ -109,12 +128,18 @@ namespace AppWeb.Controllers
         [HttpPost]
         [ActionName("ModificarModoAdmin")]
         //[ValidateAntiForgeryToken]
+        [ValidationActionFilter]
         public ActionResult ModificarModoAdmin(RequestUsuarioModificarModoAdminDtoApi prm)//int id, IFormCollection collection)
         {
             if (ConstanteVo.ActivarLLamadasConToken)
             {
                 IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
                 ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
             }
 
             var t = Task.Run(() => _lnUsuario.ModificarModoAdmin(prm));
@@ -132,6 +157,11 @@ namespace AppWeb.Controllers
             {
                 IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
                 ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
             }
 
             var t = Task.Run(() => _lnUsuario.Eliminar(id));
@@ -259,6 +289,66 @@ namespace AppWeb.Controllers
             }
 
             var t = Task.Run(() => _lnUsuario.EliminarImagen(id));
+            t.Wait();
+
+            return Json(t.Result);
+        }
+
+
+        [HttpPost]
+        [ActionName("ModificarContrasenia")]
+        //[ValidateAntiForgeryToken]
+        [ValidationActionFilter]
+        public ActionResult ModificarContrasenia(RequestUsuarioCambioContraseniaDtoApi prm)//int id, IFormCollection collection)
+        {
+            if (ConstanteVo.ActivarLLamadasConToken)
+            {
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+            }
+
+            var t = Task.Run(() => _lnUsuario.ModificarContrasenia(prm));
+            t.Wait();
+
+            return Json(t.Result);
+        }
+
+        [HttpGet]
+        [ActionName("ObtenerContraseniaPorId")]
+        public ActionResult ObtenerContraseniaPorId(long id)
+        {
+            if (ConstanteVo.ActivarLLamadasConToken)
+            {
+                IEnumerable<string> headerUsr = Request.Headers[ConstanteVo.NombreParametroToken];
+                ConfiguracionToken.ConfigToken = headerUsr.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+            }
+
+            var t = Task.Run(() => _lnUsuario.ObtenerContraseniaPorId(id));
+            t.Wait();
+
+            return Json(t.Result);
+        }
+
+
+        [HttpPost]
+        [ValidationActionFilter]
+        public ActionResult Login(RequestUsuarioCredencialesDtoApi prm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var t = Task.Run(() => _lnUsuario.ObtenerPorLogin(prm));
             t.Wait();
 
             return Json(t.Result);

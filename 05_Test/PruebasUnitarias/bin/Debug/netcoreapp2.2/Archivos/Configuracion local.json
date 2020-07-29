@@ -1,0 +1,8 @@
+{
+  "Servidor": ".",
+  "BaseDatos": "DB_A25F3D_HelpDesk",
+  "Usuario": "sa",
+  "Contrasenia": "d3sarrollo",
+  "RutaLog": "",
+  "NombreLog": "WebTest"
+}

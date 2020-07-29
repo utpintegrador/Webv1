@@ -1,5 +1,5 @@
 ﻿using Datos.Repositorio.Maestro;
-using Entidad.Dto.Maestro;
+using ModelosApi.Dto.Maestro;
 using Entidad.Entidad.Maestro;
 using System.Collections.Generic;
 

@@ -7,13 +7,16 @@
     <link rel="icon" type="image/png" sizes="16x16" href="~/template/assets/images/favicon.png">
     <title>@ViewData["Title"] - Encuéntralo YA</title>
 
-    <environment include="Production">
-        <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
+    <script src="~/js/ValidationSession.js"></script>
 
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <environment include="Production">
+
+        @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">*@
+
+        <link rel="stylesheet" href="~/lib/bootstrap45/css/bootstrap.min.css"/>
 
         <!--link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="~/template/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"-->
+        <link href="~/template/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"-->
         @*<link href="~/template/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">*@
         <link href="~/lib/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
         <link href="~/template/main/css/style.css" rel="stylesheet">
@@ -35,6 +38,9 @@
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
+
+
+
 </head>
 <body class="fix-header fix-sidebar card-no-border">
 
@@ -94,41 +100,101 @@
                     <!-- User profile and search -->
                     <!-- ============================================================== -->
                     <ul class="navbar-nav my-lg-0">
+
+                        <!-- ============================================================== -->
+                        <!-- Comment -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown">
+                            <a id="listaPedidosPorAtender" class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="mdi mdi-message"></i>
+                                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown">
+                                <ul id="notificacionesDePedido">
+                                    @*<li>
+                                        <div class="drop-title">Notificaciones</div>
+                                    </li>
+                                    <li>
+                                        <div class="message-center">
+
+                                            <a href="#">
+                                                <div class="btn btn-danger btn-circle"><i class="fa fa-link"></i></div>
+                                                <div class="mail-contnet">
+                                                    <h5>Comprador 1</h5> <span class="mail-desc">Nuevo pedido</span> <span class="time">9:30 AM</span>
+                                                </div>
+                                            </a>
+
+                                            <a href="#">
+                                                <div class="btn btn-success btn-circle"><i class="ti-calendar"></i></div>
+                                                <div class="mail-contnet">
+                                                    <h5>Comprador 2</h5> <span class="mail-desc">Nuevo pedido</span> <span class="time">9:10 AM</span>
+                                                </div>
+                                            </a>
+
+                                            <a href="#">
+                                                <div class="btn btn-info btn-circle"><i class="ti-settings"></i></div>
+                                                <div class="mail-contnet">
+                                                    <h5>Comprador 3</h5> <span class="mail-desc">Nuevo pedido</span> <span class="time">9:08 AM</span>
+                                                </div>
+                                            </a>
+
+                                            <a href="#">
+                                                <div class="btn btn-primary btn-circle"><i class="ti-user"></i></div>
+                                                <div class="mail-contnet">
+                                                    <h5>Comprador 4</h5> <span class="mail-desc">Nuevo pedido</span> <span class="time">9:02 AM</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-center" href="javascript:void(0);"> <strong>Ver todo</strong> <i class="fa fa-angle-right"></i> </a>
+                                    </li>*@
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- End Comment -->
+                        <!-- ============================================================== -->
+
                         <!-- ============================================================== -->
                         <!-- Profile -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="~/template/assets/images/users/1.png" alt="user" class="profile-pic" /></a>
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img id="imgPerfilHeaderClick" src="~/template/assets/images/users/profile.png" alt="user" class="profile-pic" />
+                            </a>
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
                                 <ul class="dropdown-user">
                                     <li>
                                         <div class="dw-user-box">
-                                            <div class="u-img"><img src="~/template/assets/images/users/1.png" alt="user"></div>
+                                            <div class="u-img"><img id="imgPerfilHeader" src="~/template/assets/images/users/profile.png" alt="user"></div>
                                             <div class="u-text">
-                                                <h4>Frank Cochachin</h4>
-                                                <p class="text-muted">gaaa@gmail.com</p>
-                                                
-                                                @*<a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a>*@
+                                                <h4 id="lblNombreUsuarioHeader">Usuario</h4>
+                                                <p id="lblCorreoUsuarioHeader" class="text-muted">correo@correo.com</p>
 
                                             </div>
                                         </div>
                                     </li>
                                     <li role="separator" class="divider"></li>
                                     <li>
-                                        <a asp-controller="Usuario" asp-action="Edit" asp-route-id="2"><i class="ti-user"></i> Mi Perfil</a>
+                                        <a asp-controller="Perfil" asp-action="Index"><i class="ti-user"></i> Mi Perfil</a>
                                     </li>
 
-                                    @*<a href="@Url.Action("Edit", "Usuario", new { id = i })" class="btn btn-warning btn-sm">
-                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                    </a>*@
+
+                                    @*<a href="@Url.Action("Edit", "Usuario", new { id = 1 })" class="btn btn-warning btn-sm">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>*@
 
                                     <li role="separator" class="divider"></li>
-                                    @*<li><a href="#"><i class="ti-settings"></i> Configuracion de Cuenta</a></li>
-        <li role="separator" class="divider"></li>*@
-                                    @*<li><a href="#"><i class="fa fa-power-off"></i> Salir</a></li>*@
+                                    @*<li><a href="#"><i class="ti-settings"></i> Configuracion de Cuenta</a></li>*@
+                                    <li role="separator" class="divider"></li>
                                     <li>
-                                        <a asp-controller="Home" asp-action="Login"><i class="fa fa-power-off"></i> Salir</a>
+                                        @*<a href="#"><i class="fa fa-power-off"></i> Salir</a>*@
+                                        <a href="javascript:void(0)" id="btnCerrarSesionHeader" style="cursor: pointer;"><i class="fa fa-power-off" aria-hidden="true"></i> Salir</a>
                                     </li>
+                                    @*<li>
+                        <a asp-controller="Home" asp-action="Login"><i class="fa fa-power-off"></i> Salir</a>
+                    </li>*@
                                 </ul>
                             </div>
                         </li>
@@ -150,29 +216,39 @@
                     <ul id="sidebarnav">
                         <li class="user-profile">
                             <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                                <img src="~/template/assets/images/users/profile.png" alt="user" />
-                                <span class="hide-menu">Frank Cochachin </span>
+                                <img id="imgPerfilSideBar" src="~/template/assets/images/users/profile.png" alt="user" />
+                                <span class="hide-menu">Usuario </span>
                             </a>
                             <ul aria-expanded="false" class="collapse">
                                 @*<li><a href="javascript:void()">Mi Perfil </a></li>*@
                                 <li>
-                                    <a asp-controller="Usuario" asp-action="Edit" asp-route-id="2">Mi Perfil</a>
+                                    <a asp-controller="Perfil" asp-action="Index"><i class="fa fa-user" aria-hidden="true"></i> Mi Perfil</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Perfil" asp-action="Contrasenia"><i class="fa fa-key" aria-hidden="true"></i> Cambiar Contraseña</a>
                                 </li>
                                 @*<li><a href="javascript:void()">Configuracion de Cuenta</a></li>*@
                                 @*<li><a href="javascript:void()">Salir</a></li>*@
                                 <li>
-                                    <a asp-controller="Home" asp-action="Login">Salir</a>
+                                    @*<a asp-controller="Home" asp-action="Login"><i class="fa fa-power-off" aria-hidden="true"></i> Salir</a>*@
+                                    <a id="btnCerrarSesion" style="cursor: pointer;"><i class="fa fa-power-off" aria-hidden="true"></i> Salir</a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-devider"></li>
                         <!--li class="nav-small-cap">GESTION</li-->
                         <li>
+                            <div id="menuDinamico">
+
+                            </div>
+                        </li>
+                        
+                        @*<li>
                             <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                                 <i class="mdi mdi-gauge"></i>
                                 <span class="hide-menu">
                                     GESTION
-                                    <span class="label label-rouded label-themecolor pull-right">2</span>
+                                    <span class="label label-rouded label-themecolor pull-right">3</span>
                                 </span>
                             </a>
                             <ul aria-expanded="false" class="collapse">
@@ -180,33 +256,48 @@
                                     <a href="@Url.Action("Index", "Home")"><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Usuario")"><i class="fa fa-user" aria-hidden="true"></i> Usuario</a>
+                                    <a href="@Url.Action("Index", "Venta")"><i class="fa fa-truck" aria-hidden="true"></i> Ventas</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Compra")"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Compras</a>
                                 </li>
                             </ul>
                         </li>
-
-
-                        <!--li class="nav-small-cap">MAESTROS</li-->
                         <li>
                             <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                                 <i class="mdi mdi-book-open-variant"></i>
                                 <span class="hide-menu">
                                     MAESTROS
-                                    <span class="label label-rouded label-success pull-right">10</span>
+                                    <span class="label label-rouded label-success pull-right">3</span>
                                 </span>
                             </a>
                             <ul aria-expanded="false" class="collapse">
-                                @*<li>
-            <a href="@Url.Action("Index", "Negocio")">Negocio</a>
-        </li>*@
+                                <li>
+                                    <a href="@Url.Action("Index", "Negocio")"><i class="fa fa-university" aria-hidden="true"></i> Negocio</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "NegocioUbicacion")"><i class="fa fa-map-marker" aria-hidden="true"></i> Ubicaciones</a>
+                                </li>
                                 <li>
                                     <a href="@Url.Action("Index", "Producto")"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Producto</a>
                                 </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                                <i class="fa fa-lock" aria-hidden="true"></i>
+                                <span class="hide-menu">
+                                    ADMIN
+                                    <span class="label label-rouded label-danger pull-right">9</span>
+                                </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
                                 <li>
                                     <a href="@Url.Action("Index", "Categoria")"><i class="fa fa-filter" aria-hidden="true"></i> Categoria</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Negocio")"><i class="fa fa-university" aria-hidden="true"></i> Negocio</a>
+                                    <a href="@Url.Action("Index", "Usuario")"><i class="fa fa-user" aria-hidden="true"></i> Usuario</a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Index", "Estado")"><i class="fa fa-check" aria-hidden="true"></i> Estado</a>
@@ -228,39 +319,6 @@
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Index", "Moneda")"><i class="fa fa-usd" aria-hidden="true"></i> Moneda</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        @*<li>
-                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                                <i class="mdi mdi-book-open-variant"></i>
-                                <span class="hide-menu">
-                                    ADMINISTRACION
-                                    <span class="label label-rouded label-success pull-right">0</span>
-                                </span>
-                            </a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li>
-                                    <a href="@Url.Action("Index", "Estado")">Estado</a>
-                                </li>
-                            </ul>
-                        </li>*@
-
-                        @*<li>
-                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                                <i class="mdi mdi-book-open-variant"></i>
-                                <span class="hide-menu">
-                                    VENTA
-                                    <span class="label label-rouded label-success pull-right">2</span>
-                                </span>
-                            </a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li>
-                                    <a href="@Url.Action("Index", "PasarelaCategoria")">Categoria</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "PasarelaProducto")">Producto</a>
                                 </li>
                             </ul>
                         </li>*@
@@ -315,10 +373,11 @@
         @*<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>*@
 
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        @*<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>*@
 
-
+        <script src="~/lib/bootstrap45/popper.min.js"></script>
+        <script src="~/lib/bootstrap45/js/bootstrap.min.js"></script>
 
         <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

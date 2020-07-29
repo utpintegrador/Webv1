@@ -1,14 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entidad.Request.Maestro
+namespace ModelosApi.Request.Maestro
 {
     public class RequestNegocioUbicacionModificarDtoApi
     {
         [Range(1, long.MaxValue, ErrorMessage = "{0}: debe tener un valor mayor o igual a {1}")]
         public long IdNegocioUbicacion { get; set; }
-
-        [Range(1, long.MaxValue, ErrorMessage = "{0}: debe tener un valor mayor o igual a {1}")]
-        public long IdNegocio { get; set; }
 
         [Required(ErrorMessage = "{0}: parametro es requerido")]
         public decimal Latitud { get; set; }

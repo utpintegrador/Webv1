@@ -1,4 +1,4 @@
-﻿namespace Entidad.Dto.Transaccion
+﻿namespace ModelosApi.Dto.Transaccion
 {
     public class PedidoObtenerPorIdDtoApi
     {

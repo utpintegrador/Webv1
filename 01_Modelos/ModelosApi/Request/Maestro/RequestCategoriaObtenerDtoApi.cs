@@ -1,6 +1,6 @@
 ﻿using ModelosApi.Request.Comun;
 
-namespace Entidad.Request.Maestro
+namespace ModelosApi.Request.Maestro
 {
     public class RequestCategoriaObtenerDtoApi : FiltroPaginacionApi
     {

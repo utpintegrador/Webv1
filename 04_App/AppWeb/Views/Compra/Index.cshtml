@@ -1,0 +1,518 @@
+﻿@using System.Web;
+
+@{
+    ViewData["Title"] = "Compras";
+}
+
+@section estilos {
+    @*<link href="@Url.Content("~/template/main/css/pages/floating-label.css")" rel="stylesheet" />*@
+    <link href="~/lib/select2/css/select2.css" rel="stylesheet" />
+    <link href="~/lib/datatables/media/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/lib/datatables/media/css/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/lib/datatables/media/css/select.bootstrap4.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />*@
+    <link rel="stylesheet" href="~/lib/jquery-modal/jquery.modal.min.css" />
+    @*<link href="~/lib/bootstrap-daterangepicker/daterangepicker.css" />
+        <link href="~/lib/timepicker/bootstrap-timepicker.min.css" />*@
+    <link rel="stylesheet" href="~/lib/wizard/wizard.css" />
+    <link rel="stylesheet" href="~/lib/flatpickr/flatpickr.min.css">
+
+    <style>
+        .imagenproducto {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 0.4rem !important;
+        }
+
+        .tamanioimagenproductopopup {
+            width: 400px;
+            height: 270px;
+            max-height: 270px;
+            max-width: 400px;
+        }
+
+        #drop-area {
+            border: 1px dashed #007bff;
+            border-radius: 20px;
+            padding: 20px;
+            min-height: 400px;
+            width: 100%;
+            position: relative;
+        }
+
+            #drop-area:before {
+                content: "Drop your image files here.";
+                position: absolute;
+                left: 50%;
+                width: 300px;
+                margin-left: -150px;
+                margin-top: -10px;
+                top: 50%;
+                height: 20px;
+            }
+
+        .dataTables_wrapper .dataTables_processing {
+            background: none;
+        }
+
+        .dt-body-right {
+            padding-right: 5px;
+            text-align: right;
+        }
+
+        div.dataTables_info {
+            margin-bottom: 20px;
+        }
+
+        a.close-modal {
+            margin-top: 25px !important;
+            margin-right: 25px !important;
+        }
+
+        /*Cancelado*/
+        .iconoCancelado {
+            background: #b61827 !important;
+        }
+
+            .iconoCancelado:before {
+                border: 2px solid #b61827 !important;
+                box-shadow: 0 0 0 4px #ff867c !important;
+            }
+
+        .yearCancelado {
+            color: #b61827 !important;
+        }
+
+            .yearCancelado:before {
+                background: #b61827 !important;
+                box-shadow: 0 0 0 4px #b61827 !important;
+            }
+
+        .titleCancelado {
+            color: #b61827 !important;
+        }
+
+        .fondoCancelado {
+            background-color: #ffa4a2 !important;
+        }
+
+        /*Entregado*/
+        .iconoEntregado {
+            background: #009423 !important;
+        }
+
+            .iconoEntregado:before {
+                border: 2px solid #009423 !important;
+                box-shadow: 0 0 0 4px #00c652 !important;
+            }
+
+        .yearEntregado {
+            color: #009423 !important;
+        }
+
+            .yearEntregado:before {
+                background: #009423 !important;
+                box-shadow: 0 0 0 4px #009423 !important;
+            }
+
+        .titleEntregado {
+            color: #009423 !important;
+        }
+
+        .fondoEntregado {
+            background-color: #b9f6ca !important;
+        }
+
+        /*Entregando*/
+        .iconoEntregando {
+            background: #c17900 !important;
+        }
+
+            .iconoEntregando:before {
+                border: 2px solid #c17900 !important;
+                box-shadow: 0 0 0 4px #fff263 !important;
+            }
+
+        .yearEntregando {
+            color: #c17900 !important;
+        }
+
+            .yearEntregando:before {
+                background: #c17900 !important;
+                box-shadow: 0 0 0 4px #c17900 !important;
+            }
+
+        .titleEntregando {
+            color: #c17900 !important;
+        }
+
+        /*Preparando*/
+        .iconoPreparando {
+            background: #006db3 !important;
+        }
+
+            .iconoPreparando:before {
+                border: 2px solid #006db3 !important;
+                box-shadow: 0 0 0 4px #63ccff !important;
+            }
+
+        .yearPreparando {
+            color: #006db3 !important;
+        }
+
+            .yearPreparando:before {
+                background: #006db3 !important;
+                box-shadow: 0 0 0 4px #006db3 !important;
+            }
+
+        .titlePreparando {
+            color: #006db3 !important;
+        }
+
+        /*Aceptado*/
+        .iconoAceptado {
+            background: #c63f17 !important;
+        }
+
+            .iconoAceptado:before {
+                border: 2px solid #c63f17 !important;
+                box-shadow: 0 0 0 4px #ffa270 !important;
+            }
+
+        .yearAceptado {
+            color: #c63f17 !important;
+        }
+
+            .yearAceptado:before {
+                background: #c63f17 !important;
+                box-shadow: 0 0 0 4px #c63f17 !important;
+            }
+
+        .titleAceptado {
+            color: #c63f17 !important;
+        }
+    </style>
+}
+
+@*Titulo*@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Compras del Usuario</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Compra</a></li>
+            <li class="breadcrumb-item active">Index</li>
+        </ol>
+    </div>
+</div>
+
+@*Botones y filtro*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card" id="frmWrapper">
+            <div class="card-body" style="margin-bottom: -25px;">
+
+
+                <button id="btnRecargar" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-refresh" aria-hidden="true"></i> Recargar
+                </button>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-2">
+                        <div class="form-group">
+                            <label>Negocio</label>
+                            <select id="cboNegocio" class="form-control form-control-line select2" style="width: 100%"></select>
+                        </div>
+                    </div>
+                    @*<div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+
+
+                                <label>Fecha de Registro</label>
+                                    <input class="form-control input-daterange-datepicker" type="text" name="daterange" value="01/01/2015 - 01/31/2015" />
+
+                            </div>
+                        </div>*@
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <select id="cboEstado" class="form-control form-control-line select2" style="width: 100%"></select>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="form-group">
+                            <label>Moneda</label>
+                            <select id="cboMoneda" class="form-control form-control-line select2" style="width: 100%"></select>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="form-group">
+                            <label>Registrado desde</label>
+                            <input id="dtFechaDesde" class="form-control form-control-line" style="width: 100%; height:31px; font-size: 14.4px; min-height: 31px;">
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="form-group">
+                            <label>Registrado hasta</label>
+                            <input id="dtFechaHasta" class="form-control form-control-line" style="width: 100%; height:31px; font-size: 14.4px; min-height: 31px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tb1" class="table table-hover">
+                        <thead style="background-color: #1976d2; color:#fff;">
+                            <tr>
+                                <th style="width:30px !important; border-radius: 5px 0px 0px 0px;">
+                                    N°
+                                </th>
+                                <th style="display: none;">
+                                    IdPedido
+                                </th>
+                                <th>
+                                    N°Doc.Vendedor
+                                </th>
+                                <th>
+                                    Vendedor
+                                </th>
+                                <th>
+                                    N°Doc.Cliente
+                                </th>
+                                <th>
+                                    Cliente
+                                </th>
+                                <th>
+                                    Moneda
+                                </th>
+                                <th>
+                                    Total
+                                </th>
+                                <th>
+                                    Estado
+                                </th>
+                                <th style="text-align:center; width:100px !important;">
+                                    Registro
+                                </th>
+                                <th style="text-align:center; width:100px !important;">
+                                    Actualización
+                                </th>
+                                <th style="text-align:center; width:125px !important; border-radius: 0px 5px 0px 0px;">
+                                    @HttpUtility.HtmlDecode("Acción")
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Detalle de Pedido</h5>
+                <div class="table-responsive">
+                    <table id="tb2" class="table table-hover">
+                        <thead style="background-color: #1976d2; color:#fff;">
+                            <tr>
+                                <th style="width:30px !important; border-radius: 5px 0px 0px 0px;">
+                                    N°
+                                </th>
+                                <th style="display: none;">
+                                    IdPedidoDetalle
+                                </th>
+                                <th>
+                                    Descripcion
+                                </th>
+                                <th>
+                                    Cantidad
+                                </th>
+                                <th>
+                                    Precio Unitario
+                                </th>
+                                @*<th style="text-align:center; width:125px !important; border-radius: 0px 5px 0px 0px;">
+                                        @HttpUtility.HtmlDecode("Acción")
+                                    </th>*@
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Trazabilidad</h5>
+                <hr />
+                <div class="row" id="divTrazabilidad">
+                    <div class="col-md-1 col-lg-2 col-xl-3"></div>
+                    <div class="col-md-10 col-lg-8 col-xl-6">
+                        <div class="main-lineaTiempo" style="margin-top:20px;">
+                            <div class="row m-b-30" id="divRechazado">
+                                <div class="col-md-12">
+                                    <div class="itemTiempo">
+                                        <div class="itemTiempo-icon iconoCancelado"><i class="fa fa-times" style="color:#b61827;"></i></div>
+                                        <span class="year yearCancelado" style="font-size:22px; padding-bottom:10px; line-height: 20px; margin-top:10px; margin-left:10px;" id="txtFechaRechazado"></span>
+                                        <div class="itemTiempo-content">
+                                            <h5 class="title titleCancelado">Rechazado</h5>
+                                            <p class="description">
+                                                <span id="txtUsuarioRechazado"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-b-30" id="divCancelado">
+                                <div class="col-md-12">
+                                    <div class="itemTiempo">
+                                        <div class="itemTiempo-icon iconoCancelado"><i class="fa fa-trash-o" style="color:#b61827;"></i></div>
+                                        <span class="year yearCancelado" style="font-size:22px; padding-bottom:10px; line-height: 20px; margin-top:10px; margin-left:10px;" id="txtFechaCancelado"></span>
+                                        <div class="itemTiempo-content">
+                                            <h5 class="title titleCancelado">Cancelado</h5>
+                                            <p class="description">
+                                                <span id="txtUsuarioCancelado"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-b-30" id="divEntregado">
+                                <div class="col-md-12">
+                                    <div class="itemTiempo">
+                                        <div class="itemTiempo-icon iconoEntregado"><i class="fa fa-check" style="color:#009423;"></i></div>
+                                        <span class="year yearEntregado" style="font-size:22px; padding-bottom:10px; line-height: 20px; margin-top:10px; margin-left:10px;" id="txtFechaEntregado"></span>
+                                        <div class="itemTiempo-content">
+                                            <h5 class="title titleEntregado">Entregado</h5>
+                                            <p class="description">
+                                                <span id="txtUsuarioEntregado"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-b-30" id="divEntregando">
+                                <div class="col-md-12">
+                                    <div class="itemTiempo">
+                                        <div class="itemTiempo-icon iconoEntregando"><i class="fa fa-truck" style="color:#c49000;"></i></div>
+                                        <span class="year yearEntregando" style="font-size:22px; padding-bottom:10px; line-height: 20px; margin-top:10px; margin-left:10px;" id="txtFechaEntregando"></span>
+                                        <div class="itemTiempo-content">
+                                            <h5 class="title titleEntregando">Entregando</h5>
+                                            <p class="description">
+                                                <span id="txtUsuarioEntregando"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-b-30" id="divPreparando">
+                                <div class="col-md-12">
+                                    <div class="itemTiempo">
+                                        <div class="itemTiempo-icon iconoPreparando"><i class="fa fa-archive" style="color:#006db3;"></i></div>
+                                        <span class="year yearPreparando" style="font-size:22px; padding-bottom:10px; line-height: 20px; margin-top:10px; margin-left:10px;" id="txtFechaPreparando"></span>
+                                        <div class="itemTiempo-content">
+                                            <h5 class="title titlePreparando">Preparando</h5>
+                                            <p class="description">
+                                                <span id="txtUsuarioPreparando"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-b-30" id="divAceptado">
+                                <div class="col-md-12">
+                                    <div class="itemTiempo">
+                                        <div class="itemTiempo-icon iconoAceptado"><i class="fa fa-thumbs-o-up" style="color:#c63f17;"></i></div>
+                                        <span class="year yearAceptado" style="font-size:22px; padding-bottom:10px; line-height: 20px; margin-top:10px; margin-left:10px;" id="txtFechaAceptado"></span>
+                                        <div class="itemTiempo-content">
+                                            <h5 class="title titleAceptado">Aceptado</h5>
+                                            <p class="description">
+                                                <span id="txtUsuarioAceptado"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-b-30" id="divGenerado">
+                                <div class="col-md-12">
+                                    <div class="itemTiempo">
+                                        <div class="itemTiempo-icon"><i class="fa fa-shopping-cart"></i></div>
+                                        <span class="year" style="font-size:22px; padding-bottom:10px; line-height: 20px; margin-top:10px; margin-left:10px;" id="txtFechaGenerado"></span>
+                                        <div class="itemTiempo-content">
+                                            <h5 class="title">Generado</h5>
+                                            <p class="description">
+                                                <span id="txtUsuarioGenerado"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1 col-lg-2 col-xl-3"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal  card modal m-t-60*@
+<div class="row" margin-bottom:-65px;">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+        <div class="card modal m-t-60" style="border-radius: 1.25rem!important; max-width:300px; max-height: 190px;" id="sticky">
+            <div class="card-body center">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Nuevo estado</label>
+                            <select id="cboEstadoNuevo" class="form-control form-control-line select2" style="width: 100%"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <a id="btnGuardarCambioEstado" href="#" rel="modal:close" class="btn btn-primary btn-sm">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/select2/js/select2.min.js" type="text/javascript"></script>
+    <script src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script src="~/lib/datatables/media/js/dataTables.bootstrap4.js"></script>
+    <script src="~/lib/datatables/media/js/dataTables.select.min.js"></script>
+    <script src="~/lib/datatables/media/js/select.bootstrap4.min.js"></script>
+    <script src="~/lib/sweetalert2/sweetalert2-9.js" type="text/javascript"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>*@
+    <script src="~/lib/jquery-modal/jquery.modal.min.js"></script>
+    <script src="~/lib/moment/moment.js"></script>
+    @*<script src="~/lib/bootstrap-daterangepicker/daterangepicker.js"></script>
+        <script src="~/lib/timepicker/bootstrap-timepicker.min.js"></script>*@
+    <script src="~/lib/flatpickr/flatpickr.js"></script>
+
+    <script src="~/js/Transaccion/Compra.js"></script>
+}

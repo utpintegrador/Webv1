@@ -13,5 +13,6 @@
         public string CorreoElectronico { get; set; }
         public decimal Longitud { get; set; }
         public decimal Latitud { get; set; }
+        public string Telefono { get; set; }
     }
 }

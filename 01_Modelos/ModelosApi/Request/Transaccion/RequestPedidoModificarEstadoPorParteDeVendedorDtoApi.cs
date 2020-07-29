@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entidad.Request.Transaccion
+namespace ModelosApi.Request.Transaccion
 {
     public class RequestPedidoModificarEstadoPorParteDeVendedorDtoApi
     {
@@ -10,6 +10,7 @@ namespace Entidad.Request.Transaccion
         [Range(1, long.MaxValue, ErrorMessage = "{0}: parametro es requerido")]
         public long IdNegocioVendedor { get; set; }
 
+        [Range(8, 13, ErrorMessage = "{0}: parametro es requerido")]
         public int IdEstado { get; set; }
 
         /*

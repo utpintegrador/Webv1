@@ -10,6 +10,7 @@ namespace Entidad.Dto.Response.Seguridad
         [DisplayName("ListaErrores")]
         public List<ErrorDto> ListaError { get; set; }
         public string UrlImagen { get; set; }
+        public int StatusCode { get; set; }
         public UsuarioResponseSubirImagenDto()
         {
             ProcesadoOk = 0;

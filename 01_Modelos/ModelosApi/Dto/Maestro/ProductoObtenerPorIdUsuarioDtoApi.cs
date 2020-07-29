@@ -13,5 +13,7 @@
         public string Negocio { get; set; }
         public string DescripcionEstado { get; set; }
         public string UrlImagen { get; set; }
+        public int CantidadDescuentos { get; set; }
+        public int CantidadImagenes { get; set; }
     }
 }

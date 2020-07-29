@@ -2,6 +2,8 @@
 window._mensajeValidacion = '';
 
 $(document).ready(function () {
+    ValidacionInicial();
+    ProcesarMenuLateral();
     $(".select2").select2();
 
     $('#frmWrapper').LoadingOverlay('show', {
@@ -15,6 +17,9 @@ $(document).ready(function () {
 
             var cboTipoEstado = $('#cboTipoEstado');
             cboTipoEstado.append($('<option/>', { value: 0, text: 'Seleccione' }));
+            cboTipoEstado.select2({
+                minimumResultsForSearch: Infinity
+            });
 
             if (respuestaTiposEstadoAjax.Cuerpo != null) {
                 if (respuestaTiposEstadoAjax.Cuerpo.length > 0) {
@@ -44,11 +49,15 @@ function ObtenerTiposEstado() {
         data: {},
         dataType: 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
         contentType: 'application/json; charset=utf-8',
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
             select.empty();
+        },
+        complete: function (json) {
+            EvaluarRespuesta_401_403(json);
         }
     });
 }
@@ -79,35 +88,35 @@ function Registrar() {
         'data': prm,
         'dataType': 'json',
         headers: {
-            'Authorization': 'Valor del token debe ir aca'
+            //'Authorization': 'Valor del token debe ir aca'
         },
-        beforeSend: function () {
+        beforeSend: function (request) {
+            request.setRequestHeader(ObtenerNombreAutorizacion(), GetItem(ObtenerNombreToken()));
         }
     }).done(function (result, textStatus, jqXhr) {
 
         $('#frmWrapper').LoadingOverlay('hide', true);
-
-        if (result.ProcesadoOk != null) {
-            switch (result.ProcesadoOk) {
-                case -1:
-                    MensajeError('Error', 'Error al registrar!');
-                    break;
-                case 0:
-                    MensajeError('Error', 'Error al registrar!');
-                    break;
-                case 1:
-                    MensajeInfo('Confirmación', 'El registro se efectuó satisfactoriamente!');
-                    break;
+        EvaluarRespuesta_401_403(result);
+        if (!ResponseTieneErrores(result)) {
+            if (result.ProcesadoOk != null) {
+                switch (result.ProcesadoOk) {
+                    case -1:
+                        MensajeError('Error', 'Error al registrar!');
+                        break;
+                    case 0:
+                        MensajeError('Error', 'Error al registrar!');
+                        break;
+                    case 1:
+                        MensajeSuccessConEspera('Confirmación', 'El registro se efectuó satisfactoriamente!', '/Estado/Index');
+                        break;
+                }
             }
-        }
 
-        if (result.ProcesadoOk == 1) {
-            sleep(3000);
-            window.location.href = '/Estado/Index';
         }
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
-
+        $('#frmWrapper').LoadingOverlay('hide', true);
+        ValidacionModelo(jqXHR);
     });
 
 };
@@ -116,11 +125,11 @@ function Validar() {
     window._mensajeValidacion = '';
 
     if ($("#txtDescripcion").val() == '' || $("#txtDescripcion").val() == null) {
-        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [Descripcion] es requerido ';
+        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [Descripcion] es requerido <br/>';
     }
 
     if ($("#cboTipoEstado").val() == 0) {
-        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [TipoEstado] es requerido ';
+        window._mensajeValidacion = window._mensajeValidacion + ' * El campo [TipoEstado] es requerido <br/>';
     }
 
     if (window._mensajeValidacion == '') {
@@ -137,80 +146,6 @@ function sleep(miliseconds) {
     }
 }
 
-function MensajeError(titulo, mensaje) {
-
-    if (titulo == null) {
-        titulo = 'Error';
-    }
-
-    if (titulo == '') {
-        titulo = 'Error';
-    }
-
-    if (mensaje == null) {
-        mensaje = 'Error al procesar';
-    }
-
-    if (mensaje == '') {
-        mensaje = 'Error al procesar';
-    }
-
-    var icon = 'error';
-    var className = 'btn btn-danger';
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: className
-        },
-        buttonsStyling: false
-    });
-
-    swalWithBootstrapButtons.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icon,
-        confirmButtonText: 'Ok!',
-        reverseButtons: true
-    });
-}
-
-function MensajeInfo(titulo, mensaje) {
-
-    if (titulo == null) {
-        titulo = 'Confirmación';
-    }
-
-    if (titulo == '') {
-        titulo = 'Confirmación';
-    }
-
-    if (mensaje == null) {
-        mensaje = 'Proceso satisfactorio';
-    }
-
-    if (mensaje == '') {
-        mensaje = 'Proceso satisfactorio';
-    }
-
-    var icon = 'success';
-    var className = 'btn btn-success';
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: className
-        },
-        buttonsStyling: false
-    });
-
-    swalWithBootstrapButtons.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icon,
-        confirmButtonText: 'Ok!',
-        reverseButtons: true
-    });
-}
-
 function HabilitarControlesMenu(valor) {
     if (valor === true) {
         $('#btnGuardar').removeClass('disabled');
@@ -220,3 +155,6 @@ function HabilitarControlesMenu(valor) {
         $('#btnRetornar').addClass('disabled');
     }
 };
+
+
+

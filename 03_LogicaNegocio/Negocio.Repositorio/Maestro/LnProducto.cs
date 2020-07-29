@@ -1,10 +1,8 @@
 ﻿using Entidad.Configuracion.Proceso;
 using Entidad.Dto.Comun;
-using Entidad.Dto.Maestro;
-using Entidad.Request.Maestro;
-using Entidad.Vo;
 using ModelosApi.Dto.Maestro;
 using ModelosApi.Request.Maestro;
+using Entidad.Vo;
 using ModelosApi.Response.Comun;
 using ModelosApi.Response.Maestro;
 using Newtonsoft.Json;
@@ -15,6 +13,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Entidad.Dto.Maestro;
+using ClosedXML.Excel;
+using System.IO;
 
 namespace Negocio.Repositorio.Maestro
 {
@@ -24,10 +25,10 @@ namespace Negocio.Repositorio.Maestro
 
         public async Task<ResultDataTable> Obtener(ProductoObtenerFiltroDto prm)
         {
-            ResultDataTable respuesta = new ResultDataTable();
+            ResultDataTable resultado = new ResultDataTable();
             long totalRegistros = 0;
             List<ProductoObtenerPorIdUsuarioDtoApi> lista = new List<ProductoObtenerPorIdUsuarioDtoApi>();
-
+            int statusCode = 0;
             try
             {
                 //Dentro de AJAX => datatype: 'json', headers: {'Authorization': 'Basic ' + valor token }, ....
@@ -62,9 +63,10 @@ namespace Negocio.Repositorio.Maestro
 
                     var content = new StringContent(JsonConvert.SerializeObject(filtroApi), Encoding.UTF8, "application/json");
                     HttpResponseMessage result = await client.PostAsync(new Uri(url), content);
-                    if (result.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         response = await result.Content.ReadAsStringAsync();
+                        statusCode = (int)result.StatusCode;
                     }
                 }
 
@@ -88,23 +90,28 @@ namespace Negocio.Repositorio.Maestro
             {
                 string exMessage = (ex.InnerException == null ? ex.Message : ex.InnerException.Message).Replace(Environment.NewLine, " ");
                 Log(Level.Error, exMessage);
-                respuesta.error = exMessage;
+                resultado.error = exMessage;
             }
             finally
             {
-                respuesta.data = lista;
-                respuesta.draw = prm.Draw;
-                respuesta.recordsTotal = (int)totalRegistros;
-                respuesta.recordsFiltered = (int)totalRegistros;
+                resultado.data = lista;
+                resultado.draw = prm.Draw;
+                resultado.recordsTotal = (int)totalRegistros;
+                resultado.recordsFiltered = (int)totalRegistros;
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
             }
-
-            return respuesta;
+            
+            return resultado;
 
         }
 
         public async Task<ResponseProductoObtenerPorIdConAtributosDto> ObtenerPorId(long id)
         {
             ResponseProductoObtenerPorIdConAtributosDto resultado = new ResponseProductoObtenerPorIdConAtributosDto();
+            int statusCode = 0;
             try
             {
                 var response = string.Empty;
@@ -118,9 +125,10 @@ namespace Negocio.Repositorio.Maestro
                     }
 
                     HttpResponseMessage result = await client.GetAsync(new Uri(url));
-                    if (result.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         response = await result.Content.ReadAsStringAsync();
+                        statusCode = (int)result.StatusCode;
                     }
                 }
 
@@ -145,6 +153,13 @@ namespace Negocio.Repositorio.Maestro
                 {
                     Mensaje = exMessage
                 });
+            }
+            finally
+            {
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
             }
 
             return resultado;
@@ -193,7 +208,7 @@ namespace Negocio.Repositorio.Maestro
         public async Task<ResponseProductoModificarDtoApi> Modificar(RequestProductoModificarDtoApi prm)
         {
             ResponseProductoModificarDtoApi resultado = new ResponseProductoModificarDtoApi();
-
+            int statusCode = 0;
             try
             {
                 //Dentro de AJAX => datatype: 'json', headers: {'Authorization': 'Basic ' + valor token }, ....
@@ -209,9 +224,10 @@ namespace Negocio.Repositorio.Maestro
 
                     var content = new StringContent(JsonConvert.SerializeObject(prm), Encoding.UTF8, "application/json");
                     HttpResponseMessage result = await client.PutAsync(new Uri(url), content);
-                    if (result.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         response = await result.Content.ReadAsStringAsync();
+                        statusCode = (int)result.StatusCode;
                     }
                 }
 
@@ -233,6 +249,13 @@ namespace Negocio.Repositorio.Maestro
                     Mensaje = exMessage
                 });
             }
+            finally
+            {
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
+            }
 
             return resultado;
 
@@ -241,7 +264,7 @@ namespace Negocio.Repositorio.Maestro
         public async Task<ResponseProductoRegistrarDtoApi> Registrar(RequestProductoRegistrarDtoApi prm)
         {
             ResponseProductoRegistrarDtoApi resultado = new ResponseProductoRegistrarDtoApi();
-
+            int statusCode = 0;
             try
             {
                 //Dentro de AJAX => datatype: 'json', headers: {'Authorization': 'Basic ' + valor token }, ....
@@ -257,9 +280,10 @@ namespace Negocio.Repositorio.Maestro
 
                     var content = new StringContent(JsonConvert.SerializeObject(prm), Encoding.UTF8, "application/json");
                     HttpResponseMessage result = await client.PostAsync(new Uri(url), content);
-                    if (result.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         response = await result.Content.ReadAsStringAsync();
+                        statusCode = (int)result.StatusCode;
                     }
                 }
 
@@ -281,6 +305,13 @@ namespace Negocio.Repositorio.Maestro
                     Mensaje = exMessage
                 });
             }
+            finally
+            {
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
+            }
 
             return resultado;
 
@@ -289,6 +320,7 @@ namespace Negocio.Repositorio.Maestro
         public async Task<ResponseProductoEliminarDtoApi> Eliminar(long id)
         {
             ResponseProductoEliminarDtoApi resultado = new ResponseProductoEliminarDtoApi();
+            int statusCode = 0;
             try
             {
                 var response = string.Empty;
@@ -302,9 +334,10 @@ namespace Negocio.Repositorio.Maestro
                     }
 
                     HttpResponseMessage result = await client.DeleteAsync(new Uri(url));
-                    if (result.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         response = await result.Content.ReadAsStringAsync();
+                        statusCode = (int)result.StatusCode;
                     }
                 }
 
@@ -326,6 +359,13 @@ namespace Negocio.Repositorio.Maestro
                     Mensaje = exMessage
                 });
             }
+            finally
+            {
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
+            }
 
             return resultado;
         }
@@ -333,7 +373,7 @@ namespace Negocio.Repositorio.Maestro
         public async Task<ResponseProductoEliminarMasivoDtoApi> EliminarMasivo(RequestProductoEliminarMasivoDtoApi prm)
         {
             ResponseProductoEliminarMasivoDtoApi resultado = new ResponseProductoEliminarMasivoDtoApi();
-
+            int statusCode = 0;
             try
             {
                 //Dentro de AJAX => datatype: 'json', headers: {'Authorization': 'Basic ' + valor token }, ....
@@ -349,9 +389,10 @@ namespace Negocio.Repositorio.Maestro
 
                     var content = new StringContent(JsonConvert.SerializeObject(prm), Encoding.UTF8, "application/json");
                     HttpResponseMessage result = await client.PostAsync(new Uri(url), content);
-                    if (result.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         response = await result.Content.ReadAsStringAsync();
+                        statusCode = (int)result.StatusCode;
                     }
                 }
 
@@ -373,80 +414,283 @@ namespace Negocio.Repositorio.Maestro
                     Mensaje = exMessage
                 });
             }
+            finally
+            {
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
+            }
 
             return resultado;
 
         }
 
-        //public List<ProductoObtenerDto> ObtenerListadoPorIdUsuario(ProductoObtenerFiltroDto filtro)
-        //{
-        //    List<ProductoObtenerDto> lista = new List<ProductoObtenerDto>();
-        //    lista.Add(new ProductoObtenerDto
-        //    {
-        //        IdProducto = 1,
-        //        Descripcion = "Producto 1",
-        //        DescripcionExtendida = "Descripcion extendida 1",
-        //        Precio = 4.5M,
-        //        Estado = "Activo",
-        //        Moneda = "Sol",
-        //        Categoria = "Categoria 1",
-        //        Negocio = "Negocio 1",
-        //        UrlImagen = "https://encuentralo.s3.us-east-2.amazonaws.com/Categoria/1.jpg"
-        //    });
+        public async Task<ResponseProductoImportarDtoApi> Importar(RequestProductoImportarDtoApi prm)
+        {
+            ResponseProductoImportarDtoApi resultado = new ResponseProductoImportarDtoApi();
+            int statusCode = 400;
+            try
+            {
+                XLWorkbook libro;
+                using (Stream stream = new MemoryStream(prm.ArchivoBytes))
+                {
+                    libro = new XLWorkbook(stream);
+                }
 
-        //    lista.Add(new ProductoObtenerDto
-        //    {
-        //        IdProducto = 2,
-        //        Descripcion = "Producto 2",
-        //        DescripcionExtendida = "Descripcion extendida 2",
-        //        Precio = 5.9M,
-        //        Estado = "Activo",
-        //        Moneda = "Sol",
-        //        Categoria = "Categoria 1",
-        //        Negocio = "Negocio 1",
-        //        UrlImagen = "https://encuentralo.s3.us-east-2.amazonaws.com/Categoria/2.jpg"
-        //    });
+                List<string> listaValidacionEstructura = new List<string>();
+                bool validacion = false;
+                if(libro != null)
+                {
+                    if(ValidarEstructuraExcel(libro, ref listaValidacionEstructura))
+                    {
+                        //Validar fila por fila
+                        validacion = ValidarDataExcel(libro, ref listaValidacionEstructura);
+                    }
+                }
 
-        //    lista.Add(new ProductoObtenerDto
-        //    {
-        //        IdProducto = 3,
-        //        Descripcion = "Producto 3",
-        //        DescripcionExtendida = "Descripcion extendida 3",
-        //        Precio = 1.2M,
-        //        Estado = "Activo",
-        //        Moneda = "Sol",
-        //        Categoria = "Categoria 1",
-        //        Negocio = "Negocio 1",
-        //        UrlImagen = "https://encuentralo.s3.us-east-2.amazonaws.com/Categoria/3.jpg"
-        //    });
+                //solo debe continuar si la data es valida
+                if (validacion)
+                {
+                    //Dentro de AJAX => datatype: 'json', headers: {'Authorization': 'Basic ' + valor token }, ....
+                    var response = string.Empty;
+                    string url = string.Format("{0}{1}/Importar", ConstanteVo.UrlBaseApi, _nombreControlador);
 
-        //    lista.Add(new ProductoObtenerDto
-        //    {
-        //        IdProducto = 4,
-        //        Descripcion = "Producto 4",
-        //        DescripcionExtendida = "Descripcion extendida 4",
-        //        Precio = 3.6M,
-        //        Estado = "Activo",
-        //        Moneda = "Sol",
-        //        Categoria = "Categoria 1",
-        //        Negocio = "Negocio 1",
-        //        UrlImagen = "https://encuentralo.s3.us-east-2.amazonaws.com/Categoria/4.jpg"
-        //    });
+                    using (var client = new HttpClient())
+                    {
+                        if (ConstanteVo.ActivarLLamadasConToken && !string.IsNullOrEmpty(ConfiguracionToken.ConfigToken))
+                        {
+                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ConfiguracionToken.ConfigToken.Trim());
+                        }
 
-        //    lista.Add(new ProductoObtenerDto
-        //    {
-        //        IdProducto = 5,
-        //        Descripcion = "Producto 5",
-        //        DescripcionExtendida = "Descripcion extendida 5",
-        //        Precio = 0.1M,
-        //        Estado = "Activo",
-        //        Moneda = "Sol",
-        //        Categoria = "Categoria 1",
-        //        Negocio = "Negocio 1",
-        //        UrlImagen = "https://encuentralo.s3.us-east-2.amazonaws.com/Categoria/5.jpg"
-        //    });
+                        var content = new StringContent(JsonConvert.SerializeObject(prm), Encoding.UTF8, "application/json");
+                        HttpResponseMessage result = await client.PostAsync(new Uri(url), content);
+                        if (result != null)
+                        {
+                            response = await result.Content.ReadAsStringAsync();
+                            statusCode = (int)result.StatusCode;
+                        }
+                    }
 
-        //    return lista;
-        //}
+                    if (!string.IsNullOrEmpty(response))
+                    {
+                        resultado = new ResponseProductoImportarDtoApi();
+                        resultado = JsonConvert.DeserializeObject<ResponseProductoImportarDtoApi>(response);
+                    }
+                }
+                else
+                {
+                    List<ErrorDtoApi> ListaErrorValidacion = new List<ErrorDtoApi>();
+                    foreach (var itemValidacion in listaValidacionEstructura)
+                    {
+                        ListaErrorValidacion.Add(new ErrorDtoApi
+                        {
+                            Mensaje = itemValidacion
+                        });
+                    }
+                    resultado.ListaError = ListaErrorValidacion;
+                    resultado.StatusCode = statusCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (resultado == null) resultado = new ResponseProductoImportarDtoApi();
+                if (resultado.ListaError == null) resultado.ListaError = new List<ErrorDtoApi>();
+
+                string exMessage = (ex.InnerException == null ? ex.Message : ex.InnerException.Message).Replace(Environment.NewLine, " ");
+                Log(Level.Error, exMessage);
+                resultado.ListaError.Add(new ErrorDtoApi
+                {
+                    Mensaje = exMessage
+                });
+            }
+            finally
+            {
+                if (resultado != null)
+                {
+                    resultado.StatusCode = statusCode;
+                }
+            }
+
+            return resultado;
+
+        }
+
+        private bool ValidarDataExcel(XLWorkbook libro, ref List<string> listaValidaciones)
+        {
+            if (listaValidaciones == null) listaValidaciones = new List<string>();
+            if (libro != null)
+            {
+                try
+                {
+                    using (libro)
+                    {
+                        if (libro.Worksheets.Any(x => x.Name == "Productos"))
+                        {
+                            //Descripcion	DescripcionExtendida	Precio
+                            IXLWorksheet hoja = libro.Worksheet("Productos");
+                            IXLRange rango = hoja.RangeUsed();
+                            int cantidadFilas = rango.Rows().Count();
+                            string descripcionExtraido;
+                            string descripcionExtendidaExtraido;
+                            string precioExtraido;
+                            for (int i = 1; i < cantidadFilas; i++)//desde uno porque no se requiere leer la cabecera
+                            {
+                                try
+                                {
+                                    descripcionExtraido = hoja.Cell(i + 1, 1).Value.ToString();//500 not null
+                                    descripcionExtendidaExtraido = hoja.Cell(i + 1, 2).Value.ToString();//1000
+                                    precioExtraido = hoja.Cell(i + 1, 3).Value.ToString();//not null numerico
+
+                                    if (string.IsNullOrEmpty(descripcionExtraido))
+                                    {
+                                        listaValidaciones.Add(string.Format("Fila {0} ; Se requiere el parametro [Descripcion]", (i + 1).ToString()));
+                                    }
+                                    else
+                                    {
+                                        if (descripcionExtendidaExtraido.Trim().Length > 500 || descripcionExtendidaExtraido.Trim().Length < 2)
+                                        {
+                                            listaValidaciones.Add(
+                                                string.Format("Fila {0} ; La longitud del campo [Descripcion] debe estar entre 2 y 500 carateres",
+                                                (i + 1).ToString()));
+                                        }
+                                    }
+
+                                    if (!string.IsNullOrEmpty(descripcionExtendidaExtraido))
+                                    {
+                                        if(descripcionExtendidaExtraido.Trim().Length > 1000)
+                                        {
+                                            listaValidaciones.Add(
+                                                string.Format("Fila {0} ; La longitud máxima del campo [DescripcionExtendida] es de 1000 carateres", 
+                                                (i + 1).ToString()));
+                                        }
+                                    }
+
+                                    if (string.IsNullOrEmpty(precioExtraido))
+                                    {
+                                        listaValidaciones.Add(string.Format("Fila {0} ; Se requiere el parametro [Precio]", (i + 1).ToString()));
+                                    }
+                                    else
+                                    {
+                                        if (!Entidad.Utilitario.Util.EsDecimal(precioExtraido))
+                                        {
+                                            listaValidaciones.Add(string.Format("Fila {0} ; El parametro [Precio] debe ser un valor numerico", (i + 1).ToString()));
+                                        }
+                                        else
+                                        {
+                                            if(Convert.ToDecimal(precioExtraido) <= 0)
+                                            {
+                                                listaValidaciones.Add(string.Format("Fila {0} ; El parametro [Precio] debe tener un valor mayor a cero", (i + 1).ToString()));
+                                            }
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+                                    listaValidaciones.Add(string.Format("Fila {0} ; Error al leer los datos", (i + 1).ToString()));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            listaValidaciones.Add("No se encontro la hoja [Productos]");
+                        }
+                    }
+                }
+                catch
+                {
+                    listaValidaciones.Add("[Catch] Error al intentar leer el archivo");
+                }
+            }
+            else
+            {
+                listaValidaciones.Add("Error al intentar leer el archivo");
+            }
+
+            if (listaValidaciones.Any())
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidarEstructuraExcel(XLWorkbook libro, ref List<string> listaValidaciones)
+        {
+            listaValidaciones = new List<string>();
+            if (libro != null)
+            {
+                try
+                {
+                    //using (libro)
+                    //{
+                        if(libro.Worksheets.Any(x=>x.Name == "Productos"))
+                        {
+                            //Descripcion	DescripcionExtendida	Precio
+                            IXLWorksheet hoja = libro.Worksheet("Productos");
+                            IXLRange rango = hoja.RangeUsed();
+                            if(rango != null)
+                            {
+                                if (rango.Rows().Count() > 1)
+                                {
+                                    if (rango.Rows().Count() <= 51)
+                                    {
+                                        if (rango.RangeAddress.FirstAddress.RowNumber == 1 && rango.RangeAddress.FirstAddress.ColumnNumber == 1)
+                                        {
+                                            if (rango.Columns().Count() == 3)
+                                            {
+                                                if (hoja.Cell(1, 1).Value.ToString().ToLower() == "descripcion" &&
+                                                    hoja.Cell(1, 2).Value.ToString().ToLower() == "descripcionextendida" &&
+                                                    hoja.Cell(1, 3).Value.ToString().ToLower() == "precio")
+                                                {
+                                                    return true;
+                                                }
+                                                else
+                                                {
+                                                    listaValidaciones.Add("Las columnas esperadas son [Descripcion][DescripcionExtendida][Precio]");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                listaValidaciones.Add("Solo se admiten archivos de 3 columnas");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            listaValidaciones.Add("Los datos deben de iniciar desde las primeras filas y columnas");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        listaValidaciones.Add("Solo se admiten 50 productos por cada importación");
+                                    }
+                                }
+                                else
+                                {
+                                    listaValidaciones.Add("El rango debe incluir como minimo una fila de registros");
+                                }
+                            }
+                            else
+                            {
+                                listaValidaciones.Add("Error al hallar el rango usado");
+                            }
+                        }
+                        else
+                        {
+                            listaValidaciones.Add("No se encontro la hoja [Productos]");
+                        }
+                    //}
+                }
+                catch(Exception ex)
+                {
+                    listaValidaciones.Add("[Catch] Error al intentar leer el archivo");
+                }
+            }
+            else
+            {
+                listaValidaciones.Add("Error al intentar leer el archivo");
+            }
+            return false;
+        }
+
     }
 }

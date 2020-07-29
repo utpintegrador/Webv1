@@ -1,8 +1,8 @@
-﻿using Entidad.Dto.Transaccion;
+﻿using ModelosApi.Dto.Transaccion;
 using ModelosApi.Response.Comun;
 using System.Collections.Generic;
 
-namespace Entidad.Response.Transaccion
+namespace ModelosApi.Response.Transaccion
 {
     public class ResponsePedidoDetalleObtenerPorIdPedidoDtoApi
     {
@@ -10,6 +10,7 @@ namespace Entidad.Response.Transaccion
         public List<ErrorDtoApi> ListaError { get; set; }
         public List<PedidoDetalleObtenerPorIdPedidoDtoApi> Cuerpo { get; set; }
         public int CantidadTotalRegistros { get; set; }
+        public int StatusCode { get; set; } = 200;
         public ResponsePedidoDetalleObtenerPorIdPedidoDtoApi()
         {
             ProcesadoOk = 0;

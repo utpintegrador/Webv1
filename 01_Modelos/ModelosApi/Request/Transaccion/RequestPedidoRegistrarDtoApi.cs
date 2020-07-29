@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Entidad.Request.Transaccion
+namespace ModelosApi.Request.Transaccion
 {
     public class RequestPedidoRegistrarDtoApi
     {

@@ -14,6 +14,7 @@ namespace ModelosApi.Response.Seguridad
         public string CorreoElectronico { get; set; }
         public string UrlImagen { get; set; }
         public List<ErrorDtoApi> ListaError { get; set; }
+        public int StatusCode { get; set; } = 200;
         public ResponseUsuarioLoginDtoApi()
         {
             ListaError = new List<ErrorDtoApi>();

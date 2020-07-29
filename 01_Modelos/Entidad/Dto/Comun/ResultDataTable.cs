@@ -9,5 +9,6 @@ namespace Entidad.Dto.Comun
         public int recordsFiltered { get; set; }
         public Object data { get; set; }
         public string error { get; set; }
+        public int StatusCode { get; set; } = 200;
     }
 }
